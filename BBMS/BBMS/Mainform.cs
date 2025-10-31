@@ -16,5 +16,15 @@ namespace BBMS
         {
             InitializeComponent();
         }
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Mainform_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

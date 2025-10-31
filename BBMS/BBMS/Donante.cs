@@ -16,5 +16,15 @@ namespace BBMS
         {
             InitializeComponent();
         }
+
+        private void label12_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Donante_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
