@@ -23,6 +23,17 @@ namespace BBMS
         // LocalDB es la versión ligera de SQL Server que viene con Visual Studio
         SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\DELL\Documents\BancoDeSangreDB.mdf;Integrated Security=True;Connect Timeout=30");
 
+        // Lo llamamos luego de guardar un donante, con esto reseteamos todos los campos del formulario
+        private void Reset()
+        {
+            DNameTb.Text = ""; // limpia el campo para el Name
+            DAgeTb.Text = ""; // limpia el campo para Age
+            DPhoneTb.Text = ""; // limpia el campo para el Phone
+            DAddressTb.Text = ""; // limpia el campo para direccion
+            DGenCb.SelectedIndex = -1; // Deselecciona el Combox de Genero
+            DBGroupCb.SelectedIndex = -1; // Lo mismo que el anterior pero el de Grupo de sangre
+        }
+
         // Evento que se ejecuta cuando le damos click al botón guardar
         private void guna2Button1_Click(object sender, EventArgs e)
         {
@@ -56,6 +67,9 @@ namespace BBMS
 
                 // Cerramos la conexión para liberar recursos
                 Con.Close();
+
+                // Limpia si el guardado fue exitoso
+                Reset();
             }
             catch (Exception Ex)
             {
@@ -65,7 +79,7 @@ namespace BBMS
             }
         }
 
-        // Evento click de un label, por el momento no lo ocupamos
+        // Evento click de un label
         private void label12_Click(object sender, EventArgs e)
         {
 

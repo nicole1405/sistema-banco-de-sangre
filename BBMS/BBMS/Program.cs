@@ -16,7 +16,7 @@ namespace BBMS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Donante());
+            Application.Run(new Verdonantes());
         }
     }
 }
