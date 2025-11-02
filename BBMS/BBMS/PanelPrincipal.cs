@@ -16,5 +16,10 @@ namespace BBMS
         {
             InitializeComponent();
         }
+
+        private void PanelPrincipal_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

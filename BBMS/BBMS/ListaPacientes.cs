@@ -16,5 +16,10 @@ namespace BBMS
         {
             InitializeComponent();
         }
+
+        private void ListaPacientes_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }
