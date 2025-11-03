@@ -269,6 +269,7 @@
             // PBGroupCb
             // 
             this.PBGroupCb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.PBGroupCb.ForeColor = System.Drawing.Color.SteelBlue;
             this.PBGroupCb.FormattingEnabled = true;
             this.PBGroupCb.Items.AddRange(new object[] {
             "A+",
@@ -299,7 +300,7 @@
             // 
             this.PAdressTb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.PAdressTb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.PAdressTb.ForeColor = System.Drawing.Color.Black;
+            this.PAdressTb.ForeColor = System.Drawing.Color.SteelBlue;
             this.PAdressTb.Location = new System.Drawing.Point(572, 439);
             this.PAdressTb.Multiline = true;
             this.PAdressTb.Name = "PAdressTb";
@@ -376,6 +377,7 @@
             // PGenCb
             // 
             this.PGenCb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.PGenCb.ForeColor = System.Drawing.Color.SteelBlue;
             this.PGenCb.FormattingEnabled = true;
             this.PGenCb.Items.AddRange(new object[] {
             "Masculino",

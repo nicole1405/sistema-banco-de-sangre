@@ -16,7 +16,7 @@ namespace BBMS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Paciente());
+            Application.Run(new ListaPacientes());
         }
     }
 }

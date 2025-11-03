@@ -46,7 +46,7 @@ namespace BBMS
             sda.Fill(ds);
 
             // Esto hace que la tabla se muestre en la pantalla
-            DonorDGV.DataSource = ds.Tables[0];
+            DonorsDGV.DataSource = ds.Tables[0];
 
             // Cerramos la conexión para liberar recursos
             Con.Close();

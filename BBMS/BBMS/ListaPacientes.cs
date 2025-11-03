@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Data.SqlClient;
 
 namespace BBMS
 {
@@ -15,6 +16,21 @@ namespace BBMS
         public ListaPacientes()
         {
             InitializeComponent();
+            populate();
+        }
+
+        SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\DELL\Documents\BancoDeSangreDB.mdf;Integrated Security=True;Connect Timeout=30");
+        private void populate()
+        {
+            
+            Con.Open();
+            string Query = "select * from PatientTbl";
+            SqlDataAdapter sda = new SqlDataAdapter(Query, Con);
+            SqlCommandBuilder builder = new SqlCommandBuilder(sda);
+            var ds = new DataSet();
+            sda.Fill(ds);
+            PatientsDGV.DataSource = ds.Tables[0];
+            Con.Close();
         }
 
         private void ListaPacientes_Load(object sender, EventArgs e)
