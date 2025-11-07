@@ -13,94 +13,112 @@ namespace BBMS
 {
     public partial class ListaPacientes : Form
     {
-        // Constructor del formulario - se ejecuta al crear la ventana
         public ListaPacientes()
         {
             InitializeComponent();
-            populate(); // Llama al método para cargar los datos al abrir el formulario
+            populate();
         }
 
-        // Objeto de conexión a la base de datos SQL Server LocalDB
-        // Contiene la ruta del archivo de base de datos y configuración de seguridad
-        SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\DELL\Documents\BancoDeSangreDB.mdf;Integrated Security=True;Connect Timeout=30");
+        // Conexión a la base de datos
+        SqlConnection Con = new SqlConnection(
+            @"Data Source=(LocalDB)\MSSQLLocalDB;
+            AttachDbFilename=C:\Users\DELL\Documents\BancoDeSangreDB.mdf;
+            Integrated Security=True;Connect Timeout=30");
 
-        // Método para cargar/refrescar los datos de la tabla PatientTbl en el DataGridView
+        // Método para llenar la tabla de pacientes
         private void populate()
         {
-            // Abre la conexión a la base de datos
-            Con.Open();
+            try
+            {
+                if (Con.State == ConnectionState.Closed)
+                    Con.Open();
 
-            // Query SQL para seleccionar todos los registros de la tabla de pacientes
-            string Query = "select * from PatientTbl";
-
-            // SqlDataAdapter actúa como puente entre la base de datos y el DataSet
-            SqlDataAdapter sda = new SqlDataAdapter(Query, Con);
-
-            // SqlCommandBuilder genera automáticamente comandos INSERT, UPDATE, DELETE
-            SqlCommandBuilder builder = new SqlCommandBuilder(sda);
-
-            // DataSet es un contenedor de datos en memoria (como una base de datos temporal)
-            var ds = new DataSet();
-
-            // Llena el DataSet con los datos obtenidos de la base de datos
-            sda.Fill(ds);
-
-            // Asigna la primera tabla del DataSet como fuente de datos del DataGridView
-            // Esto hace que la tabla se muestre en la cuadrícula
-            PatientsDGV.DataSource = ds.Tables[0];
-
-            // Cierra la conexión a la base de datos
-            Con.Close();
+                string Query = "SELECT * FROM PatientTbl";
+                SqlDataAdapter sda = new SqlDataAdapter(Query, Con);
+                SqlCommandBuilder builder = new SqlCommandBuilder(sda);
+                var ds = new DataSet();
+                sda.Fill(ds);
+                PatientsDGV.DataSource = ds.Tables[0];
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar la lista de pacientes: " + ex.Message);
+            }
+            finally
+            {
+                if (Con.State == ConnectionState.Open)
+                    Con.Close();
+            }
         }
 
-        // Variable global para almacenar el ID (clave primaria) del paciente seleccionado
-        // Se usa para saber qué registro actualizar o eliminar
         int key = 0;
 
-        // Evento que se ejecuta cuando se carga el formulario
-        // Actualmente vacío, pero se puede usar para inicializaciones adicionales
         private void ListaPacientes_Load(object sender, EventArgs e)
         {
         }
 
-        // Evento que se dispara cuando el usuario hace clic en una celda del DataGridView
         private void PatientsDGV_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Obtiene el nombre del paciente de la celda en la columna 1 (índice 1)
-            // SelectedRows[0] = primera fila seleccionada
-            // Cells[1] = segunda columna (índice comienza en 0)
             PNameTb.Text = PatientsDGV.SelectedRows[0].Cells[1].Value.ToString();
-
-            // Obtiene la edad del paciente de la celda en la columna 2
             PAgeTb.Text = PatientsDGV.SelectedRows[0].Cells[2].Value.ToString();
-
-            // Obtiene el teléfono del paciente de la celda en la columna 3
             PphoneTb.Text = PatientsDGV.SelectedRows[0].Cells[3].Value.ToString();
-
-            // Obtiene el género del paciente de la celda en la columna 4
-            // Usa .Text en lugar de .SelectedItem para que funcione correctamente
-            // .Text coloca el valor directamente sin buscar coincidencias exactas en la lista
             PGenCb.Text = PatientsDGV.SelectedRows[0].Cells[4].Value.ToString();
-
-            // Obtiene el grupo sanguíneo del paciente de la celda en la columna 5
-            // Usa .Text para evitar problemas de coincidencia exacta con los items del ComboBox
             PBGroupCb.Text = PatientsDGV.SelectedRows[0].Cells[5].Value.ToString();
-
-            // Obtiene la dirección del paciente de la celda en la columna 6
             PAddressTb.Text = PatientsDGV.SelectedRows[0].Cells[6].Value.ToString();
 
-            // Verifica si el campo de nombre está vacío
             if (PNameTb.Text == "")
-            {
-                // Si está vacío, establece key en 0 (sin paciente seleccionado)
                 key = 0;
+            else
+                key = Convert.ToInt32(PatientsDGV.SelectedRows[0].Cells[0].Value.ToString());
+        }
+
+        private void Reset()
+        {
+            PNameTb.Text = "";
+            PAgeTb.Text = "";
+            PphoneTb.Text = "";
+            PAddressTb.Text = "";
+            PGenCb.SelectedIndex = -1;
+            PBGroupCb.SelectedIndex = -1;
+            key = 0;
+        }
+
+        private void guna2Button2_Click(object sender, EventArgs e)
+        {
+            if (key == 0)
+            {
+                MessageBox.Show("Selecciona el paciente a eliminar");
             }
             else
             {
-                // Si hay datos, obtiene el ID del paciente de la celda en la columna 0
-                // Este ID se usará para operaciones de actualización o eliminación
-                key = Convert.ToInt32(PatientsDGV.SelectedRows[0].Cells[0].Value.ToString());
+                try
+                {
+                    string query = "DELETE FROM PatientTbl WHERE PNum=" + key + ";";
+
+                    // Se usa using para garantizar que la conexión se cierre automáticamente
+                    using (SqlConnection con = new SqlConnection(Con.ConnectionString))
+                    {
+                        con.Open();
+                        SqlCommand cmd = new SqlCommand(query, con);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show("Paciente eliminado con éxito");
+                    Reset();
+                    populate();
+                }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show("Error al eliminar el paciente: " + Ex.Message);
+                }
             }
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            Paciente Pat = new Paciente();
+            Pat.Show();
+            this.Hide();
         }
     }
 }
