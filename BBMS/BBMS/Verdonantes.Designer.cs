@@ -53,6 +53,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.label17 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.DonorsDGV)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -158,6 +159,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Indigo;
+            this.panel1.Controls.Add(this.label17);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
@@ -250,7 +252,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label3.Location = new System.Drawing.Point(36, 143);
+            this.label3.Location = new System.Drawing.Point(39, 96);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(170, 29);
             this.label3.TabIndex = 11;
@@ -307,7 +309,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.White;
-            this.panel3.Location = new System.Drawing.Point(19, 142);
+            this.panel3.Location = new System.Drawing.Point(22, 95);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(10, 34);
             this.panel3.TabIndex = 4;
@@ -317,7 +319,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label2.Location = new System.Drawing.Point(36, 87);
+            this.label2.Location = new System.Drawing.Point(36, 47);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(114, 29);
             this.label2.TabIndex = 3;
@@ -343,6 +345,17 @@
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(844, 54);
             this.panel2.TabIndex = 24;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.Color.MediumTurquoise;
+            this.label17.Location = new System.Drawing.Point(39, 148);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(86, 29);
+            this.label17.TabIndex = 19;
+            this.label17.Text = "Donar";
             // 
             // Verdonantes
             // 
@@ -394,5 +407,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label17;
     }
 }

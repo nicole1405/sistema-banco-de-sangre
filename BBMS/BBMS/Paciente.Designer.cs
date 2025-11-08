@@ -62,6 +62,7 @@
             this.PNameTb = new Guna.UI2.WinForms.Guna2TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
+            this.label17 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -70,6 +71,7 @@
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Indigo;
+            this.panel1.Controls.Add(this.label17);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
@@ -163,7 +165,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label3.Location = new System.Drawing.Point(36, 143);
+            this.label3.Location = new System.Drawing.Point(36, 99);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(170, 29);
             this.label3.TabIndex = 11;
@@ -230,7 +232,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label2.Location = new System.Drawing.Point(36, 87);
+            this.label2.Location = new System.Drawing.Point(39, 51);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(114, 29);
             this.label2.TabIndex = 3;
@@ -475,6 +477,17 @@
             this.guna2Button1.Text = "Guardar";
             this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
             // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.Color.MediumTurquoise;
+            this.label17.Location = new System.Drawing.Point(39, 149);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(86, 29);
+            this.label17.TabIndex = 18;
+            this.label17.Text = "Donar";
+            // 
             // Paciente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -547,5 +560,6 @@
         private Guna.UI2.WinForms.Guna2TextBox PNameTb;
         private System.Windows.Forms.Label label10;
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
+        private System.Windows.Forms.Label label17;
     }
 }

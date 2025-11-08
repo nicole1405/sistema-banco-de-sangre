@@ -45,6 +45,7 @@
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label17 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -77,6 +78,7 @@
             this.label10.Size = new System.Drawing.Size(114, 29);
             this.label10.TabIndex = 18;
             this.label10.Text = "Donante";
+            this.label10.Click += new System.EventHandler(this.label10_Click);
             // 
             // DNameTb
             // 
@@ -99,6 +101,7 @@
             this.DNameTb.SelectedText = "";
             this.DNameTb.Size = new System.Drawing.Size(208, 33);
             this.DNameTb.TabIndex = 19;
+            this.DNameTb.TextChanged += new System.EventHandler(this.DNameTb_TextChanged);
             // 
             // label11
             // 
@@ -110,6 +113,7 @@
             this.label11.Size = new System.Drawing.Size(94, 23);
             this.label11.TabIndex = 20;
             this.label11.Text = "Nombre:";
+            this.label11.Click += new System.EventHandler(this.label11_Click);
             // 
             // label12
             // 
@@ -178,6 +182,7 @@
             this.DPhoneTb.SelectedText = "";
             this.DPhoneTb.Size = new System.Drawing.Size(208, 33);
             this.DPhoneTb.TabIndex = 26;
+            this.DPhoneTb.TextChanged += new System.EventHandler(this.DPhoneTb_TextChanged);
             // 
             // DAgeTb
             // 
@@ -252,6 +257,7 @@
             this.label16.Size = new System.Drawing.Size(183, 23);
             this.label16.TabIndex = 32;
             this.label16.Text = "Grupo sanguíneo:";
+            this.label16.Click += new System.EventHandler(this.label16_Click);
             // 
             // guna2Button1
             // 
@@ -283,10 +289,12 @@
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 35;
             this.pictureBox1.TabStop = false;
+            this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Indigo;
+            this.panel1.Controls.Add(this.label17);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
@@ -307,6 +315,17 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(229, 612);
             this.panel1.TabIndex = 36;
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.Color.MediumTurquoise;
+            this.label17.Location = new System.Drawing.Point(36, 150);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(86, 29);
+            this.label17.TabIndex = 19;
+            this.label17.Text = "Donar";
             // 
             // label9
             // 
@@ -379,7 +398,7 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label3.Location = new System.Drawing.Point(36, 143);
+            this.label3.Location = new System.Drawing.Point(35, 96);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(170, 29);
             this.label3.TabIndex = 11;
@@ -436,7 +455,7 @@
             // panel3
             // 
             this.panel3.BackColor = System.Drawing.Color.White;
-            this.panel3.Location = new System.Drawing.Point(19, 88);
+            this.panel3.Location = new System.Drawing.Point(19, 46);
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(10, 34);
             this.panel3.TabIndex = 4;
@@ -446,7 +465,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label2.Location = new System.Drawing.Point(36, 87);
+            this.label2.Location = new System.Drawing.Point(36, 45);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(114, 29);
             this.label2.TabIndex = 3;
@@ -544,5 +563,6 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label label17;
     }
 }
