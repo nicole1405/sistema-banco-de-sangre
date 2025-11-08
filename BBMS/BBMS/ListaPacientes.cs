@@ -56,7 +56,7 @@ namespace BBMS
         private void ListaPacientes_Load(object sender, EventArgs e)
         {
         }
-
+        
         private void PatientsDGV_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             PNameTb.Text = PatientsDGV.SelectedRows[0].Cells[1].Value.ToString();
@@ -124,6 +124,42 @@ namespace BBMS
         private void label2_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            if (PNameTb.Text == "" ||                    // Si el nombre está vacío
+                PphoneTb.Text == "" ||                   // O el teléfono está vacío
+                PAgeTb.Text == "" ||                     // O la edad está vacía
+                PGenCb.SelectedIndex == -1 ||            // O no se seleccionó género (-1 = sin selección)
+                PBGroupCb.SelectedIndex == -1 ||         // O no se seleccionó grupo sanguíneo
+                PAddressTb.Text == "")
+            {
+                MessageBox.Show("Falta información");
+            }
+            else
+            {
+                try
+                {
+                    string query = "update PatientTbl set Pname='"+PNameTb.Text+"',Page = "+PAgeTb.Text+ ",Pphone='"+PphoneTb.Text+ "', PGender = '"+PGenCb.SelectedItem.ToString()+"',PBGroup='"+PBGroupCb.SelectedItem.ToString()+"', Padrress= '"+PAddressTb.Text +"' where PNum="+key+";";
+
+                    // Se usa using para garantizar que la conexión se cierre automáticamente
+                    using (SqlConnection con = new SqlConnection(Con.ConnectionString))
+                    {
+                        con.Open();
+                        SqlCommand cmd = new SqlCommand(query, con);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show("Paciente editado con éxito");
+                    Reset();
+                    populate();
+                }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show("Error al eliminar el paciente: " + Ex.Message);
+                }
+            }
         }
     }
 }

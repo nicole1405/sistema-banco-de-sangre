@@ -52,5 +52,47 @@ namespace BBMS
         {
 
         }
+
+        private void DonorsDGV_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DNameTb.Text = DonorsDGV.SelectedRows[0].Cells[1].Value.ToString();
+            BGroupTb.Text = DonorsDGV.SelectedRows[0].Cells[6].Value.ToString();
+        }
+        private void reset()
+        {
+            DNameTb.Text = "";
+            BGroupTb.Text = "";
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            if (DNameTb.Text == "")
+            {
+                MessageBox.Show("Selecciona un donador");
+            }
+            else
+            {
+                try
+                {
+                    int stock = 1;
+                    string query = "update BloodTbl set BStock=" + stock + " where PNum='" + BGroupTb.Text + "' ;";
+
+                    // Se usa using para garantizar que la conexión se cierre automáticamente
+                    using (SqlConnection con = new SqlConnection(Con.ConnectionString))
+                    {
+                        con.Open();
+                        SqlCommand cmd = new SqlCommand(query, con);
+                        cmd.ExecuteNonQuery();
+                    }
+
+                    MessageBox.Show("Donación exitosa");
+                    reset();
+                }
+                catch (Exception Ex)
+                {
+                    MessageBox.Show("Error al eliminar el paciente: " + Ex.Message);
+                }
+            }
+        }
     }
 }

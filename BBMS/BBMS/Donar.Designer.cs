@@ -53,7 +53,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label16 = new System.Windows.Forms.Label();
-            this.DPhoneTb = new Guna.UI2.WinForms.Guna2TextBox();
+            this.BGroupTb = new Guna.UI2.WinForms.Guna2TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.DNameTb = new Guna.UI2.WinForms.Guna2TextBox();
             this.label10 = new System.Windows.Forms.Label();
@@ -288,28 +288,28 @@
             this.label16.TabIndex = 44;
             this.label16.Text = "Grupo sanguíneo:";
             // 
-            // DPhoneTb
+            // BGroupTb
             // 
-            this.DPhoneTb.AutoRoundedCorners = true;
-            this.DPhoneTb.BorderColor = System.Drawing.Color.Indigo;
-            this.DPhoneTb.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.DPhoneTb.DefaultText = "";
-            this.DPhoneTb.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.DPhoneTb.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.DPhoneTb.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.DPhoneTb.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.DPhoneTb.Enabled = false;
-            this.DPhoneTb.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.DPhoneTb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.DPhoneTb.ForeColor = System.Drawing.Color.Black;
-            this.DPhoneTb.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.DPhoneTb.Location = new System.Drawing.Point(825, 477);
-            this.DPhoneTb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.DPhoneTb.Name = "DPhoneTb";
-            this.DPhoneTb.PlaceholderText = "";
-            this.DPhoneTb.SelectedText = "";
-            this.DPhoneTb.Size = new System.Drawing.Size(208, 33);
-            this.DPhoneTb.TabIndex = 43;
+            this.BGroupTb.AutoRoundedCorners = true;
+            this.BGroupTb.BorderColor = System.Drawing.Color.Indigo;
+            this.BGroupTb.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.BGroupTb.DefaultText = "";
+            this.BGroupTb.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.BGroupTb.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.BGroupTb.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.BGroupTb.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.BGroupTb.Enabled = false;
+            this.BGroupTb.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.BGroupTb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.BGroupTb.ForeColor = System.Drawing.Color.Black;
+            this.BGroupTb.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.BGroupTb.Location = new System.Drawing.Point(825, 477);
+            this.BGroupTb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.BGroupTb.Name = "BGroupTb";
+            this.BGroupTb.PlaceholderText = "";
+            this.BGroupTb.SelectedText = "";
+            this.BGroupTb.Size = new System.Drawing.Size(208, 33);
+            this.BGroupTb.TabIndex = 43;
             // 
             // label11
             // 
@@ -374,7 +374,8 @@
             this.guna2Button1.Name = "guna2Button1";
             this.guna2Button1.Size = new System.Drawing.Size(209, 37);
             this.guna2Button1.TabIndex = 35;
-            this.guna2Button1.Text = "Guardar";
+            this.guna2Button1.Text = "Donar";
+            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
             // 
             // DonorsDGV
             // 
@@ -426,6 +427,7 @@
             this.DonorsDGV.ThemeStyle.RowsStyle.Height = 22;
             this.DonorsDGV.ThemeStyle.RowsStyle.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(231)))), ((int)(((byte)(229)))), ((int)(((byte)(255)))));
             this.DonorsDGV.ThemeStyle.RowsStyle.SelectionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(71)))), ((int)(((byte)(69)))), ((int)(((byte)(94)))));
+            this.DonorsDGV.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DonorsDGV_CellContentClick);
             // 
             // label12
             // 
@@ -448,7 +450,7 @@
             this.Controls.Add(this.guna2Button1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label16);
-            this.Controls.Add(this.DPhoneTb);
+            this.Controls.Add(this.BGroupTb);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.DNameTb);
             this.Controls.Add(this.label10);
@@ -491,7 +493,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label16;
-        private Guna.UI2.WinForms.Guna2TextBox DPhoneTb;
+        private Guna.UI2.WinForms.Guna2TextBox BGroupTb;
         private System.Windows.Forms.Label label11;
         private Guna.UI2.WinForms.Guna2TextBox DNameTb;
         private System.Windows.Forms.Label label10;
