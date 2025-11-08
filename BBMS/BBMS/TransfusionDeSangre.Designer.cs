@@ -49,14 +49,14 @@
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
-            this.comboBox2 = new System.Windows.Forms.ComboBox();
+            this.BloodGroup = new System.Windows.Forms.ComboBox();
             this.label16 = new System.Windows.Forms.Label();
-            this.guna2TextBox2 = new Guna.UI2.WinForms.Guna2TextBox();
-            this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.PatNameTb = new Guna.UI2.WinForms.Guna2TextBox();
+            this.PatientIdCb = new System.Windows.Forms.ComboBox();
             this.label13 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
+            this.AvarlableLbl = new System.Windows.Forms.Label();
+            this.TransferBtn = new Guna.UI2.WinForms.Guna2Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -171,6 +171,7 @@
             this.label4.Size = new System.Drawing.Size(111, 29);
             this.label4.TabIndex = 12;
             this.label4.Text = "Paciente";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label5
             // 
@@ -182,6 +183,7 @@
             this.label5.Size = new System.Drawing.Size(143, 58);
             this.label5.TabIndex = 13;
             this.label5.Text = "Inventario \r\nde sangre";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label6
             // 
@@ -272,11 +274,12 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Gestión Banco de Sangre";
             // 
-            // comboBox2
+            // BloodGroup
             // 
-            this.comboBox2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Items.AddRange(new object[] {
+            this.BloodGroup.Enabled = false;
+            this.BloodGroup.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.BloodGroup.FormattingEnabled = true;
+            this.BloodGroup.Items.AddRange(new object[] {
             "A+",
             "A-",
             "B+",
@@ -285,10 +288,10 @@
             "AB-",
             "O+",
             "O-"});
-            this.comboBox2.Location = new System.Drawing.Point(851, 217);
-            this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(179, 29);
-            this.comboBox2.TabIndex = 77;
+            this.BloodGroup.Location = new System.Drawing.Point(851, 217);
+            this.BloodGroup.Name = "BloodGroup";
+            this.BloodGroup.Size = new System.Drawing.Size(179, 29);
+            this.BloodGroup.TabIndex = 77;
             // 
             // label16
             // 
@@ -301,39 +304,41 @@
             this.label16.TabIndex = 76;
             this.label16.Text = "Grupo sanguíneo:";
             // 
-            // guna2TextBox2
+            // PatNameTb
             // 
-            this.guna2TextBox2.AutoRoundedCorners = true;
-            this.guna2TextBox2.BorderColor = System.Drawing.Color.Indigo;
-            this.guna2TextBox2.Cursor = System.Windows.Forms.Cursors.IBeam;
-            this.guna2TextBox2.DefaultText = "";
-            this.guna2TextBox2.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
-            this.guna2TextBox2.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
-            this.guna2TextBox2.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox2.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
-            this.guna2TextBox2.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox2.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.guna2TextBox2.ForeColor = System.Drawing.Color.Black;
-            this.guna2TextBox2.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.guna2TextBox2.Location = new System.Drawing.Point(572, 218);
-            this.guna2TextBox2.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.guna2TextBox2.Name = "guna2TextBox2";
-            this.guna2TextBox2.PlaceholderText = "";
-            this.guna2TextBox2.SelectedText = "";
-            this.guna2TextBox2.Size = new System.Drawing.Size(213, 29);
-            this.guna2TextBox2.TabIndex = 73;
+            this.PatNameTb.AutoRoundedCorners = true;
+            this.PatNameTb.BorderColor = System.Drawing.Color.Indigo;
+            this.PatNameTb.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.PatNameTb.DefaultText = "";
+            this.PatNameTb.DisabledState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(208)))), ((int)(((byte)(208)))), ((int)(((byte)(208)))));
+            this.PatNameTb.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(226)))), ((int)(((byte)(226)))), ((int)(((byte)(226)))));
+            this.PatNameTb.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.PatNameTb.DisabledState.PlaceholderForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(138)))), ((int)(((byte)(138)))), ((int)(((byte)(138)))));
+            this.PatNameTb.Enabled = false;
+            this.PatNameTb.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.PatNameTb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.PatNameTb.ForeColor = System.Drawing.Color.Black;
+            this.PatNameTb.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.PatNameTb.Location = new System.Drawing.Point(572, 218);
+            this.PatNameTb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.PatNameTb.Name = "PatNameTb";
+            this.PatNameTb.PlaceholderText = "";
+            this.PatNameTb.SelectedText = "";
+            this.PatNameTb.Size = new System.Drawing.Size(213, 29);
+            this.PatNameTb.TabIndex = 73;
             // 
-            // comboBox1
+            // PatientIdCb
             // 
-            this.comboBox1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
-            this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Items.AddRange(new object[] {
+            this.PatientIdCb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.PatientIdCb.FormattingEnabled = true;
+            this.PatientIdCb.Items.AddRange(new object[] {
             "Masculino",
             "Femenino"});
-            this.comboBox1.Location = new System.Drawing.Point(347, 221);
-            this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(150, 29);
-            this.comboBox1.TabIndex = 71;
+            this.PatientIdCb.Location = new System.Drawing.Point(347, 221);
+            this.PatientIdCb.Name = "PatientIdCb";
+            this.PatientIdCb.Size = new System.Drawing.Size(150, 29);
+            this.PatientIdCb.TabIndex = 71;
+            this.PatientIdCb.SelectedValueChanged += new System.EventHandler(this.PatientIdCb_SelectedValueChanged);
             // 
             // label13
             // 
@@ -357,36 +362,39 @@
             this.label12.TabIndex = 69;
             this.label12.Text = "Nombre del paciente:";
             // 
-            // label11
+            // AvarlableLbl
             // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("MJletter2", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label11.Location = new System.Drawing.Point(494, 298);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(367, 18);
-            this.label11.TabIndex = 78;
-            this.label11.Text = "Disponible o no disponible";
+            this.AvarlableLbl.AutoSize = true;
+            this.AvarlableLbl.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.AvarlableLbl.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.AvarlableLbl.Location = new System.Drawing.Point(524, 316);
+            this.AvarlableLbl.Name = "AvarlableLbl";
+            this.AvarlableLbl.Size = new System.Drawing.Size(291, 25);
+            this.AvarlableLbl.TabIndex = 78;
+            this.AvarlableLbl.Text = "Disponible o no disponible";
+            this.AvarlableLbl.Visible = false;
             // 
-            // guna2Button1
+            // TransferBtn
             // 
-            this.guna2Button1.AutoRoundedCorners = true;
-            this.guna2Button1.BorderColor = System.Drawing.Color.DarkBlue;
-            this.guna2Button1.BorderRadius = 17;
-            this.guna2Button1.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
-            this.guna2Button1.BorderThickness = 2;
-            this.guna2Button1.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button1.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
-            this.guna2Button1.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
-            this.guna2Button1.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
-            this.guna2Button1.FillColor = System.Drawing.Color.SpringGreen;
-            this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.guna2Button1.ForeColor = System.Drawing.Color.Black;
-            this.guna2Button1.Location = new System.Drawing.Point(571, 379);
-            this.guna2Button1.Name = "guna2Button1";
-            this.guna2Button1.Size = new System.Drawing.Size(209, 37);
-            this.guna2Button1.TabIndex = 79;
-            this.guna2Button1.Text = "Transferir";
+            this.TransferBtn.AutoRoundedCorners = true;
+            this.TransferBtn.BorderColor = System.Drawing.Color.DarkBlue;
+            this.TransferBtn.BorderRadius = 17;
+            this.TransferBtn.BorderStyle = System.Drawing.Drawing2D.DashStyle.Custom;
+            this.TransferBtn.BorderThickness = 2;
+            this.TransferBtn.DisabledState.BorderColor = System.Drawing.Color.DarkGray;
+            this.TransferBtn.DisabledState.CustomBorderColor = System.Drawing.Color.DarkGray;
+            this.TransferBtn.DisabledState.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(169)))), ((int)(((byte)(169)))), ((int)(((byte)(169)))));
+            this.TransferBtn.DisabledState.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(141)))), ((int)(((byte)(141)))));
+            this.TransferBtn.FillColor = System.Drawing.Color.SpringGreen;
+            this.TransferBtn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TransferBtn.ForeColor = System.Drawing.Color.Black;
+            this.TransferBtn.Location = new System.Drawing.Point(571, 379);
+            this.TransferBtn.Name = "TransferBtn";
+            this.TransferBtn.Size = new System.Drawing.Size(209, 37);
+            this.TransferBtn.TabIndex = 79;
+            this.TransferBtn.Text = "Transferir";
+            this.TransferBtn.Visible = false;
+            this.TransferBtn.Click += new System.EventHandler(this.TransferBtn_Click);
             // 
             // TransfusionDeSangre
             // 
@@ -394,12 +402,12 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1073, 612);
-            this.Controls.Add(this.guna2Button1);
-            this.Controls.Add(this.label11);
-            this.Controls.Add(this.comboBox2);
+            this.Controls.Add(this.TransferBtn);
+            this.Controls.Add(this.AvarlableLbl);
+            this.Controls.Add(this.BloodGroup);
             this.Controls.Add(this.label16);
-            this.Controls.Add(this.guna2TextBox2);
-            this.Controls.Add(this.comboBox1);
+            this.Controls.Add(this.PatNameTb);
+            this.Controls.Add(this.PatientIdCb);
             this.Controls.Add(this.label13);
             this.Controls.Add(this.label12);
             this.Controls.Add(this.panel2);
@@ -442,13 +450,13 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.ComboBox BloodGroup;
         private System.Windows.Forms.Label label16;
-        private Guna.UI2.WinForms.Guna2TextBox guna2TextBox2;
-        private System.Windows.Forms.ComboBox comboBox1;
+        private Guna.UI2.WinForms.Guna2TextBox PatNameTb;
+        private System.Windows.Forms.ComboBox PatientIdCb;
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.Label label12;
-        private System.Windows.Forms.Label label11;
-        private Guna.UI2.WinForms.Guna2Button guna2Button1;
+        private System.Windows.Forms.Label AvarlableLbl;
+        private Guna.UI2.WinForms.Guna2Button TransferBtn;
     }
 }
