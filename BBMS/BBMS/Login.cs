@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Data.SqlClient;
 using System.Drawing;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,17 @@ namespace BBMS
         private void label1_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void guna2Button1_Click(object sender, EventArgs e)
+        {
+            Con.Open();
+            SqlDataAdapter sda = new SqlDataAdapter("select count(*) from UserTbl where UName='" + UnameTb.Text + "' and UPass='" + PassTb.Text + "'", Con);
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            AdminLogin Adm = new AdminLogin();
         }
     }
 }

@@ -124,6 +124,7 @@
             this.guna2Button1.Size = new System.Drawing.Size(209, 37);
             this.guna2Button1.TabIndex = 7;
             this.guna2Button1.Text = "Iniciar sesión";
+            this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
             // 
             // label4
             // 
@@ -136,6 +137,7 @@
             this.label4.TabIndex = 8;
             this.label4.Text = "Continuar \r\ncomo administrador";
             this.label4.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label5
             // 

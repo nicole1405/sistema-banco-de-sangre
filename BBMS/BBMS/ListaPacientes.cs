@@ -22,7 +22,8 @@ namespace BBMS
 
         // Objeto de conexión a la base de datos SQL Server LocalDB
         // Contiene la ruta del archivo de base de datos y configuración de seguridad
-        SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\DELL\Documents\BancoDeSangreDB.mdf;Integrated Security=True;Connect Timeout=30");
+        SqlConnection Con = new SqlConnection(@"Server=tcp:eu-az-sql-serv1.database.windows.net,1433;Initial Catalog=d6od1fpxsjfl7w6;Persist Security Info=False;User ID=uaky7g8xaa24yks;Password=8yNTcJ$#7n8KFsCHAwxDJ?BrO;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+
 
         // Método para cargar/refrescar los datos de la tabla PatientTbl en el DataGridView
         private void populate()
