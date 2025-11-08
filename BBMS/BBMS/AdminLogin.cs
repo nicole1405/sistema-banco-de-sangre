@@ -44,9 +44,9 @@ namespace BBMS
 
             if (AdminPassTb.Text == adminPassword)
             {
-                Employee Emp = new Employee();
-                Emp.Show();
-                this.Hide();
+                //Employee Emp = new Employee();
+                //Emp.Show();
+                //this.Hide();
             }
             else
             {

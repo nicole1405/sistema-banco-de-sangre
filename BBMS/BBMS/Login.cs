@@ -35,8 +35,8 @@ namespace BBMS
 
         private void guna2Button1_Click(object sender, EventArgs e)
         {
-            Con.Open();
-            SqlDataAdapter sda = new SqlDataAdapter("select count(*) from UserTbl where UName='" + UnameTb.Text + "' and UPass='" + PassTb.Text + "'", Con);
+            //Con.Open();
+            //SqlDataAdapter sda = new SqlDataAdapter("select count(*) from UserTbl where UName='" + UnameTb.Text + "' and UPass='" + PassTb.Text + "'", Con);
         }
 
         private void label4_Click(object sender, EventArgs e)

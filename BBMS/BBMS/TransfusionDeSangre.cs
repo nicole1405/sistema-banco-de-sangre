@@ -16,78 +16,115 @@ namespace BBMS
         public TransfusionDeSangre()
         {
             InitializeComponent();
-            fillPatientCb();
+            // fillPatientCb();  <-- moved to Load event to avoid SelectedValue firing antes de inicialización
         }
-        SqlConnection Con = new SqlConnection(
-                    @"Data Source=(LocalDB)\MSSQLLocalDB;
-            AttachDbFilename=C:\Users\DELL\Documents\BancoDeSangreDB.mdf;
-            Integrated Security=True;Connect Timeout=30");
-        private void fillPatientCb()
-        {
-            Con.Open();
-            SqlCommand cmd = new SqlCommand("select PNum from PatientTbl", Con);
-            SqlDataReader rdr;
-            rdr = cmd.ExecuteReader();
-            DataTable dt = new DataTable();
-            dt.Columns.Add("PNum", typeof(string));
-            dt.Load(rdr);
-            PatientIdCb.ValueMember = "PNum";
-            PatientIdCb.DataSource = dt;
-            Con.Close();
-        }
-        private void GetData()
-        {
-            Con.Open();
-            string query = "select * from PatientTbl where PNum=" + PatientIdCb.SelectedValue.ToString() + "";
-            SqlCommand cmd = new SqlCommand(query, Con);
-            DataTable dt = new DataTable();
-            SqlDataAdapter sda = new SqlDataAdapter(cmd);
-            sda.Fill(dt);
-            foreach (DataRow dr in dt.Rows)
-            {
-                PatNameTb.Text = dr["PName"].ToString();
-                BloodGroup.Text = dr["PBGroup"].ToString();
 
-            }
-            Con.Close();
-        }
-        int stock=0;
-        private void GetStock(string Bgroup)
-        {
-            Con.Open();
-            string query = "select * from BloodTbl where BGroup='" + Bgroup + "'";
-            SqlCommand cmd = new SqlCommand(query, Con);
-            DataTable dt = new DataTable();
-            SqlDataAdapter sda = new SqlDataAdapter(cmd);
-            sda.Fill(dt);
-            foreach (DataRow dr in dt.Rows)
-            {
-                stock = Convert.ToInt32(dr["BStock"].ToString());
-            }
-            Con.Close();
-        }
+        // Mantén la cadena igual que tenías (puedes moverla a App.config y leer con ConfigurationManager)
+        private readonly string connStr = @"Server=tcp:eu-az-sql-serv1.database.windows.net,1433;Initial Catalog=d6od1fpxsjfl7w6;Persist Security Info=False;User ID=uaky7g8xaa24yks;Password=8yNTcJ$#7n8KFsCHAwxDJ?BrO;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        int stock = 0;
+
         private void TransfusionDeSangre_Load(object sender, EventArgs e)
         {
-
+            try
+            {
+                fillPatientCb();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al inicializar datos: " + ex.Message);
+            }
         }
-       /*int oldstock;
+
+        private void fillPatientCb()
+        {
+            var dt = new DataTable();
+            dt.Columns.Add("PNum", typeof(string));
+
+            try
+            {
+                using (var con = new SqlConnection(connStr))
+                using (var cmd = new SqlCommand("SELECT PNum FROM PatientTbl", con))
+                {
+                    con.Open();
+                    using (var rdr = cmd.ExecuteReader())
+                    {
+                        dt.Load(rdr);
+                    }
+                }
+
+                PatientIdCb.ValueMember = "PNum";
+                PatientIdCb.DisplayMember = "PNum";
+                PatientIdCb.DataSource = dt;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar pacientes: " + ex.Message);
+            }
+        }
+
+        private void GetData()
+        {
+            if (PatientIdCb.SelectedValue == null) return;
+
+            try
+            {
+                using (var con = new SqlConnection(connStr))
+                using (var cmd = new SqlCommand("SELECT PName, PBGroup FROM PatientTbl WHERE PNum = @pnum", con))
+                {
+                    cmd.Parameters.AddWithValue("@pnum", PatientIdCb.SelectedValue.ToString());
+                    var dt = new DataTable();
+                    using (var sda = new SqlDataAdapter(cmd))
+                    {
+                        sda.Fill(dt);
+                    }
+
+                    if (dt.Rows.Count > 0)
+                    {
+                        var dr = dt.Rows[0];
+                        PatNameTb.Text = dr["PName"].ToString();
+                        BloodGroup.Text = dr["PBGroup"].ToString();
+                    }
+                    else
+                    {
+                        PatNameTb.Text = "";
+                        BloodGroup.Text = "";
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener datos del paciente: " + ex.Message);
+            }
+        }
+
         private void GetStock(string Bgroup)
         {
-            Con.Open();
-            string query = "select * from BloodTbl where BGroup='" + Bgroup + "'";
-            SqlCommand cmd = new SqlCommand(query, Con);
-            DataTable dt = new DataTable();
-            SqlDataAdapter sda = new SqlDataAdapter(cmd);
-            sda.Fill(dt);
-            foreach (DataRow dr in dt.Rows)
+            stock = 0;
+            if (string.IsNullOrWhiteSpace(Bgroup)) return;
+
+            try
             {
-                oldstock = Convert.ToInt32(dr["BStock"].ToString());
+                using (var con = new SqlConnection(connStr))
+                using (var cmd = new SqlCommand("SELECT BStock FROM BloodTbl WHERE BGroup = @bg", con))
+                {
+                    cmd.Parameters.AddWithValue("@bg", Bgroup);
+                    con.Open();
+                    var result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                        stock = Convert.ToInt32(result);
+                }
             }
-            Con.Close();
-        }*/
-        
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener stock: " + ex.Message);
+            }
+        }
+
         private void PatientIdCb_SelectedValueChanged(object sender, EventArgs e)
         {
+            // Evitar NRE si el datasource aún no está establecido.
+            if (PatientIdCb.SelectedValue == null) return;
+
             GetData();
             GetStock(BloodGroup.Text);
             if (stock > 0)
@@ -101,7 +138,6 @@ namespace BBMS
                 AvarlableLbl.Text = "Stock No Disponible";
                 AvarlableLbl.Visible = true;
             }
-
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -109,8 +145,8 @@ namespace BBMS
             Paciente Pat = new Paciente();
             Pat.Show();
             this.Hide();
-
         }
+
         private void Reset()
         {
             PatNameTb.Text = "";
@@ -118,51 +154,57 @@ namespace BBMS
             BloodGroup.Text = "";
             AvarlableLbl.Visible = false;
             TransferBtn.Visible = false;
-
         }
-        private void updateStock()
+
+        private void updateStock(string bgroup)
         {
             int newstock = stock - 1;
             try
             {
-                string query = "update BloodTbl set BStock=" + newstock + " where BGroup=" + BloodGroup.Text + ";";
-                Con.Open();
-                SqlCommand cmd = new SqlCommand(query, Con);
-                cmd.ExecuteNonQuery();
-                // MessageBox.Show("Patient Successfully Deleted");
-                Con.Close();
+                using (var con = new SqlConnection(connStr))
+                using (var cmd = new SqlCommand("UPDATE BloodTbl SET BStock = @newstock WHERE BGroup = @bg", con))
+                {
+                    cmd.Parameters.AddWithValue("@newstock", newstock);
+                    cmd.Parameters.AddWithValue("@bg", bgroup);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                }
             }
             catch (Exception Ex)
             {
-                MessageBox.Show(Ex.Message);
+                MessageBox.Show("Error al actualizar stock: " + Ex.Message);
             }
         }
+
         private void TransferBtn_Click(object sender, EventArgs e)
         {
-            if (PatNameTb.Text == "")
+            if (string.IsNullOrWhiteSpace(PatNameTb.Text))
             {
                 MessageBox.Show("Información Faltante");
+                return;
             }
-            else
-            {
-                try
-                {
-                    string query = "insert into TransferTbl values('" + PatNameTb.Text + "','" + BloodGroup.Text + "')";
-                    Con.Open();
-                    SqlCommand cmd = new SqlCommand(query, Con);
-                    cmd.ExecuteNonQuery();
-                    MessageBox.Show("Transfusión Exitosa");
-                    Con.Close();
-                    GetStock(BloodGroup.Text);
-                    updateStock();
-                    Reset();
-                    
 
-                }
-                catch (Exception Ex)
+            try
+            {
+                using (var con = new SqlConnection(connStr))
+                using (var cmd = new SqlCommand("INSERT INTO TransferTbl (PName, BGroup) VALUES (@pname, @bgroup)", con))
                 {
-                    MessageBox.Show(Ex.Message);
+                    cmd.Parameters.AddWithValue("@pname", PatNameTb.Text);
+                    cmd.Parameters.AddWithValue("@bgroup", BloodGroup.Text);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
                 }
+
+                MessageBox.Show("Transfusión Exitosa");
+
+                // Actualizar stock y limpiar
+                GetStock(BloodGroup.Text);
+                updateStock(BloodGroup.Text);
+                Reset();
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show("Error al realizar la transferencia: " + Ex.Message);
             }
         }
 
