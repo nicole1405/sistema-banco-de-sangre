@@ -112,6 +112,7 @@
             this.label8.Size = new System.Drawing.Size(126, 58);
             this.label8.TabIndex = 16;
             this.label8.Text = "Lista de\r\npacientes";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // label7
             // 

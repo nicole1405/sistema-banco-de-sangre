@@ -100,5 +100,12 @@ namespace BBMS
                     Con.Close();
             }
         }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+            ListaPacientes VP = new ListaPacientes();
+            VP.Show();
+            this.Hide();
+        }
     }
 }
