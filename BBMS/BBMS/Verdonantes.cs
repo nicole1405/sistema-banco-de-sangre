@@ -60,8 +60,7 @@ namespace BBMS
         // Evento que se ejecuta cuando haces click en una celda del DataGridView
         private void guna2DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            // Vacío por ahora
-            // Aquí podriamos agregar funcionalidad como editar o eliminar un donante al hacer click
+
         }
 
         // Evento que se ejecuta cuando se carga el formulario
