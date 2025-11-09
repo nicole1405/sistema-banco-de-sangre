@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 using System.Data.SqlClient;
+using System.Drawing;
+using System.Windows.Forms;
+
 namespace BBMS
 {
     public partial class Donar : Form
@@ -16,83 +12,227 @@ namespace BBMS
         {
             InitializeComponent();
             populate();
+            bloodStock();
+            // Asegura que el evento SelectionChanged exista si alguien selecciona con teclado
+            DonorsDGV.SelectionChanged += DonorsDGV_SelectionChanged;
         }
-        // Conexión a la base de datos local
-        SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\DELL\Documents\BancoDeSangreDB.mdf;Integrated Security=True;Connect Timeout=30");
 
-        // Método para llenar el DataGridView con todos los donantes de la base de datos
+        // Mejor mantener la cadena en una sola variable; considerar moverla a App.config
+        private readonly string connStr = "Data Source=FIDEV;Initial Catalog=BancoDeSangre;Persist Security Info=True;User ID=sa;Password=Delta92_$1911;TrustServerCertificate=True";
+
+        // Llena el DataGridView de forma robusta
         private void populate()
         {
-            // Abrimos la conexión a la BD
-            Con.Open();
+            try
+            {
+                using (var con = new SqlConnection(connStr))
+                using (var sda = new SqlDataAdapter("SELECT * FROM DonorTbl", con))
+                {
+                    var ds = new DataSet();
+                    sda.Fill(ds);
+                    DonorsDGV.DataSource = ds.Tables[0];
 
-            // Query SQL para obtener todos los registros de la tabla DonorTbl
-            string Query = "select * from DonorTbl";
-
-            // SqlDataAdapter es como un puente entre la BD y el DataSet
-            SqlDataAdapter sda = new SqlDataAdapter(Query, Con);
-
-            // SqlCommandBuilder genera automáticamente los comandos INSERT, UPDATE, DELETE
-            // buena practica incluirlo aunque no lo usemos aqui
-            SqlCommandBuilder builder = new SqlCommandBuilder(sda);
-
-            // DataSet es como una base de datos en memoria que almacena los datos
-            var ds = new DataSet();
-
-            // Fill() llena el DataSet con los datos obtenidos de la query
-            sda.Fill(ds);
-
-            // Esto hace que la tabla se muestre en la pantalla
-            DonorsDGV.DataSource = ds.Tables[0];
-
-            // Cerramos la conexión para liberar recursos
-            Con.Close();
+                    // Opciones de UX recomendadas
+                    DonorsDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    DonorsDGV.MultiSelect = false;
+                    DonorsDGV.ReadOnly = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar donantes: " + ex.Message);
+            }
         }
-        private void Donar_Load(object sender, EventArgs e)
+
+
+        private void bloodStock()
         {
+            try
+            {
+                using (var con = new SqlConnection(connStr))
+                using (var sda = new SqlDataAdapter("SELECT * FROM BloodTbl", con))
+                {
+                    var ds = new DataSet();
+                    sda.Fill(ds);
+                    BloodStockDGV.DataSource = ds.Tables[0];
 
+                    // Opciones de UX recomendadas
+                    BloodStockDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+                    BloodStockDGV.MultiSelect = false;
+                    BloodStockDGV.ReadOnly = true;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar donantes: " + ex.Message);
+            }
         }
 
+        int oldstock;
+        private void GetStock(string bgroup)
+        {
+            // Valor por defecto
+            oldstock = 0;
+
+            if (string.IsNullOrWhiteSpace(bgroup))
+                return;
+
+            try
+            {
+                using (var con = new SqlConnection(connStr))
+                using (var cmd = new SqlCommand("SELECT BStock FROM BloodTbl WHERE BGroup = @bg", con))
+                {
+                    cmd.Parameters.AddWithValue("@bg", bgroup);
+                    con.Open();
+
+                    var result = cmd.ExecuteScalar();
+                    if (result != null && result != DBNull.Value)
+                    {
+                        // Intentamos parsear de forma segura
+                        if (!int.TryParse(result.ToString(), out oldstock))
+                            oldstock = 0;
+                    }
+                    else
+                    {
+                        oldstock = 0;
+                    }
+                }
+            }
+            catch (SqlException ex)
+            {
+                MessageBox.Show("Error SQL al obtener stock: " + ex.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al obtener stock: " + ex.Message);
+            }
+        }
+
+
+
+
+        // Maneja click en celdas de forma segura
         private void DonorsDGV_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             DNameTb.Text = DonorsDGV.SelectedRows[0].Cells[1].Value.ToString();
             BGroupTb.Text = DonorsDGV.SelectedRows[0].Cells[6].Value.ToString();
         }
+
+        // También cuando cambia selección (teclado, fila completa, etc.)
+        private void DonorsDGV_SelectionChanged(object sender, EventArgs e)
+        {
+            if (DonorsDGV.CurrentRow == null) return;
+            PopulateFieldsFromRowIndex(DonorsDGV.CurrentRow.Index);
+        }
+
+        // Método helper para asignar campos desde una fila (con comprobaciones)
+        private void PopulateFieldsFromRowIndex(int rowIndex)
+        {
+            try
+            {
+                if (rowIndex < 0 || rowIndex >= DonorsDGV.Rows.Count) return;
+                var row = DonorsDGV.Rows[rowIndex];
+
+                // Comprueba existencia de celdas e nulos antes de asignar
+                if (row.Cells.Count > 1 && row.Cells[1].Value != null)
+                    DNameTb.Text = row.Cells[1].Value.ToString();
+                else
+                    DNameTb.Text = "";
+
+                // DBGroup suele ser la última columna (índice 6 en tu BD); comprobar rango
+                if (row.Cells.Count > 6 && row.Cells[6].Value != null)
+                    BGroupTb.Text = row.Cells[6].Value.ToString();
+                else
+                    BGroupTb.Text = "";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al seleccionar fila: " + ex.Message);
+            }
+        }
+
         private void reset()
         {
             DNameTb.Text = "";
             BGroupTb.Text = "";
         }
 
+        // Lógica de donar: incrementa BStock para el grupo sanguíneo seleccionado
         private void guna2Button1_Click(object sender, EventArgs e)
         {
-            if (DNameTb.Text == "")
+            if (string.IsNullOrWhiteSpace(DNameTb.Text))
             {
                 MessageBox.Show("Selecciona un donador");
+                return;
             }
-            else
+
+            if (string.IsNullOrWhiteSpace(BGroupTb.Text))
             {
-                try
-                {
-                    int stock = 1;
-                    string query = "update BloodTbl set BStock=" + stock + " where PNum='" + BGroupTb.Text + "' ;";
-
-                    // Se usa using para garantizar que la conexión se cierre automáticamente
-                    using (SqlConnection con = new SqlConnection(Con.ConnectionString))
-                    {
-                        con.Open();
-                        SqlCommand cmd = new SqlCommand(query, con);
-                        cmd.ExecuteNonQuery();
-                    }
-
-                    MessageBox.Show("Donación exitosa");
-                    reset();
-                }
-                catch (Exception Ex)
-                {
-                    MessageBox.Show("Error al eliminar el paciente: " + Ex.Message);
-                }
+                MessageBox.Show("Grupo sanguíneo no disponible");
+                return;
             }
+
+            try
+            {
+                using (var con = new SqlConnection(connStr))
+                {
+                    con.Open();
+
+                    // Intentamos incrementar el stock del grupo
+                    using (var cmd = new SqlCommand("UPDATE BloodTbl SET BStock = BStock + 1 WHERE BGroup = @bgroup", con))
+                    {
+                        cmd.Parameters.AddWithValue("@bgroup", BGroupTb.Text);
+                        int rows = cmd.ExecuteNonQuery();
+
+                        // Si no existía el grupo, insertamos un registro nuevo con stock inicial 1
+                        if (rows == 0)
+                        {
+                            using (var insertCmd = new SqlCommand("INSERT INTO BloodTbl (BGroup, BStock) VALUES (@bgroup, 1)", con))
+                            {
+                                insertCmd.Parameters.AddWithValue("@bgroup", BGroupTb.Text);
+                                insertCmd.ExecuteNonQuery();
+                            }
+                        }
+                    }
+                }
+
+                MessageBox.Show("Donación exitosa");
+
+                // Refrescar la grilla que muestra BloodTbl
+                bloodStock();
+
+                // Actualiza el valor en memoria si lo necesitas
+                GetStock(BGroupTb.Text);
+
+                // Limpiar campos de la UI
+                reset();
+            }
+            catch (SqlException sqlEx)
+            {
+                MessageBox.Show("Error al actualizar stock (SQL): " + sqlEx.Message);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al procesar la donación: " + ex.Message);
+            }
+        }
+
+        private void Donar_Load(object sender, EventArgs e)
+        {
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+        }
+
+        private void BloodStockDGV_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void label13_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

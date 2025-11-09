@@ -132,6 +132,9 @@
     <EmbeddedResource Include="Donante.resx">
       <DependentUpon>Donante.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Donar.resx">
+      <DependentUpon>Donar.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="InventarioDeSangre.resx">
       <DependentUpon>InventarioDeSangre.cs</DependentUpon>
     </EmbeddedResource>

@@ -20,7 +20,7 @@ namespace BBMS
         }
 
         // Mantén la cadena igual que tenías (puedes moverla a App.config y leer con ConfigurationManager)
-        private readonly string connStr = @"Server=tcp:eu-az-sql-serv1.database.windows.net,1433;Initial Catalog=d6od1fpxsjfl7w6;Persist Security Info=False;User ID=uaky7g8xaa24yks;Password=8yNTcJ$#7n8KFsCHAwxDJ?BrO;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private readonly string connStr = "Data Source=FIDEV;Initial Catalog=BancoDeSangre;Persist Security Info=True;User ID=sa;Password=Delta92_$1911;TrustServerCertificate=True";
         int stock = 0;
 
         private void TransfusionDeSangre_Load(object sender, EventArgs e)
