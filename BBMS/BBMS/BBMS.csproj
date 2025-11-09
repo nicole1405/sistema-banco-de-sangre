@@ -70,6 +70,12 @@
     <Compile Include="Donar.Designer.cs">
       <DependentUpon>Donar.cs</DependentUpon>
     </Compile>
+    <Compile Include="Employee.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Employee.Designer.cs">
+      <DependentUpon>Employee.cs</DependentUpon>
+    </Compile>
     <Compile Include="InventarioDeSangre.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -134,6 +140,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Donar.resx">
       <DependentUpon>Donar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Employee.resx">
+      <DependentUpon>Employee.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InventarioDeSangre.resx">
       <DependentUpon>InventarioDeSangre.cs</DependentUpon>

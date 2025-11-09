@@ -16,7 +16,7 @@ namespace BBMS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new TransfusionDeSangre());
+            Application.Run(new Employee());
         }
     }
 }
