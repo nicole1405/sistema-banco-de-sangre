@@ -90,6 +90,7 @@
             this.AdminPassTb.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AdminPassTb.Location = new System.Drawing.Point(142, 133);
             this.AdminPassTb.Name = "AdminPassTb";
+            this.AdminPassTb.PasswordChar = '*';
             this.AdminPassTb.Size = new System.Drawing.Size(189, 26);
             this.AdminPassTb.TabIndex = 15;
             this.AdminPassTb.TextChanged += new System.EventHandler(this.AdminPassTb_TextChanged);
