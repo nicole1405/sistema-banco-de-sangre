@@ -32,8 +32,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.EmpIdTdb = new System.Windows.Forms.TextBox();
+            this.EmpPassTb = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.label4 = new System.Windows.Forms.Label();
@@ -76,23 +76,24 @@
             this.label2.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
-            // textBox1
+            // EmpIdTdb
             // 
-            this.textBox1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox1.Location = new System.Drawing.Point(123, 118);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(189, 26);
-            this.textBox1.TabIndex = 4;
+            this.EmpIdTdb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.EmpIdTdb.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EmpIdTdb.Location = new System.Drawing.Point(123, 118);
+            this.EmpIdTdb.Name = "EmpIdTdb";
+            this.EmpIdTdb.Size = new System.Drawing.Size(189, 26);
+            this.EmpIdTdb.TabIndex = 4;
             // 
-            // textBox2
+            // EmpPassTb
             // 
-            this.textBox2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.textBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.textBox2.Location = new System.Drawing.Point(124, 165);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(189, 26);
-            this.textBox2.TabIndex = 6;
+            this.EmpPassTb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.EmpPassTb.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.EmpPassTb.Location = new System.Drawing.Point(124, 165);
+            this.EmpPassTb.Name = "EmpPassTb";
+            this.EmpPassTb.PasswordChar = '*';
+            this.EmpPassTb.Size = new System.Drawing.Size(189, 26);
+            this.EmpPassTb.TabIndex = 6;
             // 
             // label3
             // 
@@ -149,6 +150,7 @@
             this.label5.Size = new System.Drawing.Size(26, 25);
             this.label5.TabIndex = 9;
             this.label5.Text = "X";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // Login
             // 
@@ -159,9 +161,9 @@
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.guna2Button1);
-            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.EmpPassTb);
             this.Controls.Add(this.label3);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.EmpIdTdb);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.label1);
@@ -181,8 +183,8 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox EmpIdTdb;
+        private System.Windows.Forms.TextBox EmpPassTb;
         private System.Windows.Forms.Label label3;
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
         private System.Windows.Forms.Label label4;

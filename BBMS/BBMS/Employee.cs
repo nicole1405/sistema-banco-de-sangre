@@ -17,21 +17,34 @@ namespace BBMS
         // Placeholder visible para indicar que existe contraseña
         private const string PassPlaceholder = "********";
 
+        // Bandera para evitar reacción a eventos durante la inicialización
+        private bool isInitializing = true;
+
         public Employee()
         {
             InitializeComponent();
+
             // Forzar estilo del TextBox de contraseña
             EmpPassTb.PasswordChar = '*';
             EmpPassTb.UseSystemPasswordChar = false;
 
-            populate();
-
-            // Configura selección de la grilla
+            // Configura selección de la grilla (antes de poblar)
             EmployeeDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             EmployeeDGV.MultiSelect = false;
             EmployeeDGV.ReadOnly = true;
+
+            // Suscribe eventos
             EmployeeDGV.SelectionChanged -= EmployeeDGV_SelectionChanged;
             EmployeeDGV.SelectionChanged += EmployeeDGV_SelectionChanged;
+
+            EmployeeDGV.DataBindingComplete -= EmployeeDGV_DataBindingComplete;
+            EmployeeDGV.DataBindingComplete += EmployeeDGV_DataBindingComplete;
+
+            this.Shown -= Employee_Shown;
+            this.Shown += Employee_Shown;
+
+            // Pobla la grilla (queda protegido por isInitializing)
+            populate();
         }
 
         // Limpia campos
@@ -41,12 +54,16 @@ namespace BBMS
             EmpPassTb.Text = "";
             key = 0;
             label16.Text = "Contraseña";
+            // Limpiar selección en la grilla
+            EmployeeDGV.ClearSelection();
+            EmployeeDGV.CurrentCell = null;
         }
 
         // Añadir empleado (usa hash PBKDF2)
         private void AddEmpBtn_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrWhiteSpace(EmpNameTb.Text) || string.IsNullOrWhiteSpace(EmpPassTb.Text))
+            // Considerar el placeholder como vacío para evitar guardar "********"
+            if (string.IsNullOrWhiteSpace(EmpNameTb.Text) || string.IsNullOrWhiteSpace(EmpPassTb.Text) || EmpPassTb.Text == PassPlaceholder)
             {
                 MessageBox.Show("El nombre y la contraseña no pueden estar vacíos.");
                 return;
@@ -185,8 +202,11 @@ namespace BBMS
         }
 
         // Carga empleados: muestra solo el nombre en la tabla (oculta EmpNum)
+        // Carga empleados: muestra solo el nombre en la tabla (oculta EmpNum)
         private void populate()
         {
+            // Marcar inicializando para ignorar eventos mientras bindea
+            isInitializing = true;
             try
             {
                 if (string.IsNullOrEmpty(connStr))
@@ -212,16 +232,46 @@ namespace BBMS
                     EmployeeDGV.Columns["EmpNum"].Visible = false;
                 else if (EmployeeDGV.Columns.Count > 0)
                     EmployeeDGV.Columns[0].Visible = false;
+
+                // Borra selección inmediata tras bind
+                EmployeeDGV.ClearSelection();
+                EmployeeDGV.CurrentCell = null;
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Error al cargar empleados: " + ex.Message);
             }
+            finally
+            {
+                // Importante: permitir que SelectionChanged vuelva a actuar tras terminar el bind
+                isInitializing = false;
+            }
+        }
+
+        // DataBindingComplete: asegurar que no quede fila seleccionada justo después del binding
+        private void EmployeeDGV_DataBindingComplete(object sender, DataGridViewBindingCompleteEventArgs e)
+        {
+            EmployeeDGV.ClearSelection();
+            EmployeeDGV.CurrentCell = null;
+        }
+
+        // Evento Shown: finaliza inicialización y permite que SelectionChanged actúe
+        private void Employee_Shown(object sender, EventArgs e)
+        {
+            // Un doble clear para asegurarnos
+            EmployeeDGV.ClearSelection();
+            EmployeeDGV.CurrentCell = null;
+
+            // Permitir que cambios futuros afecten la UI
+            isInitializing = false;
         }
 
         // Evento selección fila
         private void EmployeeDGV_SelectionChanged(object sender, EventArgs e)
         {
+            // Ignora cambios durante la inicialización
+            if (isInitializing) return;
+
             try
             {
                 if (EmployeeDGV.CurrentRow == null || EmployeeDGV.CurrentRow.Index == -1)
@@ -241,7 +291,7 @@ namespace BBMS
                 else
                     key = 0;
 
-                // No mostrar hash: mostrar marcador visual de contraseña
+                // No mostrar hash en el textbox: dejar el textbox vacío y mostrar indicación si quieres
                 EmpPassTb.Text = PassPlaceholder;
                 label16.Text = "Contraseña (dejar para no cambiar)";
             }
