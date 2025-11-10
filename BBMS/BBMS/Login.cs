@@ -3,39 +3,29 @@ using System.Data;
 using System.Data.SqlClient;
 using System.Security.Cryptography;
 using System.Windows.Forms;
+using BBMS.Clases; // 2. AÑADIDO
 
 namespace BBMS
 {
     public partial class Login : Form
     {
-        SqlConnection Con = new SqlConnection(@"Server=tcp:eu-az-sql-serv1.database.windows.net,1433;Initial Catalog=d6od1fpxsjfl7w6;Persist Security Info=False;User ID=uaky7g8xaa24yks;Password=8yNTcJ$#7n8KFsCHAwxDJ?BrO;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        // 3. REMOVIDA: La variable 'SqlConnection Con'
+
+        // 4. Instanciamos la nueva clase de lógica
+        private cAutenticacion gestorAutenticacion = new cAutenticacion();
 
         public Login()
         {
             InitializeComponent();
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Login_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        // Botón Iniciar sesión (comparación directa, sin encriptación)
+        // 5. Botón Iniciar sesión (¡Ahora refactorizado y SEGURO!)
         private void guna2Button1_Click(object sender, EventArgs e)
         {
             string user = EmpIdTdb.Text?.Trim();
             string pass = EmpPassTb.Text ?? "";
 
+            // Validación de UI (sigue igual)
             if (string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(pass))
             {
                 MessageBox.Show("Introduce usuario y contraseña.");
@@ -44,28 +34,13 @@ namespace BBMS
 
             try
             {
-                string storedPass = null;
+                // 6. Lógica de autenticación movida al gestor
+                // Esta llamada ahora SÍ usa la verificación de hash.
+                bool esValido = gestorAutenticacion.ValidarCredenciales(user, pass);
 
-                using (var con = new SqlConnection(Con.ConnectionString))
-                using (var cmd = new SqlCommand("SELECT EmpPass FROM EmployeeTbl WHERE EmpId = @id", con))
+                if (esValido)
                 {
-                    cmd.Parameters.AddWithValue("@id", user);
-                    con.Open();
-                    var result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                        storedPass = result.ToString();
-                }
-
-                if (string.IsNullOrEmpty(storedPass))
-                {
-                    MessageBox.Show("Usuario o contraseña incorrectos.");
-                    return;
-                }
-
-                // Comparación directa (sin hash)
-                if (storedPass == pass)
-                {
-                    // Intentar abrir MainForm si existe; si no, abrir PanelPrincipal
+                    // Lógica de navegación (sigue igual)
                     Type mainType = Type.GetType("BBMS.MainForm") ?? Type.GetType("BBMS.Mainform") ?? Type.GetType("BBMS.MainForm, " + typeof(Login).Assembly.FullName);
                     if (mainType != null && typeof(Form).IsAssignableFrom(mainType))
                     {
@@ -75,7 +50,6 @@ namespace BBMS
                     }
                     else
                     {
-                        // Fallback a PanelPrincipal (existe en el proyecto)
                         var panel = new PanelPrincipal();
                         panel.Show();
                         this.Hide();
@@ -86,16 +60,20 @@ namespace BBMS
                     MessageBox.Show("Usuario o contraseña incorrectos.");
                 }
             }
-            catch (SqlException sqlEx)
-            {
-                MessageBox.Show("Error de base de datos: " + sqlEx.Message);
-            }
             catch (Exception ex)
             {
-                MessageBox.Show("Error: " + ex.Message);
+                // Captura errores de UI (ej. al crear el formulario)
+                MessageBox.Show("Error al iniciar sesión: " + ex.Message);
             }
         }
 
+        // 7. REMOVIDOS:
+        // El método 'VerifyPassword' ya no está aquí.
+        // El método 'FixedTimeEquals' ya no está aquí.
+
+
+        // --- (Métodos de navegación y eventos vacíos) ---
+        #region Navegacion y Eventos
         private void label4_Click(object sender, EventArgs e)
         {
             AdminLogin Adm = new AdminLogin();
@@ -108,37 +86,9 @@ namespace BBMS
             Application.Exit();
         }
 
-        // Métodos de verificación existentes quedan, pero no son usados ahora.
-        private bool VerifyPassword(string password, string stored)
-        {
-            try
-            {
-                var parts = stored.Split('.');
-                if (parts.Length != 3) return false;
-
-                int iterations = int.Parse(parts[0]);
-                byte[] salt = Convert.FromBase64String(parts[1]);
-                byte[] hash = Convert.FromBase64String(parts[2]);
-
-                byte[] testHash;
-                using (var pbkdf2 = new Rfc2898DeriveBytes(password, salt, iterations))
-                    testHash = pbkdf2.GetBytes(hash.Length);
-
-                return FixedTimeEquals(hash, testHash);
-            }
-            catch
-            {
-                return false;
-            }
-        }
-
-        private bool FixedTimeEquals(byte[] a, byte[] b)
-        {
-            if (a == null || b == null || a.Length != b.Length) return false;
-            int diff = 0;
-            for (int i = 0; i < a.Length; i++)
-                diff |= a[i] ^ b[i];
-            return diff == 0;
-        }
+        private void label2_Click(object sender, EventArgs e) { }
+        private void Login_Load(object sender, EventArgs e) { }
+        private void label1_Click(object sender, EventArgs e) { }
+        #endregion
     }
 }

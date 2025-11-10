@@ -1,104 +1,114 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+using System.Linq;
 using System.Windows.Forms;
+using BBMS.Clases;
 
 namespace BBMS
 {
     public partial class InventarioDeSangre : Form
     {
-        // Cadena de conexión (mover a App.config si quieres)
-        private readonly string connStr = "Data Source=FIDEV;Initial Catalog=BancoDeSangre;Persist Security Info=True;User ID=sa;Password=Delta92_$1911;TrustServerCertificate=True";
+        private readonly InventarioService _service;
 
         public InventarioDeSangre()
         {
             InitializeComponent();
 
-            // Configura el ComboBox de filtro si existe
-            if (this.Controls.Find("BGroupFilterCb", true).Length > 0)
+            _service = new InventarioService();
+
+            // Asegura estilo grilla
+            BloodStockDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
+            BloodStockDGV.MultiSelect = false;
+            BloodStockDGV.ReadOnly = true;
+
+            // Configura ComboBox de filtro (si existe en el diseñador)
+            if (this.Controls.Find("BGroupFilterCb", true).FirstOrDefault() is ComboBox cb)
             {
-                var cb = this.Controls.Find("BGroupFilterCb", true)[0] as ComboBox;
-                if (cb != null)
-                {
-                    cb.DropDownStyle = ComboBoxStyle.DropDownList;
-
-                    // Añade "Todos" al inicio
-                    if (!cb.Items.Contains("Todos"))
-                        cb.Items.Insert(0, "Todos");
-
-                    // Evita doble suscripción al evento
-                    cb.SelectedIndexChanged -= BGroupFilterCb_SelectedIndexChanged;
-                    cb.SelectedIndexChanged += BGroupFilterCb_SelectedIndexChanged;
-
-                    // Selecciona "Todos" por defecto
-                    if (cb.SelectedIndex == -1)
-                        cb.SelectedIndex = 0;
-                }
+                cb.DropDownStyle = ComboBoxStyle.DropDownList;
+                cb.SelectedIndexChanged -= BGroupFilterCb_SelectedIndexChanged;
+                cb.SelectedIndexChanged += BGroupFilterCb_SelectedIndexChanged;
             }
 
-            bloodStock(); // carga inicial sin filtro
+            // Carga inicial
+            LoadFilterValues();
+            LoadBloodStock(null);
         }
 
-        // Carga BloodTbl; aplica filtro si bgroup no es "Todos"
-        private void bloodStock(string bgroup = null)
+        // Carga datos del inventario; si bgroup == null o "Todos" carga todo
+        private void LoadBloodStock(string bgroup = null)
         {
             try
             {
-                DataTable dt = new DataTable();
-
+                DataTable dt;
                 if (string.IsNullOrWhiteSpace(bgroup) || bgroup == "Todos")
                 {
-                    using (var con = new SqlConnection(connStr))
-                    using (var sda = new SqlDataAdapter("SELECT BGroup, BStock FROM BloodTbl ORDER BY BGroup", con))
-                    {
-                        sda.Fill(dt);
-                    }
+                    dt = _service.GetBloodStock();
                 }
                 else
                 {
-                    using (var con = new SqlConnection(connStr))
-                    using (var cmd = new SqlCommand("SELECT BGroup, BStock FROM BloodTbl WHERE BGroup = @bg", con))
-                    using (var sda = new SqlDataAdapter(cmd))
-                    {
-                        cmd.Parameters.AddWithValue("@bg", bgroup);
-                        sda.Fill(dt);
-                    }
+                    // Construye una tabla con un solo registro para el grupo filtrado
+                    dt = new DataTable();
+                    dt.Columns.Add("Grupo", typeof(string));
+                    dt.Columns.Add("Stock", typeof(int));
+                    int stock = _service.GetStockByGroup(bgroup);
+                    var row = dt.NewRow();
+                    row["Grupo"] = bgroup;
+                    row["Stock"] = stock;
+                    dt.Rows.Add(row);
                 }
 
                 BloodStockDGV.DataSource = dt;
 
-                // Configura DataGridView
-                BloodStockDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-                BloodStockDGV.MultiSelect = false;
-                BloodStockDGV.ReadOnly = true;
+                // Ajustes visuales
+                if (BloodStockDGV.Columns.Contains("Grupo"))
+                    BloodStockDGV.Columns["Grupo"].HeaderText = "Grupo";
+                if (BloodStockDGV.Columns.Contains("Stock"))
+                    BloodStockDGV.Columns["Stock"].HeaderText = "Stock";
 
-                // Ajusta columnas
-                if (BloodStockDGV.Columns.Count > 0)
-                    BloodStockDGV.AutoResizeColumns();
+                BloodStockDGV.AutoResizeColumns();
+                BloodStockDGV.ClearSelection();
+                BloodStockDGV.CurrentCell = null;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar inventario de sangre: " + ex.Message);
+                MessageBox.Show("Error al cargar inventario: " + ex.Message);
             }
         }
 
-        // Evento del ComboBox filtro
-        private void BGroupFilterCb_SelectedIndexChanged(object sender, EventArgs e)
+        // Llena ComboBox de grupos (añade "Todos")
+        private void LoadFilterValues()
         {
             try
             {
-                var cb = sender as ComboBox;
-                if (cb == null) return;
-
-                var sel = cb.SelectedItem != null ? cb.SelectedItem.ToString() : "Todos";
-                if (sel == "Todos")
-                    bloodStock(null);
-                else
-                    bloodStock(sel);
+                var dt = _service.GetGroups();
+                if (this.Controls.Find("BGroupFilterCb", true).FirstOrDefault() is ComboBox cb)
+                {
+                    cb.Items.Clear();
+                    cb.Items.Add("Todos");
+                    foreach (DataRow r in dt.Rows)
+                    {
+                        if (r[0] != DBNull.Value)
+                            cb.Items.Add(r[0].ToString());
+                    }
+                    cb.SelectedIndex = 0;
+                }
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al aplicar filtro: " + ex.Message);
+                MessageBox.Show("Error al cargar filtros: " + ex.Message);
+            }
+        }
+
+        // Evento: cuando cambia el filtro
+        private void BGroupFilterCb_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (sender is ComboBox cb)
+            {
+                var sel = cb.SelectedItem != null ? cb.SelectedItem.ToString() : "Todos";
+                if (sel == "Todos")
+                    LoadBloodStock(null);
+                else
+                    LoadBloodStock(sel);
             }
         }
 

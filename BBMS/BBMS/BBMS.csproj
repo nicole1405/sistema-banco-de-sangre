@@ -58,6 +58,17 @@
     <Compile Include="AdminLogin.Designer.cs">
       <DependentUpon>AdminLogin.cs</DependentUpon>
     </Compile>
+    <Compile Include="Clases\cAutenticacion.cs" />
+    <Compile Include="Clases\cConexion.cs" />
+    <Compile Include="Clases\cDonanteDatos.cs" />
+    <Compile Include="Clases\cPacienteDatos.cs" />
+    <Compile Include="Clases\cPacienteServicio.cs" />
+    <Compile Include="Clases\DonanteDto.cs" />
+    <Compile Include="Clases\DonarService.cs" />
+    <Compile Include="Clases\EmployeeService.cs" />
+    <Compile Include="Clases\EstadisticasDashboard.cs" />
+    <Compile Include="Clases\InventarioService.cs" />
+    <Compile Include="Clases\PacienteTransfusionInfo.cs" />
     <Compile Include="Donante.cs">
       <SubType>Form</SubType>
     </Compile>

@@ -7,100 +7,87 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+// 1. Se elimina 'using System.Data.SqlClient;'
+using BBMS.Clases; // 2. Importamos la carpeta Clases
 
 namespace BBMS
 {
     public partial class Paciente : Form
     {
-        // Constructor del formulario - se ejecuta al crear la ventana
+        // 3. Instanciamos la nueva clase de servicio
+        private cPacienteServicio gestorPacientes = new cPacienteServicio();
+
         public Paciente()
         {
             InitializeComponent();
         }
 
-        // Objeto de conexión a la base de datos SQL Server LocalDB
-        // Contiene la ruta del archivo de base de datos y configuración de seguridad
-        SqlConnection Con = new SqlConnection(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\DELL\Documents\BancoDeSangreDB.mdf;Integrated Security=True;Connect Timeout=30");
+        // 4. ¡Se elimina la variable 'SqlConnection Con' de aquí!
 
         // Método para limpiar/resetear todos los campos del formulario
         private void Reset()
         {
-            PNameTb.Text = "";              // Limpia el campo de nombre
-            PAgeTb.Text = "";               // Limpia el campo de edad
-            PPhoneTb.Text = "";             // Limpia el campo de teléfono
-            PAdressTb.Text = "";            // Limpia el campo de dirección
-            PGenCb.SelectedIndex = -1;      // Resetea el ComboBox de género (sin selección)
-            PBGroupCb.SelectedIndex = -1;   // Resetea el ComboBox de grupo sanguíneo (sin selección)
+            PNameTb.Text = "";
+            PAgeTb.Text = "";
+            PPhoneTb.Text = "";
+            PAdressTb.Text = "";
+            PGenCb.SelectedIndex = -1;
+            PBGroupCb.SelectedIndex = -1;
         }
 
         // Evento que se dispara cuando cambia el texto en el campo de edad
-        // Actualmente vacío, pero se puede usar para validaciones en tiempo real
         private void PAgeTb_TextChanged(object sender, EventArgs e)
         {
         }
 
-        // Evento del botón Guardar - se ejecuta al hacer clic en el botón
+        // 5. Evento del botón Guardar (Refactorizado)
         private void guna2Button1_Click(object sender, EventArgs e)
         {
-            // VALIDACIÓN: Verificar que todos los campos estén completos antes de guardar
-            // Si algún campo está vacío o sin selección, muestra mensaje y sale del método
-            if (PNameTb.Text == "" ||                    // Si el nombre está vacío
-                PPhoneTb.Text == "" ||                   // O el teléfono está vacío
-                PAgeTb.Text == "" ||                     // O la edad está vacía
-                PGenCb.SelectedIndex == -1 ||            // O no se seleccionó género (-1 = sin selección)
-                PBGroupCb.SelectedIndex == -1 ||         // O no se seleccionó grupo sanguíneo
-                PAdressTb.Text == "")                    // O la dirección está vacía
+            // --- VALIDACIÓN (Esto se queda en el formulario) ---
+            if (PNameTb.Text == "" ||
+                PPhoneTb.Text == "" ||
+                PAgeTb.Text == "" ||
+                PGenCb.SelectedIndex == -1 ||
+                PBGroupCb.SelectedIndex == -1 ||
+                PAdressTb.Text == "")
             {
-                MessageBox.Show("Falta Información");    // Muestra mensaje de error
-                return;                                   // Sale del método sin guardar
+                MessageBox.Show("Falta Información");
+                return;
             }
 
-            // Si pasa la validación, intenta guardar los datos en la base de datos
+            // --- (MEJORA) Validación de edad más segura ---
+            if (!int.TryParse(PAgeTb.Text, out int edad))
+            {
+                MessageBox.Show("La edad debe ser un número válido.");
+                return;
+            }
+
+            // --- LÓGICA DE GUARDADO (Ahora separada) ---
             try
             {
-                // Query SQL con parámetros (@Name, @Age, etc.) para mayor seguridad
-                // Esto previene ataques de SQL Injection
-                string query = "INSERT INTO PatientTbl VALUES (@Name, @Age, @Phone, @Gender, @BloodGroup, @Address)";
+                // 1. Recolectamos los datos de la interfaz
+                string nombre = PNameTb.Text;
+                string telefono = PPhoneTb.Text;
+                string genero = PGenCb.SelectedItem.ToString();
+                string grupoSanguineo = PBGroupCb.SelectedItem.ToString();
+                string direccion = PAdressTb.Text;
 
-                // Abre la conexión a la base de datos
-                Con.Open();
+                // 2. Llamamos al gestor para que haga el trabajo
+                gestorPacientes.GuardarPaciente(nombre, edad, telefono, genero, grupoSanguineo, direccion);
 
-                // Crea el comando SQL con la query y la conexión
-                SqlCommand cmd = new SqlCommand(query, Con);
-
-                // Agrega los parámetros al comando SQL con los valores de los campos del formulario
-                cmd.Parameters.AddWithValue("@Name", PNameTb.Text);                          // Parámetro nombre
-                cmd.Parameters.AddWithValue("@Age", int.Parse(PAgeTb.Text));                 // Parámetro edad (convertido a entero)
-                cmd.Parameters.AddWithValue("@Phone", PPhoneTb.Text);                        // Parámetro teléfono
-                cmd.Parameters.AddWithValue("@Gender", PGenCb.SelectedItem.ToString());      // Parámetro género (del ComboBox)
-                cmd.Parameters.AddWithValue("@BloodGroup", PBGroupCb.SelectedItem.ToString()); // Parámetro grupo sanguíneo
-                cmd.Parameters.AddWithValue("@Address", PAdressTb.Text);                     // Parámetro dirección
-
-                // Ejecuta el comando INSERT en la base de datos
-                cmd.ExecuteNonQuery();
-
-                // Muestra mensaje de éxito
-                MessageBox.Show("Paciente guardado con éxito");
-
-                // Cierra la conexión a la base de datos
-                Con.Close();
-
-                // Limpia todos los campos del formulario para un nuevo registro
+                // 3. Limpiamos el formulario (la clase 'gestorPacientes' ya mostró el mensaje)
                 Reset();
             }
             catch (Exception Ex)
             {
-                // Si ocurre cualquier error (ej: error de conexión, formato incorrecto, etc.)
-                // Muestra el mensaje de error
-                MessageBox.Show(Ex.Message);
-
-                // Verifica si la conexión quedó abierta y la cierra para evitar problemas
-                if (Con.State == System.Data.ConnectionState.Open)
-                    Con.Close();
+                // Captura errores de la UI (ej. .SelectedItem.ToString() si algo es nulo)
+                MessageBox.Show("Error al preparar los datos: " + Ex.Message);
             }
         }
 
+        // --- (TODOS TUS OTROS MÉTODOS DE NAVEGACIÓN 'label_Click' VAN AQUÍ) ---
+        // --- (No cambian en absoluto) ---
+        #region Navegacion
         private void label8_Click(object sender, EventArgs e)
         {
             ListaPacientes VP = new ListaPacientes();
@@ -161,5 +148,11 @@ namespace BBMS
             Ob.Show();
             this.Hide();
         }
+
+        private void Paciente_Load(object sender, EventArgs e)
+        {
+
+        }
+        #endregion
     }
 }

@@ -7,68 +7,112 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+// 1. REMOVIDO: using System.Data.SqlClient;
+using BBMS.Clases; // 2. AÑADIDO
 
 namespace BBMS
 {
     public partial class Verdonantes : Form
     {
-        // Constructor del formulario
+        // 3. Instanciamos la nueva clase de lógica
+        private cDonanteDatos gestorDonantes = new cDonanteDatos();
+
         public Verdonantes()
         {
             InitializeComponent();
-            populate(); // Llamamos a populate() para cargar los datos al abrir el formulario
+            populate(); // Cargar datos iniciales
+
+            // 4. Renombrar columnas después de cargar datos
+            ConfigurarNombresColumnas();
         }
 
-        // Conexión a la base de datos local
-        SqlConnection Con = new SqlConnection(@"Server=tcp:eu-az-sql-serv1.database.windows.net,1433;Initial Catalog=d6od1fpxsjfl7w6;Persist Security Info=False;User ID=uaky7g8xaa24yks;Password=8yNTcJ$#7n8KFsCHAwxDJ?BrO;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        // 5. REMOVIDA: La variable 'SqlConnection Con'
 
-        // Método para llenar el DataGridView con todos los donantes de la base de datos
+        /// <summary>
+        /// Carga todos los donantes en el DataGridView.
+        /// </summary>
         private void populate()
         {
-            // Abrimos la conexión a la BD
-            Con.Open();
-
-            // Query SQL para obtener todos los registros de la tabla DonorTbl
-            string Query = "select * from DonorTbl";
-
-            // SqlDataAdapter es como un puente entre la BD y el DataSet
-            SqlDataAdapter sda = new SqlDataAdapter(Query, Con);
-
-            // SqlCommandBuilder genera automáticamente los comandos INSERT, UPDATE, DELETE
-            // buena practica incluirlo aunque no lo usemos aqui
-            SqlCommandBuilder builder = new SqlCommandBuilder(sda);
-
-            // DataSet es como una base de datos en memoria que almacena los datos
-            var ds = new DataSet();
-
-            // Fill() llena el DataSet con los datos obtenidos de la query
-            sda.Fill(ds);
-
-            // Esto hace que la tabla se muestre en la pantalla
-            DonorsDGV.DataSource = ds.Tables[0];
-
-            // Cerramos la conexión para liberar recursos
-            Con.Close();
+            try
+            {
+                // 6. Lógica de BD movida al gestor
+                DonorsDGV.DataSource = gestorDonantes.ObtenerTodosLosDonantes();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al popular la tabla: " + ex.Message);
+            }
         }
 
-        private void label10_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Asigna nombres formales a las cabeceras de las columnas.
+        /// </summary>
+        private void ConfigurarNombresColumnas()
         {
-         
+            // Asumo los nombres de columna de tu BD (ej. DNum, DName)
+            // Ajústalos si se llaman diferente.
+            try
+            {
+                if (DonorsDGV.Columns.Contains("DNum"))
+                    DonorsDGV.Columns["DNum"].HeaderText = "ID Donante";
+
+                if (DonorsDGV.Columns.Contains("DName"))
+                    DonorsDGV.Columns["DName"].HeaderText = "Nombre Completo";
+
+                if (DonorsDGV.Columns.Contains("DAge"))
+                    DonorsDGV.Columns["DAge"].HeaderText = "Edad";
+
+                if (DonorsDGV.Columns.Contains("DGender"))
+                    DonorsDGV.Columns["DGender"].HeaderText = "Género";
+
+                if (DonorsDGV.Columns.Contains("DPhone"))
+                    DonorsDGV.Columns["DPhone"].HeaderText = "Teléfono";
+
+                if (DonorsDGV.Columns.Contains("DBGroup"))
+                    DonorsDGV.Columns["DBGroup"].HeaderText = "Grupo Sanguíneo";
+
+                if (DonorsDGV.Columns.Contains("DAddress"))
+                    DonorsDGV.Columns["DAddress"].HeaderText = "Dirección";
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al configurar columnas: " + ex.Message);
+            }
         }
 
-        // Evento que se ejecuta cuando haces click en una celda del DataGridView
-        private void guna2DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        // 7. ¡ARREGLO DE LA BÚSQUEDA!
+        private void guna2TextBox1_TextChanged(object sender, EventArgs e)
         {
+            string textoBusqueda = guna2TextBox1.Text.Trim();
 
+            if (string.IsNullOrWhiteSpace(textoBusqueda))
+            {
+                // Si la barra está vacía, muestra todos los donantes
+                populate();
+            }
+            else
+            {
+                // Si hay texto, llama al método de búsqueda
+                DonorsDGV.DataSource = gestorDonantes.BuscarDonantesPorNombre(textoBusqueda);
+            }
+
+            // Es posible que necesites re-aplicar los nombres si el DataSource los borra
+            // ConfigurarNombresColumnas(); 
         }
 
-        // Evento que se ejecuta cuando se carga el formulario
+
+        // --- (Eventos vacíos y de navegación) ---
+
         private void Verdonantes_Load(object sender, EventArgs e)
         {
             // ya llamamos a populate() en el constructor
         }
 
+        private void label10_Click(object sender, EventArgs e) { }
+        private void guna2DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
+        private void label3_Click(object sender, EventArgs e) { }
+
+        #region Navegacion
         private void label2_Click(object sender, EventArgs e)
         {
             Donante Ob = new Donante();
@@ -81,11 +125,6 @@ namespace BBMS
             Donar Ob = new Donar();
             Ob.Show();
             this.Hide();
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void label4_Click(object sender, EventArgs e)
@@ -102,7 +141,7 @@ namespace BBMS
             this.Hide();
         }
 
-        private void label5_Click(object sender, EventArgs e)
+        private void label5_Click(object sender, EventArgs e_Label5)
         {
             InventarioDeSangre Ob = new InventarioDeSangre();
             Ob.Show();
@@ -116,7 +155,7 @@ namespace BBMS
             this.Hide();
         }
 
-        private void label7_Click(object sender, EventArgs e)
+        private void label7_Click(object sender, EventArgs e_Label7)
         {
             PanelPrincipal Ob = new PanelPrincipal();
             Ob.Show();
@@ -129,5 +168,6 @@ namespace BBMS
             Ob.Show();
             this.Hide();
         }
+        #endregion
     }
 }

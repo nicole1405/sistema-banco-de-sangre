@@ -1,83 +1,51 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
+//using System.Data.SqlClient; // <-- 1. REMOVIDO
 using System.Windows.Forms;
+using BBMS.Clases; // <-- 2. AÑADIDO
 
 namespace BBMS
 {
     public partial class PanelPrincipal : Form
     {
+        // 3. Instanciar la nueva clase de lógica de datos
+        private cDashboardDatos gestorDashboard = new cDashboardDatos();
+
         public PanelPrincipal()
         {
             InitializeComponent();
-            // No ejecutar GetData aqui para evitar usos antes de inicializar la UI.
-            // Se llama en Load.
         }
 
-        SqlConnection Con = new SqlConnection(@"Server=tcp:eu-az-sql-serv1.database.windows.net,1433;Initial Catalog=d6od1fpxsjfl7w6;Persist Security Info=False;User ID=uaky7g8xaa24yks;Password=8yNTcJ$#7n8KFsCHAwxDJ?BrO;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        // 4. 'SqlConnection Con' ha sido REMOVIDA
 
+        // 5. GetData() COMPLETAMENTE REFACTORIZADO
         private void GetData()
         {
             try
             {
-                // Donantes
-                using (var con = new SqlConnection(Con.ConnectionString))
-                using (var cmd = new SqlCommand("SELECT COUNT(*) FROM DonorTbl", con))
-                {
-                    con.Open();
-                    var donorCount = cmd.ExecuteScalar();
-                    DonorLbl.Text = (donorCount != DBNull.Value && donorCount != null) ? donorCount.ToString() : "0";
-                }
+                // 1. Obtener TODOS los datos en una sola llamada eficiente
+                EstadisticasDashboard datos = gestorDashboard.ObtenerEstadisticas();
 
-                // Transfisiones
-                using (var con = new SqlConnection(Con.ConnectionString))
-                using (var cmd = new SqlCommand("SELECT COUNT(*) FROM TransferTbl", con))
-                {
-                    con.Open();
-                    var transCount = cmd.ExecuteScalar();
-                    TransferLbl.Text = (transCount != DBNull.Value && transCount != null) ? transCount.ToString() : "0";
-                }
+                // 2. Actualizar los contadores simples (Labels)
+                DonorLbl.Text = datos.ConteoDonantes.ToString();
+                TransferLbl.Text = datos.ConteoTransferencias.ToString();
+                EmployeeLbl.Text = datos.ConteoEmpleados.ToString();
+                TotalLbl.Text = datos.StockTotalSangre.ToString();
 
-                // Empleados
-                using (var con = new SqlConnection(Con.ConnectionString))
-                using (var cmd = new SqlCommand("SELECT COUNT(*) FROM EmployeeTbl", con))
-                {
-                    con.Open();
-                    var empCount = cmd.ExecuteScalar();
-                    EmployeeLbl.Text = (empCount != DBNull.Value && empCount != null) ? empCount.ToString() : "0";
-                }
+                // 3. Lógica de UI (cálculo de porcentajes)
+                int totalStock = datos.StockTotalSangre;
 
-                // Total de unidades en inventario (suma de BStock)
-                int totalStock = 0;
-                using (var con = new SqlConnection(Con.ConnectionString))
-                using (var cmd = new SqlCommand("SELECT ISNULL(SUM(BStock), 0) FROM BloodTbl", con))
+                // Helper local para actualizar un grupo (Label + ProgressBar)
+                // Esta lógica es de UI, por lo que se queda en el formulario.
+                void ActualizarGrupoUI(int stockGrupo, Label label, Guna.UI2.WinForms.Guna2CircleProgressBar progress)
                 {
-                    con.Open();
-                    var totalObj = cmd.ExecuteScalar();
-                    totalStock = (totalObj != DBNull.Value && totalObj != null) ? Convert.ToInt32(totalObj) : 0;
-                    TotalLbl.Text = totalStock.ToString();
-                }
-
-                // Helper para leer stock por grupo y actualizar label + progress sin lanzar excepción
-                void ReadGroup(string group, Label valueLabel, Guna.UI2.WinForms.Guna2CircleProgressBar progress)
-                {
-                    int groupStock = 0;
-                    using (var con = new SqlConnection(Con.ConnectionString))
-                    using (var cmd = new SqlCommand("SELECT ISNULL(BStock, 0) FROM BloodTbl WHERE BGroup = @bg", con))
-                    {
-                        cmd.Parameters.AddWithValue("@bg", group);
-                        con.Open();
-                        var res = cmd.ExecuteScalar();
-                        groupStock = (res != DBNull.Value && res != null) ? Convert.ToInt32(res) : 0;
-                    }
-
-                    valueLabel.Text = groupStock.ToString();
+                    label.Text = stockGrupo.ToString();
 
                     int pct = 0;
-                    if (totalStock > 0)
-                        pct = (int)Math.Round((groupStock / (double)totalStock) * 100);
+                    if (totalStock > 0) // Evitar división por cero
+                        pct = (int)Math.Round((stockGrupo / (double)totalStock) * 100);
 
-                    // defender contra valores fuera de rango
+                    // Asegurar que el porcentaje esté entre 0 y 100
                     if (pct < 0) pct = 0;
                     if (pct > 100) pct = 100;
 
@@ -85,19 +53,17 @@ namespace BBMS
                         progress.Value = pct;
                 }
 
-                // Actualiza todos los grupos que se muestran en la UI
-                ReadGroup("O+", OplusNumLbl, OplusProgress);
-                ReadGroup("AB+", ABplusLabel, ABplusProgress);
-                ReadGroup("O-", OminusLabel, OminusProgress);
-                ReadGroup("AB-", ABminuslbl, ABminusProgress);
-            }
-            catch (SqlException ex)
-            {
-                MessageBox.Show("Error de SQL al cargar datos: " + ex.Message);
+                // 4. Actualizar todos los grupos de sangre en la UI
+                ActualizarGrupoUI(datos.StockO_Pos, OplusNumLbl, OplusProgress);
+                ActualizarGrupoUI(datos.StockAB_Pos, ABplusLabel, ABplusProgress);
+                ActualizarGrupoUI(datos.StockO_Neg, OminusLabel, OminusProgress);
+                ActualizarGrupoUI(datos.StockAB_Neg, ABminuslbl, ABminusProgress);
+                // Si agregaste más grupos en la query, llámalos aquí
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar datos: " + ex.Message);
+                // Captura cualquier error inesperado al actualizar la UI
+                MessageBox.Show("Error al mostrar datos en el panel: " + ex.Message);
             }
         }
 
@@ -106,6 +72,7 @@ namespace BBMS
             GetData();
         }
 
+        
         private void EmployeeLbl_Click(object sender, EventArgs e)
         {
 

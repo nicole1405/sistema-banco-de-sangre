@@ -2,32 +2,38 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
-using System.Data.SqlClient;
+// using System.Data.SqlClient; // <-- 1. REMOVIDO
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using BBMS.Clases; // <-- 2. AÑADIDO
 
 namespace BBMS
 {
     public partial class TransfusionDeSangre : Form
     {
+        // 3. Instanciar la nueva clase de lógica
+        private cTransfusionDatos gestorTransfusion = new cTransfusionDatos();
+
+        // 4. 'connStr' REMOVIDA
+
+        // Mantenemos 'stock' como variable de estado de la UI
+        int stock = 0;
+
         public TransfusionDeSangre()
         {
             InitializeComponent();
-            // fillPatientCb();  <-- moved to Load event to avoid SelectedValue firing antes de inicialización
         }
-
-        // Mantén la cadena igual que tenías (puedes moverla a App.config y leer con ConfigurationManager)
-        private readonly string connStr = "Data Source=FIDEV;Initial Catalog=BancoDeSangre;Persist Security Info=True;User ID=sa;Password=Delta92_$1911;TrustServerCertificate=True";
-        int stock = 0;
 
         private void TransfusionDeSangre_Load(object sender, EventArgs e)
         {
             try
             {
                 fillPatientCb();
+                // Asegurarse de que el estado inicial esté limpio
+                Reset();
             }
             catch (Exception ex)
             {
@@ -37,24 +43,13 @@ namespace BBMS
 
         private void fillPatientCb()
         {
-            var dt = new DataTable();
-            dt.Columns.Add("PNum", typeof(string));
-
             try
             {
-                using (var con = new SqlConnection(connStr))
-                using (var cmd = new SqlCommand("SELECT PNum FROM PatientTbl", con))
-                {
-                    con.Open();
-                    using (var rdr = cmd.ExecuteReader())
-                    {
-                        dt.Load(rdr);
-                    }
-                }
-
+                // 5. Lógica de BD movida al gestor
                 PatientIdCb.ValueMember = "PNum";
                 PatientIdCb.DisplayMember = "PNum";
-                PatientIdCb.DataSource = dt;
+                PatientIdCb.DataSource = gestorTransfusion.ObtenerIdsPacientes();
+                PatientIdCb.SelectedIndex = -1; // Empezar sin selección
             }
             catch (Exception ex)
             {
@@ -68,28 +63,12 @@ namespace BBMS
 
             try
             {
-                using (var con = new SqlConnection(connStr))
-                using (var cmd = new SqlCommand("SELECT PName, PBGroup FROM PatientTbl WHERE PNum = @pnum", con))
-                {
-                    cmd.Parameters.AddWithValue("@pnum", PatientIdCb.SelectedValue.ToString());
-                    var dt = new DataTable();
-                    using (var sda = new SqlDataAdapter(cmd))
-                    {
-                        sda.Fill(dt);
-                    }
+                // 6. Lógica de BD movida al gestor
+                int pacienteId = Convert.ToInt32(PatientIdCb.SelectedValue);
+                PacienteTransfusionInfo info = gestorTransfusion.ObtenerDetallesPaciente(pacienteId);
 
-                    if (dt.Rows.Count > 0)
-                    {
-                        var dr = dt.Rows[0];
-                        PatNameTb.Text = dr["PName"].ToString();
-                        BloodGroup.Text = dr["PBGroup"].ToString();
-                    }
-                    else
-                    {
-                        PatNameTb.Text = "";
-                        BloodGroup.Text = "";
-                    }
-                }
+                PatNameTb.Text = info.Nombre;
+                BloodGroup.Text = info.GrupoSanguineo;
             }
             catch (Exception ex)
             {
@@ -99,20 +78,13 @@ namespace BBMS
 
         private void GetStock(string Bgroup)
         {
-            stock = 0;
+            stock = 0; // Reiniciar
             if (string.IsNullOrWhiteSpace(Bgroup)) return;
 
             try
             {
-                using (var con = new SqlConnection(connStr))
-                using (var cmd = new SqlCommand("SELECT BStock FROM BloodTbl WHERE BGroup = @bg", con))
-                {
-                    cmd.Parameters.AddWithValue("@bg", Bgroup);
-                    con.Open();
-                    var result = cmd.ExecuteScalar();
-                    if (result != null && result != DBNull.Value)
-                        stock = Convert.ToInt32(result);
-                }
+                // 7. Lógica de BD movida al gestor
+                stock = gestorTransfusion.ObtenerStock(Bgroup);
             }
             catch (Exception ex)
             {
@@ -122,90 +94,81 @@ namespace BBMS
 
         private void PatientIdCb_SelectedValueChanged(object sender, EventArgs e)
         {
-            // Evitar NRE si el datasource aún no está establecido.
-            if (PatientIdCb.SelectedValue == null) return;
+            if (PatientIdCb.SelectedValue == null)
+            {
+                Reset(); // Limpiar si no hay nada seleccionado
+                return;
+            }
 
-            GetData();
-            GetStock(BloodGroup.Text);
+            GetData(); // Obtiene nombre y grupo
+            GetStock(BloodGroup.Text); // Obtiene stock para ese grupo
+
+            // Lógica de UI (esto se queda en el formulario)
             if (stock > 0)
             {
                 TransferBtn.Visible = true;
-                AvarlableLbl.Text = "Stock Disponible";
+                AvarlableLbl.Text = "Stock Disponible (" + stock + " unidades)"; // Más informativo
                 AvarlableLbl.Visible = true;
             }
             else
             {
+                TransferBtn.Visible = false;
                 AvarlableLbl.Text = "Stock No Disponible";
                 AvarlableLbl.Visible = true;
             }
         }
 
-        private void label4_Click(object sender, EventArgs e)
-        {
-            Paciente Pat = new Paciente();
-            Pat.Show();
-            this.Hide();
-        }
-
         private void Reset()
         {
             PatNameTb.Text = "";
-            //PatientIdCb.SelectedIndex = -1;
             BloodGroup.Text = "";
             AvarlableLbl.Visible = false;
             TransferBtn.Visible = false;
+            // Opcional: deseleccionar el ComboBox
+            // PatientIdCb.SelectedIndex = -1; 
         }
 
-        private void updateStock(string bgroup)
-        {
-            int newstock = stock - 1;
-            try
-            {
-                using (var con = new SqlConnection(connStr))
-                using (var cmd = new SqlCommand("UPDATE BloodTbl SET BStock = @newstock WHERE BGroup = @bg", con))
-                {
-                    cmd.Parameters.AddWithValue("@newstock", newstock);
-                    cmd.Parameters.AddWithValue("@bg", bgroup);
-                    con.Open();
-                    cmd.ExecuteNonQuery();
-                }
-            }
-            catch (Exception Ex)
-            {
-                MessageBox.Show("Error al actualizar stock: " + Ex.Message);
-            }
-        }
+        // 8. El método 'updateStock' se ELIMINA.
+        // Su lógica ahora está dentro de 'RealizarTransfusion'
 
         private void TransferBtn_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(PatNameTb.Text))
             {
-                MessageBox.Show("Información Faltante");
+                MessageBox.Show("Información Faltante. Seleccione un paciente.");
                 return;
             }
 
             try
             {
-                using (var con = new SqlConnection(connStr))
-                using (var cmd = new SqlCommand("INSERT INTO TransferTbl (PName, BGroup) VALUES (@pname, @bgroup)", con))
+                // 9. Lógica de Transacción movida al gestor
+                // Esta única llamada hace la verificación, inserción y actualización
+                // de forma segura.
+                bool exito = gestorTransfusion.RealizarTransfusion(PatNameTb.Text, BloodGroup.Text);
+
+                if (exito)
                 {
-                    cmd.Parameters.AddWithValue("@pname", PatNameTb.Text);
-                    cmd.Parameters.AddWithValue("@bgroup", BloodGroup.Text);
-                    con.Open();
-                    cmd.ExecuteNonQuery();
+                    MessageBox.Show("Transfusión Exitosa");
+                    Reset();
+                    // Limpiamos la selección para forzar al usuario a elegir de nuevo
+                    PatientIdCb.SelectedIndex = -1;
                 }
-
-                MessageBox.Show("Transfusión Exitosa");
-
-                // Actualizar stock y limpiar
-                GetStock(BloodGroup.Text);
-                updateStock(BloodGroup.Text);
-                Reset();
+                // Si exito == false, el gestor ya mostró el error (ej. "Stock agotado")
             }
             catch (Exception Ex)
             {
-                MessageBox.Show("Error al realizar la transferencia: " + Ex.Message);
+                MessageBox.Show("Error al procesar la transferencia: " + Ex.Message);
             }
+        }
+
+        // --- (TODOS TUS OTROS MÉTODOS DE NAVEGACIÓN 'label_Click' VAN AQUÍ) ---
+        // --- (No cambian en absoluto) ---
+        #region Navegacion
+        private void label4_Click(object sender, EventArgs e)
+        {
+            Paciente Pat = new Paciente();
+            Pat.Show();
+            this.Hide();
         }
 
         private void label5_Click(object sender, EventArgs e)
@@ -245,7 +208,7 @@ namespace BBMS
 
         private void label6_Click(object sender, EventArgs e)
         {
-
+            // Este método estaba vacío
         }
 
         private void label7_Click(object sender, EventArgs e)
@@ -261,5 +224,6 @@ namespace BBMS
             Ob.Show();
             this.Hide();
         }
+        #endregion
     }
 }

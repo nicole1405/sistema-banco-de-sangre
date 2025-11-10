@@ -1,39 +1,70 @@
 ﻿using System;
 using System.Data;
-using System.Data.SqlClient;
 using System.Windows.Forms;
+using BBMS.Clases; // <-- 1. Importante: Importar la carpeta Clases
 
 namespace BBMS
 {
     public partial class ListaPacientes : Form
     {
+        // 2. Instanciar la nueva clase de lógica de datos
+        private cPacienteDatos gestorPacientes = new cPacienteDatos();
+        int key = 0;
+
         public ListaPacientes()
         {
             InitializeComponent();
-            // Configuración de DataGridView para selección segura
+            ConfigurarDataGridView();
+
+            // Llenamos los datos
+            populate();
+
+            // 3. Renombrar las columnas a nombres formales
+            ConfigurarColumnasDGV();
+        }
+
+        // 4. Se elimina la variable 'SqlConnection Con' de aquí
+
+        private void ConfigurarDataGridView()
+        {
             PatientsDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             PatientsDGV.MultiSelect = false;
             PatientsDGV.ReadOnly = true;
             PatientsDGV.SelectionChanged += PatientsDGV_SelectionChanged;
-
-            populate();
         }
 
-        // Conexión a la base de datos
-        SqlConnection Con = new SqlConnection("Data Source=FIDEV;Initial Catalog=BancoDeSangre;Persist Security Info=True;User ID=sa;Password=Delta92_$1911;TrustServerCertificate=True");
+        private void ConfigurarColumnasDGV()
+        {
+            // Verificamos que las columnas existan antes de renombrar
+            if (PatientsDGV.Columns.Contains("PNum"))
+                PatientsDGV.Columns["PNum"].HeaderText = "ID Paciente";
 
-        // Método para llenar la tabla de pacientes
+            if (PatientsDGV.Columns.Contains("PName"))
+                PatientsDGV.Columns["PName"].HeaderText = "Nombre Completo";
+
+            if (PatientsDGV.Columns.Contains("PAge"))
+                PatientsDGV.Columns["PAge"].HeaderText = "Edad";
+
+            if (PatientsDGV.Columns.Contains("PPhone"))
+                PatientsDGV.Columns["PPhone"].HeaderText = "Teléfono";
+
+            if (PatientsDGV.Columns.Contains("PGender"))
+                PatientsDGV.Columns["PGender"].HeaderText = "Género";
+
+            if (PatientsDGV.Columns.Contains("PBGroup"))
+                PatientsDGV.Columns["PBGroup"].HeaderText = "Grupo Sanguíneo";
+
+            if (PatientsDGV.Columns.Contains("PAddress"))
+                PatientsDGV.Columns["PAddress"].HeaderText = "Dirección";
+        }
+
+        // 5. El método populate ahora es mucho más simple
         private void populate()
         {
             try
             {
-                using (var con = new SqlConnection(Con.ConnectionString))
-                using (var sda = new SqlDataAdapter("SELECT * FROM PatientTbl", con))
-                {
-                    var ds = new DataSet();
-                    sda.Fill(ds);
-                    PatientsDGV.DataSource = ds.Tables[0];
-                }
+                // Llama al gestor para obtener los datos y los asigna
+                PatientsDGV.DataSource = gestorPacientes.ObtenerPacientes();
             }
             catch (Exception ex)
             {
@@ -41,10 +72,9 @@ namespace BBMS
             }
         }
 
-        int key = 0;
-
         private void ListaPacientes_Load(object sender, EventArgs e)
         {
+            // Puedes dejar esto vacío si no se usa
         }
 
         // Manejo seguro de clic en celda
@@ -61,7 +91,7 @@ namespace BBMS
             PopulateFieldsFromRowIndex(PatientsDGV.CurrentRow.Index);
         }
 
-        // Método helper para extraer valores desde la fila de forma segura
+        // 6. Método helper actualizado para usar nombres de columna (más robusto)
         private void PopulateFieldsFromRowIndex(int rowIndex)
         {
             try
@@ -69,14 +99,27 @@ namespace BBMS
                 if (rowIndex < 0 || rowIndex >= PatientsDGV.Rows.Count) return;
                 var row = PatientsDGV.Rows[rowIndex];
 
-                PNameTb.Text = (row.Cells.Count > 1 && row.Cells[1].Value != null) ? row.Cells[1].Value.ToString() : "";
-                PAgeTb.Text = (row.Cells.Count > 2 && row.Cells[2].Value != null) ? row.Cells[2].Value.ToString() : "";
-                PphoneTb.Text = (row.Cells.Count > 3 && row.Cells[3].Value != null) ? row.Cells[3].Value.ToString() : "";
-                PGenCb.Text = (row.Cells.Count > 4 && row.Cells[4].Value != null) ? row.Cells[4].Value.ToString() : "";
-                PBGroupCb.Text = (row.Cells.Count > 5 && row.Cells[5].Value != null) ? row.Cells[5].Value.ToString() : "";
-                PAddressTb.Text = (row.Cells.Count > 6 && row.Cells[6].Value != null) ? row.Cells[6].Value.ToString() : "";
+                // Función helper para obtener valor de celda de forma segura
+                string GetCellValue(string columnName)
+                {
+                    // ¡CORRECCIÓN AQUÍ!
+                    // Comprobamos si la COLUMNA existe en el DataGridView, no en la celda.
+                    if (PatientsDGV.Columns.Contains(columnName) && row.Cells[columnName].Value != null)
+                    {
+                        return row.Cells[columnName].Value.ToString();
+                    }
+                    return "";
+                }
 
-                if (row.Cells.Count > 0 && row.Cells[0].Value != null && int.TryParse(row.Cells[0].Value.ToString(), out int parsed))
+                // El resto de esta lógica ya estaba correcta
+                PNameTb.Text = GetCellValue("PName");
+                PAgeTb.Text = GetCellValue("PAge");
+                PphoneTb.Text = GetCellValue("PPhone");
+                PGenCb.Text = GetCellValue("PGender");
+                PBGroupCb.Text = GetCellValue("PBGroup");
+                PAddressTb.Text = GetCellValue("PAddress");
+
+                if (int.TryParse(GetCellValue("PNum"), out int parsed))
                     key = parsed;
                 else
                     key = 0;
@@ -98,7 +141,7 @@ namespace BBMS
             key = 0;
         }
 
-        // Eliminar paciente (parametrizado)
+        // 7. Lógica de eliminación (Delete) refactorizada
         private void guna2Button2_Click(object sender, EventArgs e)
         {
             if (key == 0)
@@ -109,23 +152,18 @@ namespace BBMS
 
             try
             {
-                using (var con = new SqlConnection(Con.ConnectionString))
-                using (var cmd = new SqlCommand("DELETE FROM PatientTbl WHERE PNum = @pnum", con))
-                {
-                    cmd.Parameters.AddWithValue("@pnum", key);
-                    con.Open();
-                    int affected = cmd.ExecuteNonQuery();
+                // Llama al gestor para eliminar
+                int affected = gestorPacientes.EliminarPaciente(key);
 
-                    if (affected == 0)
-                    {
-                        MessageBox.Show("No se encontró el paciente para eliminar.");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Paciente eliminado con éxito");
-                        Reset();
-                        populate();
-                    }
+                if (affected == 0)
+                {
+                    MessageBox.Show("No se encontró el paciente para eliminar.");
+                }
+                else
+                {
+                    MessageBox.Show("Paciente eliminado con éxito");
+                    Reset();
+                    populate(); // Recarga la lista
                 }
             }
             catch (Exception Ex)
@@ -134,23 +172,10 @@ namespace BBMS
             }
         }
 
-        private void label4_Click(object sender, EventArgs e)
-        {
-            Paciente Pat = new Paciente();
-            Pat.Show();
-            this.Hide();
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-            Donante Ob = new Donante();
-            Ob.Show();
-            this.Hide();
-        }
-
-        // Actualizar paciente (parametrizado y validado)
+        // 8. Lógica de actualización (Update) refactorizada
         private void guna2Button1_Click(object sender, EventArgs e)
         {
+            // ... (Toda tu validación inicial sigue igual) ...
             if (string.IsNullOrWhiteSpace(PNameTb.Text) ||
                 string.IsNullOrWhiteSpace(PphoneTb.Text) ||
                 string.IsNullOrWhiteSpace(PAgeTb.Text) ||
@@ -176,37 +201,48 @@ namespace BBMS
 
             try
             {
-                using (var con = new SqlConnection(Con.ConnectionString))
-                using (var cmd = new SqlCommand(
-                    "UPDATE PatientTbl SET PName = @pname, PAge = @page, PPhone = @pphone, PGender = @pgender, PBGroup = @pbgroup, PAddress = @paddress WHERE PNum = @pnum", con))
+                // Prepara los datos
+                string nombre = PNameTb.Text.Trim();
+                string telefono = PphoneTb.Text.Trim();
+                string genero = PGenCb.SelectedItem != null ? PGenCb.SelectedItem.ToString() : PGenCb.Text;
+                string grupo = PBGroupCb.SelectedItem != null ? PBGroupCb.SelectedItem.ToString() : PBGroupCb.Text;
+                string direccion = PAddressTb.Text.Trim();
+
+                // Llama al gestor para actualizar
+                int affected = gestorPacientes.ActualizarPaciente(key, nombre, edad, telefono, genero, grupo, direccion);
+
+                if (affected == 0)
                 {
-                    cmd.Parameters.AddWithValue("@pname", PNameTb.Text.Trim());
-                    cmd.Parameters.AddWithValue("@page", edad);
-                    cmd.Parameters.AddWithValue("@pphone", PphoneTb.Text.Trim());
-                    cmd.Parameters.AddWithValue("@pgender", PGenCb.SelectedItem != null ? PGenCb.SelectedItem.ToString() : PGenCb.Text);
-                    cmd.Parameters.AddWithValue("@pbgroup", PBGroupCb.SelectedItem != null ? PBGroupCb.SelectedItem.ToString() : PBGroupCb.Text);
-                    cmd.Parameters.AddWithValue("@paddress", PAddressTb.Text.Trim());
-                    cmd.Parameters.AddWithValue("@pnum", key);
-
-                    con.Open();
-                    int affected = cmd.ExecuteNonQuery();
-
-                    if (affected == 0)
-                    {
-                        MessageBox.Show("No se encontró el paciente para actualizar.");
-                    }
-                    else
-                    {
-                        MessageBox.Show("Paciente editado con éxito");
-                        Reset();
-                        populate();
-                    }
+                    MessageBox.Show("No se encontró el paciente para actualizar.");
+                }
+                else
+                {
+                    MessageBox.Show("Paciente editado con éxito");
+                    Reset();
+                    populate(); // Recarga la lista
                 }
             }
             catch (Exception Ex)
             {
                 MessageBox.Show("Error al actualizar el paciente: " + Ex.Message);
             }
+        }
+
+        // --- (TODOS TUS OTROS MÉTODOS DE NAVEGACIÓN 'label_Click' VAN AQUÍ) ---
+        // --- (No cambian en absoluto) ---
+        #region Navegacion
+        private void label4_Click(object sender, EventArgs e)
+        {
+            Paciente Pat = new Paciente();
+            Pat.Show();
+            this.Hide();
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            Donante Ob = new Donante();
+            Ob.Show();
+            this.Hide();
         }
 
         private void label17_Click(object sender, EventArgs e)
@@ -225,7 +261,7 @@ namespace BBMS
 
         private void label8_Click(object sender, EventArgs e)
         {
-
+            // ...
         }
 
         private void label5_Click(object sender, EventArgs e)
@@ -255,5 +291,6 @@ namespace BBMS
             Ob.Show();
             this.Hide();
         }
+        #endregion
     }
 }
