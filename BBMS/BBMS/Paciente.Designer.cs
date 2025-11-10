@@ -30,6 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Paciente));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.label17 = new System.Windows.Forms.Label();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -62,7 +63,6 @@
             this.PNameTb = new Guna.UI2.WinForms.Guna2TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
-            this.label17 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -93,6 +93,18 @@
             this.panel1.Size = new System.Drawing.Size(229, 612);
             this.panel1.TabIndex = 2;
             // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label17.ForeColor = System.Drawing.Color.MediumTurquoise;
+            this.label17.Location = new System.Drawing.Point(39, 97);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(86, 29);
+            this.label17.TabIndex = 18;
+            this.label17.Text = "Donar";
+            this.label17.Click += new System.EventHandler(this.label17_Click);
+            // 
             // label9
             // 
             this.label9.AutoSize = true;
@@ -103,6 +115,7 @@
             this.label9.Size = new System.Drawing.Size(166, 25);
             this.label9.TabIndex = 17;
             this.label9.Text = "Cerrar sesión";
+            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // label8
             // 
@@ -126,6 +139,7 @@
             this.label7.Size = new System.Drawing.Size(183, 29);
             this.label7.TabIndex = 15;
             this.label7.Text = "Panel principal";
+            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // label6
             // 
@@ -137,6 +151,7 @@
             this.label6.Size = new System.Drawing.Size(158, 58);
             this.label6.TabIndex = 14;
             this.label6.Text = "Transfusión \r\nde sangre";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // label5
             // 
@@ -148,6 +163,7 @@
             this.label5.Size = new System.Drawing.Size(143, 58);
             this.label5.TabIndex = 13;
             this.label5.Text = "Inventario \r\nde sangre";
+            this.label5.Click += new System.EventHandler(this.label5_Click);
             // 
             // label4
             // 
@@ -159,17 +175,19 @@
             this.label4.Size = new System.Drawing.Size(111, 29);
             this.label4.TabIndex = 12;
             this.label4.Text = "Paciente";
+            this.label4.Click += new System.EventHandler(this.label4_Click);
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label3.Location = new System.Drawing.Point(36, 99);
+            this.label3.Location = new System.Drawing.Point(39, 137);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(170, 29);
             this.label3.TabIndex = 11;
             this.label3.Text = "Ver donantes";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // panel9
             // 
@@ -237,6 +255,7 @@
             this.label2.Size = new System.Drawing.Size(114, 29);
             this.label2.TabIndex = 3;
             this.label2.Text = "Donante";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // panel2
             // 
@@ -476,17 +495,6 @@
             this.guna2Button1.TabIndex = 50;
             this.guna2Button1.Text = "Guardar";
             this.guna2Button1.Click += new System.EventHandler(this.guna2Button1_Click);
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label17.Location = new System.Drawing.Point(39, 149);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(86, 29);
-            this.label17.TabIndex = 18;
-            this.label17.Text = "Donar";
             // 
             // Paciente
             // 

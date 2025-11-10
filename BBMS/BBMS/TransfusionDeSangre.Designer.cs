@@ -57,6 +57,7 @@
             this.label12 = new System.Windows.Forms.Label();
             this.AvarlableLbl = new System.Windows.Forms.Label();
             this.TransferBtn = new Guna.UI2.WinForms.Guna2Button();
+            this.label11 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -93,6 +94,7 @@
             this.label2.Size = new System.Drawing.Size(114, 29);
             this.label2.TabIndex = 3;
             this.label2.Text = "Donante";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
             // 
             // panel3
             // 
@@ -155,18 +157,19 @@
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label3.Location = new System.Drawing.Point(36, 143);
+            this.label3.Location = new System.Drawing.Point(36, 163);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(170, 29);
             this.label3.TabIndex = 11;
             this.label3.Text = "Ver donantes";
+            this.label3.Click += new System.EventHandler(this.label3_Click);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label4.Location = new System.Drawing.Point(36, 197);
+            this.label4.Location = new System.Drawing.Point(36, 206);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(111, 29);
             this.label4.TabIndex = 12;
@@ -195,6 +198,7 @@
             this.label6.Size = new System.Drawing.Size(158, 58);
             this.label6.TabIndex = 14;
             this.label6.Text = "Transfusión \r\nde sangre";
+            this.label6.Click += new System.EventHandler(this.label6_Click);
             // 
             // label7
             // 
@@ -206,6 +210,7 @@
             this.label7.Size = new System.Drawing.Size(183, 29);
             this.label7.TabIndex = 15;
             this.label7.Text = "Panel principal";
+            this.label7.Click += new System.EventHandler(this.label7_Click);
             // 
             // label8
             // 
@@ -217,6 +222,7 @@
             this.label8.Size = new System.Drawing.Size(126, 58);
             this.label8.TabIndex = 16;
             this.label8.Text = "Lista de\r\npacientes";
+            this.label8.Click += new System.EventHandler(this.label8_Click);
             // 
             // label9
             // 
@@ -228,10 +234,12 @@
             this.label9.Size = new System.Drawing.Size(166, 25);
             this.label9.TabIndex = 17;
             this.label9.Text = "Cerrar sesión";
+            this.label9.Click += new System.EventHandler(this.label9_Click);
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.Indigo;
+            this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.label9);
             this.panel1.Controls.Add(this.label8);
             this.panel1.Controls.Add(this.label7);
@@ -396,6 +404,18 @@
             this.TransferBtn.Visible = false;
             this.TransferBtn.Click += new System.EventHandler(this.TransferBtn_Click);
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.MediumTurquoise;
+            this.label11.Location = new System.Drawing.Point(37, 122);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(86, 29);
+            this.label11.TabIndex = 18;
+            this.label11.Text = "Donar";
+            this.label11.Click += new System.EventHandler(this.label11_Click);
+            // 
             // TransfusionDeSangre
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -458,5 +478,6 @@
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label AvarlableLbl;
         private Guna.UI2.WinForms.Guna2Button TransferBtn;
+        private System.Windows.Forms.Label label11;
     }
 }

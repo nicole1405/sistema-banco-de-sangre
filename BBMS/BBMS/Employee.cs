@@ -359,5 +359,13 @@ namespace BBMS
         private void EmpNameTb_TextChanged(object sender, EventArgs e) { }
         private void EmpNameTb_TextChanged_1(object sender, EventArgs e) { }
         private void EmpPassTb_TextChanged(object sender, EventArgs e) { }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+            Login log = new Login();
+            log.Show();
+            this.Hide();
+
+        }
     }
 }

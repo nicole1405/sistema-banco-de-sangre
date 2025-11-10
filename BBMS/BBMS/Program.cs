@@ -16,6 +16,14 @@ namespace BBMS
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
+
+            // Mostrar Splash como diálogo (bloquea hasta que se cierre)
+            using (Splash splash = new Splash())
+            {
+                splash.ShowDialog();
+            }
+
+            // Después del Splash, iniciar la aplicación con Login
             Application.Run(new Login());
         }
     }

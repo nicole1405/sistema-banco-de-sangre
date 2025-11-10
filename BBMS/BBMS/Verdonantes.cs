@@ -68,5 +68,66 @@ namespace BBMS
         {
             // ya llamamos a populate() en el constructor
         }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+            Donante Ob = new Donante();
+            Ob.Show();
+            this.Hide();
+        }
+
+        private void label17_Click(object sender, EventArgs e)
+        {
+            Donar Ob = new Donar();
+            Ob.Show();
+            this.Hide();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void label4_Click(object sender, EventArgs e)
+        {
+            Paciente Ob = new Paciente();
+            Ob.Show();
+            this.Hide();
+        }
+
+        private void label8_Click(object sender, EventArgs e)
+        {
+            ListaPacientes Ob = new ListaPacientes();
+            Ob.Show();
+            this.Hide();
+        }
+
+        private void label5_Click(object sender, EventArgs e)
+        {
+            InventarioDeSangre Ob = new InventarioDeSangre();
+            Ob.Show();
+            this.Hide();
+        }
+
+        private void label6_Click(object sender, EventArgs e)
+        {
+            TransfusionDeSangre Ob = new TransfusionDeSangre();
+            Ob.Show();
+            this.Hide();
+        }
+
+        private void label7_Click(object sender, EventArgs e)
+        {
+            PanelPrincipal Ob = new PanelPrincipal();
+            Ob.Show();
+            this.Hide();
+        }
+
+        private void label9_Click(object sender, EventArgs e)
+        {
+            Login Ob = new Login();
+            Ob.Show();
+            this.Hide();
+        }
     }
 }
