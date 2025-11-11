@@ -69,6 +69,7 @@
     <Compile Include="Clases\EstadisticasDashboard.cs" />
     <Compile Include="Clases\InventarioService.cs" />
     <Compile Include="Clases\PacienteTransfusionInfo.cs" />
+    <Compile Include="Clases\UserAuthResult.cs" />
     <Compile Include="Donante.cs">
       <SubType>UserControl</SubType>
     </Compile>

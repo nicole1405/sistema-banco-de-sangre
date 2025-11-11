@@ -34,7 +34,7 @@ namespace BBMS.Clases
         }
 
         // Inserta empleado (contraseña en texto plano)
-        public bool AddEmployee(string empId, string plainPassword, out string error)
+        public bool AddEmployee(string empId, string passwordHash, out string error)
         {
             error = null;
             try
@@ -44,7 +44,7 @@ namespace BBMS.Clases
                 using (var cmd = new SqlCommand(sql, con))
                 {
                     cmd.Parameters.AddWithValue("@EmpId", empId);
-                    cmd.Parameters.AddWithValue("@EmpPass", plainPassword ?? string.Empty);
+                    cmd.Parameters.AddWithValue("@EmpPass", passwordHash ?? string.Empty);
                     con.Open();
                     return cmd.ExecuteNonQuery() > 0;
                 }
@@ -57,7 +57,7 @@ namespace BBMS.Clases
         }
 
         // Actualiza empleado; si newPlainPassword es null o vacío no cambia la contraseña
-        public bool UpdateEmployee(int empNum, string empId, string newPlainPassword, out string error)
+        public bool UpdateEmployee(int empNum, string empId, string newPasswordHash, out string error)
         {
             error = null;
             try
@@ -65,13 +65,13 @@ namespace BBMS.Clases
                 using (SqlConnection con = _cx.ConexionServer())
                 {
                     con.Open();
-                    if (!string.IsNullOrWhiteSpace(newPlainPassword))
+                    if (!string.IsNullOrWhiteSpace(newPasswordHash))
                     {
                         string sql = "UPDATE EmployeeTbl SET EmpId = @EmpId, EmpPass = @EmpPass WHERE EmpNum = @EmpNum";
                         using (var cmd = new SqlCommand(sql, con))
                         {
                             cmd.Parameters.AddWithValue("@EmpId", empId);
-                            cmd.Parameters.AddWithValue("@EmpPass", newPlainPassword);
+                            cmd.Parameters.AddWithValue("@EmpPass", newPasswordHash);
                             cmd.Parameters.AddWithValue("@EmpNum", empNum);
                             return cmd.ExecuteNonQuery() > 0;
                         }

@@ -25,45 +25,24 @@ namespace BBMS
             string user = EmpIdTdb.Text?.Trim();
             string pass = EmpPassTb.Text ?? "";
 
-            // Validación de UI (sigue igual)
             if (string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(pass))
             {
                 MessageBox.Show("Introduce usuario y contraseña.");
                 return;
             }
 
-            try
-            {
-                // 6. Lógica de autenticación movida al gestor
-                // Esta llamada ahora SÍ usa la verificación de hash.
-                bool esValido = gestorAutenticacion.ValidarCredenciales(user, pass);
+            bool esValido = gestorAutenticacion.ValidarCredenciales(user, pass);
 
-                if (esValido)
-                {
-                    // Lógica de navegación (sigue igual)
-                    Type mainType = Type.GetType("BBMS.MainForm") ?? Type.GetType("BBMS.Mainform") ?? Type.GetType("BBMS.MainForm, " + typeof(Login).Assembly.FullName);
-                    if (mainType != null && typeof(Form).IsAssignableFrom(mainType))
-                    {
-                        var main = (Form)Activator.CreateInstance(mainType);
-                        main.Show();
-                        this.Hide();
-                    }
-                    else
-                    {
-                        var panel = new Layout();
-                        panel.Show();
-                        this.Hide();
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("Usuario o contraseña incorrectos.");
-                }
-            }
-            catch (Exception ex)
+            if (esValido)
             {
-                // Captura errores de UI (ej. al crear el formulario)
-                MessageBox.Show("Error al iniciar sesión: " + ex.Message);
+                // Login OK
+                Layout mainForm = new Layout();
+                mainForm.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Usuario o contraseña incorrectos.");
             }
         }
 

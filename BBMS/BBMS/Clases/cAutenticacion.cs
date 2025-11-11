@@ -7,32 +7,17 @@ namespace BBMS.Clases
 {
     internal class cAutenticacion
     {
-        // 1. Instanciamos la conexión central
         private cConexion conexionDB = new cConexion();
-
-        /// <summary>
-        /// Valida las credenciales del usuario contra la base de datos
-        /// usando COMPARACIÓN DIRECTA DE TEXTO (sin encriptación).
-        /// </summary>
-        /// <param name="usuarioId">ID del empleado (EmpId)</param>
-        /// <param name="contrasenaPlana">La contraseña tal como la escribió el usuario</param>
-        /// <returns>True si las credenciales son válidas, False si no.</returns>
         public bool ValidarCredenciales(string usuarioId, string contrasenaPlana)
         {
             try
             {
-                // 1. Obtener la contraseña almacenada en la base de datos
-                string contrasenaAlmacenada = ObtenerContrasena(usuarioId);
-
-                if (string.IsNullOrEmpty(contrasenaAlmacenada))
-                {
-                    // Usuario no encontrado
+                string storedHash = ObtenerContrasena(usuarioId);
+                if (string.IsNullOrEmpty(storedHash))
                     return false;
-                }
 
-                // 2. ¡CORRECCIÓN!
-                // Se realiza la comparación directa de texto plano.
-                return contrasenaAlmacenada == contrasenaPlana;
+                // Aquí debe ir la comparación de hash
+                return UserAuthService.VerifyPassword(contrasenaPlana, storedHash);
             }
             catch (Exception ex)
             {
@@ -41,9 +26,6 @@ namespace BBMS.Clases
             }
         }
 
-        /// <summary>
-        /// Método privado para obtener la contraseña (como texto) de la BD.
-        /// </summary>
         private string ObtenerContrasena(string usuarioId)
         {
             string pass = null;
@@ -60,5 +42,8 @@ namespace BBMS.Clases
             }
             return pass;
         }
+      
+
+
     }
 }

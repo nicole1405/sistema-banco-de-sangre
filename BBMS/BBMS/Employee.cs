@@ -52,8 +52,8 @@ namespace BBMS
                 MessageBox.Show("El nombre y la contraseña no pueden estar vacíos.");
                 return;
             }
-
-            if (_service.AddEmployee(EmpNameTb.Text.Trim(), EmpPassTb.Text, out string error))
+            var hash = UserAuthService.HashPassword(EmpPassTb.Text);
+            if (_service.AddEmployee(EmpNameTb.Text.Trim(), hash, out string error))
             {
                 MessageBox.Show("Empleado guardado.");
                 populate();
@@ -80,10 +80,13 @@ namespace BBMS
                 return;
             }
 
-            // Si el campo tiene el placeholder o está vacío, no cambiamos contraseña
-            string newPass = (string.IsNullOrWhiteSpace(EmpPassTb.Text) || EmpPassTb.Text == PassPlaceholder) ? null : EmpPassTb.Text;
+            string newHash = null;
+            if (!string.IsNullOrWhiteSpace(EmpPassTb.Text) && EmpPassTb.Text != PassPlaceholder)
+            {
+                newHash = UserAuthService.HashPassword(EmpPassTb.Text);
+            }
 
-            if (_service.UpdateEmployee(key, EmpNameTb.Text.Trim(), newPass, out string error))
+            if (_service.UpdateEmployee(key, EmpNameTb.Text.Trim(), newHash, out string error))
             {
                 MessageBox.Show("Empleado actualizado.");
                 populate();
