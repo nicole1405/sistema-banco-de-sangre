@@ -89,5 +89,14 @@ namespace BBMS
             Ob.Show();
             this.Hide();
         }
+
+        private void IntegrantesBtn_Click(object sender, EventArgs e)
+        {
+            // Crea una nueva instancia de tu formulario de integrantes
+            IntegrantesForm Ob = new IntegrantesForm();
+
+            // Muestra la ventana
+            Ob.Show();
+        }
     }
 }

@@ -87,6 +87,12 @@
     <Compile Include="Employee.Designer.cs">
       <DependentUpon>Employee.cs</DependentUpon>
     </Compile>
+    <Compile Include="IntegrantesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="IntegrantesForm.Designer.cs">
+      <DependentUpon>IntegrantesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="InventarioDeSangre.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -160,6 +166,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Employee.resx">
       <DependentUpon>Employee.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="IntegrantesForm.resx">
+      <DependentUpon>IntegrantesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="InventarioDeSangre.resx">
       <DependentUpon>InventarioDeSangre.cs</DependentUpon>

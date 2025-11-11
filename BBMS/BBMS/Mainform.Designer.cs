@@ -32,6 +32,7 @@
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.IntegrantesBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -67,18 +68,28 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Gestión Banco de Sangre";
             // 
+            // IntegrantesBtn
+            // 
+            this.IntegrantesBtn.BackColor = System.Drawing.Color.LightSkyBlue;
+            this.IntegrantesBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.IntegrantesBtn.Location = new System.Drawing.Point(728, 536);
+            this.IntegrantesBtn.Name = "IntegrantesBtn";
+            this.IntegrantesBtn.Size = new System.Drawing.Size(153, 46);
+            this.IntegrantesBtn.TabIndex = 26;
+            this.IntegrantesBtn.Text = "Ver integrantes";
+            this.IntegrantesBtn.UseVisualStyleBackColor = false;
+            this.IntegrantesBtn.Click += new System.EventHandler(this.IntegrantesBtn_Click);
+            // 
             // Mainform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1073, 612);
+            this.Controls.Add(this.IntegrantesBtn);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.pictureBox1);
-            //this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Mainform";
-            //this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Mainform";
+            this.Size = new System.Drawing.Size(1073, 612);
             this.Load += new System.EventHandler(this.Mainform_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel2.ResumeLayout(false);
@@ -91,5 +102,6 @@
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button IntegrantesBtn;
     }
 }

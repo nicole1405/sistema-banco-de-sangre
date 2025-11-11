@@ -113,5 +113,17 @@ namespace BBMS
 
         }
 
+        private void LogoutBtn_Click(object sender, EventArgs e)
+        {
+            // CERRAR SESION 
+            // 1. Crea una nueva instancia de la ventana de Login
+            Login loginForm = new Login();
+
+            // 2. Muestra la ventana de Login
+            loginForm.Show();
+
+            // 3. Oculta la ventana actual (el panel principal)
+            this.Hide();
+        }
     }
 }
