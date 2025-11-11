@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace BBMS
 {
-    public partial class Mainform : Form
+    public partial class Mainform : UserControl
     {
         public Mainform()
         {

@@ -6,7 +6,7 @@ using BBMS.Clases; // <-- 2. AÑADIDO
 
 namespace BBMS
 {
-    public partial class PanelPrincipal : Form
+    public partial class PanelPrincipal : UserControl
     {
         // 3. Instanciar la nueva clase de lógica de datos
         private cDashboardDatos gestorDashboard = new cDashboardDatos();
@@ -78,54 +78,7 @@ namespace BBMS
 
         }
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-            Donante Ob = new Donante();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-            Verdonantes Ob = new Verdonantes();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-            Donar Ob = new Donar();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-            Paciente Ob = new Paciente();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-            ListaPacientes Ob = new ListaPacientes();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-            InventarioDeSangre Ob = new InventarioDeSangre();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-            TransfusionDeSangre Ob = new TransfusionDeSangre();
-            Ob.Show();
-            this.Hide();
-        }
+        
 
         private void label7_Click(object sender, EventArgs e)
         {

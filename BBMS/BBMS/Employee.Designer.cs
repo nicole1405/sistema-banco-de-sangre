@@ -36,25 +36,14 @@
             this.UpdateEmpBtn = new Guna.UI2.WinForms.Guna2Button();
             this.label16 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
-            this.panel2 = new System.Windows.Forms.Panel();
-            this.label1 = new System.Windows.Forms.Label();
             this.AddEmpBtn = new Guna.UI2.WinForms.Guna2Button();
             this.DeleteEmpBtn = new Guna.UI2.WinForms.Guna2Button();
-            this.label2 = new System.Windows.Forms.Label();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.label9 = new System.Windows.Forms.Label();
-            this.panel1 = new System.Windows.Forms.Panel();
             this.EmpNameTb = new Guna.UI2.WinForms.Guna2TextBox();
             this.EmpPassTb = new Guna.UI2.WinForms.Guna2TextBox();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.EmployeeDGV)).BeginInit();
             this.panel2.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label12
@@ -62,7 +51,7 @@
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label12.Location = new System.Drawing.Point(542, 57);
+            this.label12.Location = new System.Drawing.Point(456, 58);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(143, 29);
             this.label12.TabIndex = 60;
@@ -91,7 +80,7 @@
             dataGridViewCellStyle3.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
             this.EmployeeDGV.DefaultCellStyle = dataGridViewCellStyle3;
             this.EmployeeDGV.GridColor = System.Drawing.Color.FromArgb(((int)(((byte)(128)))), ((int)(((byte)(128)))), ((int)(((byte)(255)))));
-            this.EmployeeDGV.Location = new System.Drawing.Point(308, 89);
+            this.EmployeeDGV.Location = new System.Drawing.Point(184, 90);
             this.EmployeeDGV.Name = "EmployeeDGV";
             this.EmployeeDGV.RowHeadersVisible = false;
             this.EmployeeDGV.RowHeadersWidthSizeMode = System.Windows.Forms.DataGridViewRowHeadersWidthSizeMode.DisableResizing;
@@ -134,7 +123,7 @@
             this.UpdateEmpBtn.FillColor = System.Drawing.Color.Aqua;
             this.UpdateEmpBtn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UpdateEmpBtn.ForeColor = System.Drawing.Color.Black;
-            this.UpdateEmpBtn.Location = new System.Drawing.Point(547, 530);
+            this.UpdateEmpBtn.Location = new System.Drawing.Point(423, 531);
             this.UpdateEmpBtn.Name = "UpdateEmpBtn";
             this.UpdateEmpBtn.Size = new System.Drawing.Size(209, 37);
             this.UpdateEmpBtn.TabIndex = 50;
@@ -146,7 +135,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label16.Location = new System.Drawing.Point(704, 436);
+            this.label16.Location = new System.Drawing.Point(580, 437);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(117, 23);
             this.label16.TabIndex = 57;
@@ -157,32 +146,11 @@
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label11.Location = new System.Drawing.Point(379, 436);
+            this.label11.Location = new System.Drawing.Point(255, 437);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(94, 23);
             this.label11.TabIndex = 55;
             this.label11.Text = "Nombre:";
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.Color.MediumTurquoise;
-            this.panel2.Controls.Add(this.label1);
-            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(229, 0);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(844, 54);
-            this.panel2.TabIndex = 52;
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Verdana", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label1.Location = new System.Drawing.Point(253, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(392, 32);
-            this.label1.TabIndex = 2;
-            this.label1.Text = "Gestión Banco de Sangre";
             // 
             // AddEmpBtn
             // 
@@ -198,7 +166,7 @@
             this.AddEmpBtn.FillColor = System.Drawing.Color.Lime;
             this.AddEmpBtn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddEmpBtn.ForeColor = System.Drawing.Color.Black;
-            this.AddEmpBtn.Location = new System.Drawing.Point(308, 530);
+            this.AddEmpBtn.Location = new System.Drawing.Point(184, 531);
             this.AddEmpBtn.Name = "AddEmpBtn";
             this.AddEmpBtn.Size = new System.Drawing.Size(209, 37);
             this.AddEmpBtn.TabIndex = 61;
@@ -219,109 +187,12 @@
             this.DeleteEmpBtn.FillColor = System.Drawing.Color.Red;
             this.DeleteEmpBtn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DeleteEmpBtn.ForeColor = System.Drawing.Color.Black;
-            this.DeleteEmpBtn.Location = new System.Drawing.Point(788, 530);
+            this.DeleteEmpBtn.Location = new System.Drawing.Point(664, 531);
             this.DeleteEmpBtn.Name = "DeleteEmpBtn";
             this.DeleteEmpBtn.Size = new System.Drawing.Size(209, 37);
             this.DeleteEmpBtn.TabIndex = 62;
             this.DeleteEmpBtn.Text = "Eliminar";
             this.DeleteEmpBtn.Click += new System.EventHandler(this.DeleteEmpBtn_Click);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label2.Location = new System.Drawing.Point(27, 155);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(143, 29);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Empleados";
-            // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.White;
-            this.panel3.Location = new System.Drawing.Point(12, 150);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(10, 34);
-            this.panel3.TabIndex = 4;
-            // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.White;
-            this.panel4.Location = new System.Drawing.Point(19, 137);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(0, 0);
-            this.panel4.TabIndex = 5;
-            // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.Color.White;
-            this.panel5.Location = new System.Drawing.Point(19, 190);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(0, 0);
-            this.panel5.TabIndex = 6;
-            // 
-            // panel6
-            // 
-            this.panel6.BackColor = System.Drawing.Color.White;
-            this.panel6.Location = new System.Drawing.Point(19, 246);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(0, 0);
-            this.panel6.TabIndex = 7;
-            // 
-            // panel7
-            // 
-            this.panel7.BackColor = System.Drawing.Color.White;
-            this.panel7.Location = new System.Drawing.Point(19, 316);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(0, 0);
-            this.panel7.TabIndex = 8;
-            // 
-            // panel8
-            // 
-            this.panel8.BackColor = System.Drawing.Color.White;
-            this.panel8.Location = new System.Drawing.Point(19, 379);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(0, 0);
-            this.panel8.TabIndex = 9;
-            // 
-            // panel9
-            // 
-            this.panel9.BackColor = System.Drawing.Color.White;
-            this.panel9.Location = new System.Drawing.Point(19, 435);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(0, 0);
-            this.panel9.TabIndex = 10;
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.Transparent;
-            this.label9.Location = new System.Drawing.Point(27, 559);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(166, 25);
-            this.label9.TabIndex = 17;
-            this.label9.Text = "Cerrar sesión";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
-            // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Indigo;
-            this.panel1.Controls.Add(this.label9);
-            this.panel1.Controls.Add(this.panel9);
-            this.panel1.Controls.Add(this.panel8);
-            this.panel1.Controls.Add(this.panel7);
-            this.panel1.Controls.Add(this.panel6);
-            this.panel1.Controls.Add(this.panel5);
-            this.panel1.Controls.Add(this.panel4);
-            this.panel1.Controls.Add(this.panel3);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(229, 612);
-            this.panel1.TabIndex = 51;
             // 
             // EmpNameTb
             // 
@@ -337,7 +208,7 @@
             this.EmpNameTb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.EmpNameTb.ForeColor = System.Drawing.Color.Black;
             this.EmpNameTb.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.EmpNameTb.Location = new System.Drawing.Point(383, 463);
+            this.EmpNameTb.Location = new System.Drawing.Point(259, 464);
             this.EmpNameTb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.EmpNameTb.Name = "EmpNameTb";
             this.EmpNameTb.PlaceholderText = "";
@@ -360,7 +231,7 @@
             this.EmpPassTb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.EmpPassTb.ForeColor = System.Drawing.Color.Black;
             this.EmpPassTb.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.EmpPassTb.Location = new System.Drawing.Point(708, 463);
+            this.EmpPassTb.Location = new System.Drawing.Point(584, 464);
             this.EmpPassTb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.EmpPassTb.Name = "EmpPassTb";
             this.EmpPassTb.PlaceholderText = "";
@@ -369,12 +240,33 @@
             this.EmpPassTb.TabIndex = 64;
             this.EmpPassTb.TextChanged += new System.EventHandler(this.EmpPassTb_TextChanged);
             // 
+            // panel2
+            // 
+            this.panel2.BackColor = System.Drawing.Color.MediumTurquoise;
+            this.panel2.Controls.Add(this.label1);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(1073, 54);
+            this.panel2.TabIndex = 65;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Verdana", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.label1.Location = new System.Drawing.Point(313, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(392, 32);
+            this.label1.TabIndex = 2;
+            this.label1.Text = "Gestión Banco de Sangre";
+            // 
             // Employee
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1073, 612);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.EmpPassTb);
             this.Controls.Add(this.EmpNameTb);
             this.Controls.Add(this.DeleteEmpBtn);
@@ -384,17 +276,12 @@
             this.Controls.Add(this.UpdateEmpBtn);
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label11);
-            this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Employee";
-            this.Text = "Employee";
+            this.Size = new System.Drawing.Size(1073, 612);
             this.Load += new System.EventHandler(this.Employee_Load);
             ((System.ComponentModel.ISupportInitialize)(this.EmployeeDGV)).EndInit();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -406,21 +293,11 @@
         private Guna.UI2.WinForms.Guna2Button UpdateEmpBtn;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Panel panel2;
-        private System.Windows.Forms.Label label1;
         private Guna.UI2.WinForms.Guna2Button AddEmpBtn;
         private Guna.UI2.WinForms.Guna2Button DeleteEmpBtn;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.Panel panel9;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Panel panel1;
         private Guna.UI2.WinForms.Guna2TextBox EmpNameTb;
         private Guna.UI2.WinForms.Guna2TextBox EmpPassTb;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Label label1;
     }
 }

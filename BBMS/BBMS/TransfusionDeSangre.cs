@@ -12,7 +12,7 @@ using BBMS.Clases; // <-- 2. AÑADIDO
 
 namespace BBMS
 {
-    public partial class TransfusionDeSangre : Form
+    public partial class TransfusionDeSangre : UserControl
     {
         // 3. Instanciar la nueva clase de lógica
         private cTransfusionDatos gestorTransfusion = new cTransfusionDatos();
@@ -161,69 +161,7 @@ namespace BBMS
             }
         }
 
-        // --- (TODOS TUS OTROS MÉTODOS DE NAVEGACIÓN 'label_Click' VAN AQUÍ) ---
-        // --- (No cambian en absoluto) ---
-        #region Navegacion
-        private void label4_Click(object sender, EventArgs e)
-        {
-            Paciente Pat = new Paciente();
-            Pat.Show();
-            this.Hide();
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-            InventarioDeSangre Bstock = new InventarioDeSangre();
-            Bstock.Show();
-            this.Hide();
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-            Donante Ob = new Donante();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label11_Click(object sender, EventArgs e)
-        {
-            Donar Ob = new Donar();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-            Verdonantes Ob = new Verdonantes();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-            ListaPacientes Ob = new ListaPacientes();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-            // Este método estaba vacío
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-            PanelPrincipal Ob = new PanelPrincipal();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-            Login Ob = new Login();
-            Ob.Show();
-            this.Hide();
-        }
-        #endregion
+      
+       
     }
 }

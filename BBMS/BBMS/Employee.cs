@@ -5,7 +5,7 @@ using BBMS.Clases;
 
 namespace BBMS
 {
-    public partial class Employee : Form
+    public partial class Employee : UserControl
     {
         private readonly EmployeeService _service;
         private int key = 0;
@@ -31,10 +31,8 @@ namespace BBMS
             EmployeeDGV.DataBindingComplete -= EmployeeDGV_DataBindingComplete;
             EmployeeDGV.DataBindingComplete += EmployeeDGV_DataBindingComplete;
 
-            this.Shown -= Employee_Shown;
-            this.Shown += Employee_Shown;
-
             populate();
+            // Puedes llamar aquí a la lógica que estaba en Employee_Shown si lo necesitas
         }
 
         private void Reset()
@@ -158,13 +156,6 @@ namespace BBMS
             EmployeeDGV.CurrentCell = null;
         }
 
-        private void Employee_Shown(object sender, EventArgs e)
-        {
-            EmployeeDGV.ClearSelection();
-            EmployeeDGV.CurrentCell = null;
-            isInitializing = false;
-        }
-
         private void EmployeeDGV_SelectionChanged(object sender, EventArgs e)
         {
             if (isInitializing) return;
@@ -200,16 +191,17 @@ namespace BBMS
 
         // Métodos vacíos para compatibilidad con diseñador
         private void DonorsDGV_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-        private void Employee_Load(object sender, EventArgs e) { }
+        // Adapta el método Employee_Shown a Employee_Load:
+        private void Employee_Load(object sender, EventArgs e)
+        {
+            EmployeeDGV.ClearSelection();
+            EmployeeDGV.CurrentCell = null;
+            isInitializing = false;
+        }
         private void EmpNameTb_TextChanged(object sender, EventArgs e) { }
         private void EmpNameTb_TextChanged_1(object sender, EventArgs e) { }
         private void EmpPassTb_TextChanged(object sender, EventArgs e) { }
 
-        private void label9_Click(object sender, EventArgs e)
-        {
-            Login log = new Login();
-            log.Show();
-            this.Hide();
-        }
+       
     }
 }

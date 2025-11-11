@@ -50,7 +50,7 @@ namespace BBMS
                     }
                     else
                     {
-                        var panel = new PanelPrincipal();
+                        var panel = new Layout();
                         panel.Show();
                         this.Hide();
                     }

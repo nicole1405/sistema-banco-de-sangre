@@ -5,7 +5,7 @@ using BBMS.Clases;
 
 namespace BBMS
 {
-    public partial class Donar : Form
+    public partial class Donar : UserControl
     {
         private readonly DonarService _service;
         private int oldstock = 0;
@@ -163,71 +163,11 @@ namespace BBMS
             }
         }
 
+        // El evento Load de UserControl
         private void Donar_Load(object sender, EventArgs e) { }
         private void pictureBox1_Click(object sender, EventArgs e) { }
         private void BloodStockDGV_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-
-
-
-        private void label13_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label2_Click(object sender, EventArgs e)
-        {
-            Donante Db = new Donante();
-            Db.Show();
-            this.Hide();
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-            Verdonantes Ob = new Verdonantes();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-            Paciente Ob = new Paciente();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label8_Click(object sender, EventArgs e)
-        {
-            ListaPacientes Ob = new ListaPacientes();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-            InventarioDeSangre Ob = new InventarioDeSangre();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-            TransfusionDeSangre Ob = new TransfusionDeSangre();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-            PanelPrincipal Ob = new PanelPrincipal();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-            Login Ob = new Login();
-            Ob.Show();
-            this.Hide();
-        }
+        private void label13_Click(object sender, EventArgs e) { }
+        private void panel1_Paint(object sender, PaintEventArgs e) { }
     }
 }

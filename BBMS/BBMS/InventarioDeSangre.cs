@@ -6,7 +6,7 @@ using BBMS.Clases;
 
 namespace BBMS
 {
-    public partial class InventarioDeSangre : Form
+    public partial class InventarioDeSangre : UserControl
     {
         private readonly InventarioService _service;
 
@@ -117,65 +117,30 @@ namespace BBMS
             // Opcional
         }
 
+        // El evento Load de UserControl
         private void InventarioDeSangre_Load(object sender, EventArgs e)
         {
 
         }
 
-        private void label2_Click(object sender, EventArgs e)
+        private void panel3_Paint(object sender, PaintEventArgs e)
         {
-            Donante Ob = new Donante();
-            Ob.Show();
-            this.Hide();
+
         }
 
-        private void label17_Click(object sender, EventArgs e)
+        private void label9_Click(object sender, EventArgs e)
         {
-            Donar Ob = new Donar();
-            Ob.Show();
-            this.Hide();
+
         }
 
-        private void label3_Click(object sender, EventArgs e)
+        private void label1_Click(object sender, EventArgs e)
         {
-            Verdonantes Ob = new Verdonantes();
-            Ob.Show();
-            this.Hide();
+
         }
 
-        private void label4_Click(object sender, EventArgs e)
+        private void pictureBox1_Click(object sender, EventArgs e)
         {
-            Paciente Ob = new Paciente();
-            Ob.Show();
-            this.Hide();
-        }
 
-        private void label8_Click(object sender, EventArgs e)
-        {
-            ListaPacientes Ob = new ListaPacientes();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-            InventarioDeSangre Ob = new InventarioDeSangre();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-            TransfusionDeSangre Ob = new TransfusionDeSangre();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-            PanelPrincipal Ob = new PanelPrincipal();
-            Ob.Show();
-            this.Hide();
         }
     }
 }

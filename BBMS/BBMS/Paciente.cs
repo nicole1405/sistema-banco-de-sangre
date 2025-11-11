@@ -12,7 +12,7 @@ using BBMS.Clases; // 2. Importamos la carpeta Clases
 
 namespace BBMS
 {
-    public partial class Paciente : Form
+    public partial class Paciente : UserControl
     {
         // 3. Instanciamos la nueva clase de servicio
         private cPacienteServicio gestorPacientes = new cPacienteServicio();
@@ -84,75 +84,16 @@ namespace BBMS
                 MessageBox.Show("Error al preparar los datos: " + Ex.Message);
             }
         }
+       
 
-        // --- (TODOS TUS OTROS MÉTODOS DE NAVEGACIÓN 'label_Click' VAN AQUÍ) ---
-        // --- (No cambian en absoluto) ---
-        #region Navegacion
-        private void label8_Click(object sender, EventArgs e)
-        {
-            ListaPacientes VP = new ListaPacientes();
-            VP.Show();
-            this.Hide();
-        }
+      
 
-        private void label2_Click(object sender, EventArgs e)
-        {
-            Donante Ob = new Donante();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label17_Click(object sender, EventArgs e)
-        {
-            Donar Ob = new Donar();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label3_Click(object sender, EventArgs e)
-        {
-            Verdonantes Ob = new Verdonantes();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label4_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label5_Click(object sender, EventArgs e)
-        {
-            InventarioDeSangre Ob = new InventarioDeSangre();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-            TransfusionDeSangre Ob = new TransfusionDeSangre();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label7_Click(object sender, EventArgs e)
-        {
-            PanelPrincipal Ob = new PanelPrincipal();
-            Ob.Show();
-            this.Hide();
-        }
-
-        private void label9_Click(object sender, EventArgs e)
-        {
-            Login Ob = new Login();
-            Ob.Show();
-            this.Hide();
-        }
+       
 
         private void Paciente_Load(object sender, EventArgs e)
         {
 
         }
-        #endregion
+       
     }
 }

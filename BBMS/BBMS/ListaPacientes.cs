@@ -5,7 +5,7 @@ using BBMS.Clases; // <-- 1. Importante: Importar la carpeta Clases
 
 namespace BBMS
 {
-    public partial class ListaPacientes : Form
+    public partial class ListaPacientes : UserControl
     {
         // 2. Instanciar la nueva clase de lógica de datos
         private cPacienteDatos gestorPacientes = new cPacienteDatos();

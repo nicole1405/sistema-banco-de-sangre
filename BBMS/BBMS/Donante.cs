@@ -4,7 +4,7 @@ using BBMS.Clases;
 
 namespace BBMS
 {
-    public partial class Donante : Form
+    public partial class Donante : UserControl
     {
         private readonly DonanteService _service;
 
@@ -80,53 +80,21 @@ namespace BBMS
         private void label16_Click(object sender, EventArgs e) { }
         private void DPhoneTb_TextChanged(object sender, EventArgs e) { }
         private void label11_Click(object sender, EventArgs e) { }
-        private void label17_Click(object sender, EventArgs e)
+       
+
+        private void panel1_Paint(object sender, PaintEventArgs e)
         {
-            Donar Ob = new Donar();
-            Ob.Show();
-            this.Hide();
+
         }
-        private void label3_Click(object sender, EventArgs e)
+
+        private void label2_Click(object sender, EventArgs e)
         {
-            Verdonantes Ob = new Verdonantes();
-            Ob.Show();
-            this.Hide();
+
         }
-        private void label4_Click(object sender, EventArgs e)
+
+        private void label1_Click(object sender, EventArgs e)
         {
-            Paciente Ob = new Paciente();
-            Ob.Show();
-            this.Hide();
-        }
-        private void label8_Click(object sender, EventArgs e)
-        {
-            ListaPacientes Ob = new ListaPacientes();
-            Ob.Show();
-            this.Hide();
-        }
-        private void label5_Click(object sender, EventArgs e)
-        {
-            InventarioDeSangre Ob = new InventarioDeSangre();
-            Ob.Show();
-            this.Hide();
-        }
-        private void label6_Click(object sender, EventArgs e)
-        {
-            TransfusionDeSangre Ob = new TransfusionDeSangre();
-            Ob.Show();
-            this.Hide();
-        }
-        private void label7_Click(object sender, EventArgs e)
-        {
-            PanelPrincipal Ob = new PanelPrincipal();
-            Ob.Show();
-            this.Hide();
-        }
-        private void label9_Click(object sender, EventArgs e)
-        {
-            Login Ob = new Login();
-            Ob.Show();
-            this.Hide();
+
         }
     }
 }

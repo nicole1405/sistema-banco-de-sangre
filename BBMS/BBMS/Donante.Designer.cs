@@ -44,27 +44,9 @@
             this.label16 = new System.Windows.Forms.Label();
             this.guna2Button1 = new Guna.UI2.WinForms.Guna2Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.label17 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.panel9 = new System.Windows.Forms.Panel();
-            this.panel8 = new System.Windows.Forms.Panel();
-            this.panel7 = new System.Windows.Forms.Panel();
-            this.panel6 = new System.Windows.Forms.Panel();
-            this.panel5 = new System.Windows.Forms.Panel();
-            this.panel4 = new System.Windows.Forms.Panel();
-            this.panel3 = new System.Windows.Forms.Panel();
-            this.label2 = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
-            this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -73,7 +55,7 @@
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label10.Location = new System.Drawing.Point(626, 81);
+            this.label10.Location = new System.Drawing.Point(485, 66);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(114, 29);
             this.label10.TabIndex = 18;
@@ -94,7 +76,7 @@
             this.DNameTb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.DNameTb.ForeColor = System.Drawing.Color.Black;
             this.DNameTb.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.DNameTb.Location = new System.Drawing.Point(296, 229);
+            this.DNameTb.Location = new System.Drawing.Point(151, 212);
             this.DNameTb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.DNameTb.Name = "DNameTb";
             this.DNameTb.PlaceholderText = "";
@@ -108,7 +90,7 @@
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label11.Location = new System.Drawing.Point(292, 201);
+            this.label11.Location = new System.Drawing.Point(147, 184);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(94, 23);
             this.label11.TabIndex = 20;
@@ -120,7 +102,7 @@
             this.label12.AutoSize = true;
             this.label12.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label12.Location = new System.Drawing.Point(565, 202);
+            this.label12.Location = new System.Drawing.Point(420, 185);
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(66, 23);
             this.label12.TabIndex = 22;
@@ -132,7 +114,7 @@
             this.label13.AutoSize = true;
             this.label13.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label13.Location = new System.Drawing.Point(859, 199);
+            this.label13.Location = new System.Drawing.Point(714, 182);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(88, 23);
             this.label13.TabIndex = 24;
@@ -145,7 +127,7 @@
             this.DGenCb.Items.AddRange(new object[] {
             "Masculino",
             "Femenino"});
-            this.DGenCb.Location = new System.Drawing.Point(863, 231);
+            this.DGenCb.Location = new System.Drawing.Point(718, 214);
             this.DGenCb.Name = "DGenCb";
             this.DGenCb.Size = new System.Drawing.Size(160, 29);
             this.DGenCb.TabIndex = 25;
@@ -155,7 +137,7 @@
             this.label14.AutoSize = true;
             this.label14.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label14.Location = new System.Drawing.Point(292, 307);
+            this.label14.Location = new System.Drawing.Point(147, 290);
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(212, 23);
             this.label14.TabIndex = 27;
@@ -175,7 +157,7 @@
             this.DPhoneTb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.DPhoneTb.ForeColor = System.Drawing.Color.Black;
             this.DPhoneTb.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.DPhoneTb.Location = new System.Drawing.Point(296, 335);
+            this.DPhoneTb.Location = new System.Drawing.Point(151, 318);
             this.DPhoneTb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.DPhoneTb.Name = "DPhoneTb";
             this.DPhoneTb.PlaceholderText = "";
@@ -198,7 +180,7 @@
             this.DAgeTb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.DAgeTb.ForeColor = System.Drawing.Color.Black;
             this.DAgeTb.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.DAgeTb.Location = new System.Drawing.Point(569, 229);
+            this.DAgeTb.Location = new System.Drawing.Point(424, 212);
             this.DAgeTb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.DAgeTb.Name = "DAgeTb";
             this.DAgeTb.PlaceholderText = "";
@@ -212,7 +194,7 @@
             this.label15.AutoSize = true;
             this.label15.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label15.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label15.Location = new System.Drawing.Point(564, 392);
+            this.label15.Location = new System.Drawing.Point(419, 375);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(109, 23);
             this.label15.TabIndex = 29;
@@ -223,7 +205,7 @@
             this.DAddressTb.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.DAddressTb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.DAddressTb.ForeColor = System.Drawing.Color.Black;
-            this.DAddressTb.Location = new System.Drawing.Point(568, 421);
+            this.DAddressTb.Location = new System.Drawing.Point(423, 404);
             this.DAddressTb.Multiline = true;
             this.DAddressTb.Name = "DAddressTb";
             this.DAddressTb.Size = new System.Drawing.Size(220, 97);
@@ -242,7 +224,7 @@
             "AB-",
             "O+",
             "O-"});
-            this.DBGroupCb.Location = new System.Drawing.Point(575, 339);
+            this.DBGroupCb.Location = new System.Drawing.Point(430, 322);
             this.DBGroupCb.Name = "DBGroupCb";
             this.DBGroupCb.Size = new System.Drawing.Size(202, 29);
             this.DBGroupCb.TabIndex = 33;
@@ -252,7 +234,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label16.Location = new System.Drawing.Point(571, 307);
+            this.label16.Location = new System.Drawing.Point(426, 290);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(183, 23);
             this.label16.TabIndex = 32;
@@ -273,7 +255,7 @@
             this.guna2Button1.FillColor = System.Drawing.SystemColors.InactiveCaption;
             this.guna2Button1.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guna2Button1.ForeColor = System.Drawing.Color.Black;
-            this.guna2Button1.Location = new System.Drawing.Point(568, 547);
+            this.guna2Button1.Location = new System.Drawing.Point(423, 530);
             this.guna2Button1.Name = "guna2Button1";
             this.guna2Button1.Size = new System.Drawing.Size(209, 37);
             this.guna2Button1.TabIndex = 34;
@@ -283,7 +265,7 @@
             // pictureBox1
             // 
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(635, 115);
+            this.pictureBox1.Location = new System.Drawing.Point(490, 98);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(97, 84);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
@@ -291,210 +273,22 @@
             this.pictureBox1.TabStop = false;
             this.pictureBox1.Click += new System.EventHandler(this.pictureBox1_Click);
             // 
-            // panel1
-            // 
-            this.panel1.BackColor = System.Drawing.Color.Indigo;
-            this.panel1.Controls.Add(this.label17);
-            this.panel1.Controls.Add(this.label9);
-            this.panel1.Controls.Add(this.label8);
-            this.panel1.Controls.Add(this.label7);
-            this.panel1.Controls.Add(this.label6);
-            this.panel1.Controls.Add(this.label5);
-            this.panel1.Controls.Add(this.label4);
-            this.panel1.Controls.Add(this.label3);
-            this.panel1.Controls.Add(this.panel9);
-            this.panel1.Controls.Add(this.panel8);
-            this.panel1.Controls.Add(this.panel7);
-            this.panel1.Controls.Add(this.panel6);
-            this.panel1.Controls.Add(this.panel5);
-            this.panel1.Controls.Add(this.panel4);
-            this.panel1.Controls.Add(this.panel3);
-            this.panel1.Controls.Add(this.label2);
-            this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
-            this.panel1.Location = new System.Drawing.Point(0, 0);
-            this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(229, 612);
-            this.panel1.TabIndex = 36;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label17.Location = new System.Drawing.Point(36, 95);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(86, 29);
-            this.label17.TabIndex = 19;
-            this.label17.Text = "Donar";
-            this.label17.Click += new System.EventHandler(this.label17_Click);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Verdana", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.Transparent;
-            this.label9.Location = new System.Drawing.Point(27, 559);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(166, 25);
-            this.label9.TabIndex = 17;
-            this.label9.Text = "Cerrar sesión";
-            this.label9.Click += new System.EventHandler(this.label9_Click);
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label8.Location = new System.Drawing.Point(39, 245);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(126, 58);
-            this.label8.TabIndex = 16;
-            this.label8.Text = "Lista de\r\npacientes";
-            this.label8.Click += new System.EventHandler(this.label8_Click);
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label7.Location = new System.Drawing.Point(36, 463);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(183, 29);
-            this.label7.TabIndex = 15;
-            this.label7.Text = "Panel principal";
-            this.label7.Click += new System.EventHandler(this.label7_Click);
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label6.Location = new System.Drawing.Point(35, 388);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(158, 58);
-            this.label6.TabIndex = 14;
-            this.label6.Text = "Transfusión \r\nde sangre";
-            this.label6.Click += new System.EventHandler(this.label6_Click);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label5.Location = new System.Drawing.Point(36, 317);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(143, 58);
-            this.label5.TabIndex = 13;
-            this.label5.Text = "Inventario \r\nde sangre";
-            this.label5.Click += new System.EventHandler(this.label5_Click);
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label4.Location = new System.Drawing.Point(36, 197);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(111, 29);
-            this.label4.TabIndex = 12;
-            this.label4.Text = "Paciente";
-            this.label4.Click += new System.EventHandler(this.label4_Click);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label3.Location = new System.Drawing.Point(36, 149);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(170, 29);
-            this.label3.TabIndex = 11;
-            this.label3.Text = "Ver donantes";
-            this.label3.Click += new System.EventHandler(this.label3_Click);
-            // 
-            // panel9
-            // 
-            this.panel9.BackColor = System.Drawing.Color.White;
-            this.panel9.Location = new System.Drawing.Point(19, 435);
-            this.panel9.Name = "panel9";
-            this.panel9.Size = new System.Drawing.Size(0, 0);
-            this.panel9.TabIndex = 10;
-            // 
-            // panel8
-            // 
-            this.panel8.BackColor = System.Drawing.Color.White;
-            this.panel8.Location = new System.Drawing.Point(19, 379);
-            this.panel8.Name = "panel8";
-            this.panel8.Size = new System.Drawing.Size(0, 0);
-            this.panel8.TabIndex = 9;
-            // 
-            // panel7
-            // 
-            this.panel7.BackColor = System.Drawing.Color.White;
-            this.panel7.Location = new System.Drawing.Point(19, 316);
-            this.panel7.Name = "panel7";
-            this.panel7.Size = new System.Drawing.Size(0, 0);
-            this.panel7.TabIndex = 8;
-            // 
-            // panel6
-            // 
-            this.panel6.BackColor = System.Drawing.Color.White;
-            this.panel6.Location = new System.Drawing.Point(19, 246);
-            this.panel6.Name = "panel6";
-            this.panel6.Size = new System.Drawing.Size(0, 0);
-            this.panel6.TabIndex = 7;
-            // 
-            // panel5
-            // 
-            this.panel5.BackColor = System.Drawing.Color.White;
-            this.panel5.Location = new System.Drawing.Point(19, 190);
-            this.panel5.Name = "panel5";
-            this.panel5.Size = new System.Drawing.Size(0, 0);
-            this.panel5.TabIndex = 6;
-            // 
-            // panel4
-            // 
-            this.panel4.BackColor = System.Drawing.Color.White;
-            this.panel4.Location = new System.Drawing.Point(19, 137);
-            this.panel4.Name = "panel4";
-            this.panel4.Size = new System.Drawing.Size(0, 0);
-            this.panel4.TabIndex = 5;
-            // 
-            // panel3
-            // 
-            this.panel3.BackColor = System.Drawing.Color.White;
-            this.panel3.Location = new System.Drawing.Point(19, 46);
-            this.panel3.Name = "panel3";
-            this.panel3.Size = new System.Drawing.Size(10, 34);
-            this.panel3.TabIndex = 4;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Verdana", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.ForeColor = System.Drawing.Color.MediumTurquoise;
-            this.label2.Location = new System.Drawing.Point(36, 45);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(114, 29);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "Donante";
-            // 
             // panel2
             // 
             this.panel2.BackColor = System.Drawing.Color.MediumTurquoise;
             this.panel2.Controls.Add(this.label1);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.panel2.Location = new System.Drawing.Point(229, 0);
+            this.panel2.Location = new System.Drawing.Point(0, 0);
             this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(844, 54);
-            this.panel2.TabIndex = 37;
+            this.panel2.Size = new System.Drawing.Size(1073, 54);
+            this.panel2.TabIndex = 36;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Verdana", 20.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label1.Location = new System.Drawing.Point(253, 9);
+            this.label1.Location = new System.Drawing.Point(313, 9);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(392, 32);
             this.label1.TabIndex = 2;
@@ -504,9 +298,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1073, 612);
             this.Controls.Add(this.panel2);
-            this.Controls.Add(this.panel1);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.guna2Button1);
             this.Controls.Add(this.DBGroupCb);
@@ -522,14 +314,10 @@
             this.Controls.Add(this.label11);
             this.Controls.Add(this.DNameTb);
             this.Controls.Add(this.label10);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "Donante";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Donante";
+            this.Size = new System.Drawing.Size(1073, 612);
             this.Load += new System.EventHandler(this.Donante_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
             this.ResumeLayout(false);
@@ -553,24 +341,7 @@
         private System.Windows.Forms.Label label16;
         private Guna.UI2.WinForms.Guna2Button guna2Button1;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Panel panel9;
-        private System.Windows.Forms.Panel panel8;
-        private System.Windows.Forms.Panel panel7;
-        private System.Windows.Forms.Panel panel6;
-        private System.Windows.Forms.Panel panel5;
-        private System.Windows.Forms.Panel panel4;
-        private System.Windows.Forms.Panel panel3;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label17;
     }
 }
