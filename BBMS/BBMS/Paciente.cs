@@ -14,17 +14,16 @@ namespace BBMS
 {
     public partial class Paciente : UserControl
     {
-        // 3. Instanciamos la nueva clase de servicio
+        // 2. Instanciamos la nueva clase de servicio para pacientes.
         private cPacienteServicio gestorPacientes = new cPacienteServicio();
 
+        // 3. Constructor: inicializa el formulario.
         public Paciente()
         {
             InitializeComponent();
         }
 
-        // 4. ¡Se elimina la variable 'SqlConnection Con' de aquí!
-
-        // Método para limpiar/resetear todos los campos del formulario
+        // 4. Limpia todos los campos del formulario.
         private void Reset()
         {
             PNameTb.Text = "";
@@ -35,15 +34,15 @@ namespace BBMS
             PBGroupCb.SelectedIndex = -1;
         }
 
-        // Evento que se dispara cuando cambia el texto en el campo de edad
+        // 5. Evento cuando cambia el texto en el campo de edad (sin lógica).
         private void PAgeTb_TextChanged(object sender, EventArgs e)
         {
         }
 
-        // 5. Evento del botón Guardar (Refactorizado)
+        // 6. Evento click del botón Guardar (Guna2Button): valida y guarda el paciente.
         private void guna2Button1_Click(object sender, EventArgs e)
         {
-            // --- VALIDACIÓN (Esto se queda en el formulario) ---
+            // 7. Validación de campos obligatorios.
             if (PNameTb.Text == "" ||
                 PPhoneTb.Text == "" ||
                 PAgeTb.Text == "" ||
@@ -55,45 +54,36 @@ namespace BBMS
                 return;
             }
 
-            // --- (MEJORA) Validación de edad más segura ---
+            // 8. Validación de edad.
             if (!int.TryParse(PAgeTb.Text, out int edad))
             {
                 MessageBox.Show("La edad debe ser un número válido.");
                 return;
             }
 
-            // --- LÓGICA DE GUARDADO (Ahora separada) ---
+            // 9. Lógica de guardado.
             try
             {
-                // 1. Recolectamos los datos de la interfaz
                 string nombre = PNameTb.Text;
                 string telefono = PPhoneTb.Text;
                 string genero = PGenCb.SelectedItem.ToString();
                 string grupoSanguineo = PBGroupCb.SelectedItem.ToString();
                 string direccion = PAdressTb.Text;
 
-                // 2. Llamamos al gestor para que haga el trabajo
                 gestorPacientes.GuardarPaciente(nombre, edad, telefono, genero, grupoSanguineo, direccion);
 
-                // 3. Limpiamos el formulario (la clase 'gestorPacientes' ya mostró el mensaje)
                 Reset();
             }
             catch (Exception Ex)
             {
-                // Captura errores de la UI (ej. .SelectedItem.ToString() si algo es nulo)
                 MessageBox.Show("Error al preparar los datos: " + Ex.Message);
             }
         }
-       
 
-      
-
-       
-
+        // 10. Evento de carga del formulario (sin lógica).
         private void Paciente_Load(object sender, EventArgs e)
         {
 
         }
-       
     }
 }

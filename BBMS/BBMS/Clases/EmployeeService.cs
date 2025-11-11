@@ -4,26 +4,27 @@ using System.Data.SqlClient;
 
 namespace BBMS.Clases
 {
-    // Servicio para operaciones sobre EmployeeTbl (sin encriptación de contraseñas)
+    // 1. Servicio para operaciones sobre la tabla EmployeeTbl.
     public class EmployeeService
     {
         private readonly cConexion _cx;
 
+        // 2. Constructor: inicializa la conexión.
         public EmployeeService()
         {
             _cx = new cConexion();
         }
 
-        // Devuelve empleados con nombres de columnas formales y contraseña enmascarada
+        // 3. Devuelve empleados con nombres de columnas formales y contraseña enmascarada.
         public DataTable GetEmployees()
         {
             var dt = new DataTable();
             string sql = @"
-                SELECT EmpNum AS Id,
-                       EmpId  AS Nombre,
-                       CASE WHEN LEN(ISNULL(EmpPass,'')) > 0 THEN '********' ELSE '' END AS Contraseña
-                FROM EmployeeTbl
-                ORDER BY EmpNum";
+                    SELECT EmpNum AS Id,
+                           EmpId  AS Nombre,
+                           CASE WHEN LEN(ISNULL(EmpPass,'')) > 0 THEN '********' ELSE '' END AS Contraseña
+                    FROM EmployeeTbl
+                    ORDER BY EmpNum";
             using (SqlConnection con = _cx.ConexionServer())
             using (var da = new SqlDataAdapter(sql, con))
             {
@@ -33,7 +34,7 @@ namespace BBMS.Clases
             return dt;
         }
 
-        // Inserta empleado (contraseña en texto plano)
+        // 4. Inserta empleado con contraseña hasheada.
         public bool AddEmployee(string empId, string passwordHash, out string error)
         {
             error = null;
@@ -56,7 +57,7 @@ namespace BBMS.Clases
             }
         }
 
-        // Actualiza empleado; si newPlainPassword es null o vacío no cambia la contraseña
+        // 5. Actualiza empleado; si newPasswordHash es null o vacío no cambia la contraseña.
         public bool UpdateEmployee(int empNum, string empId, string newPasswordHash, out string error)
         {
             error = null;
@@ -95,7 +96,7 @@ namespace BBMS.Clases
             }
         }
 
-        // Elimina empleado por Id (borrado físico)
+        // 6. Elimina empleado por Id (borrado físico).
         public bool DeleteEmployee(int empNum, out string error)
         {
             error = null;

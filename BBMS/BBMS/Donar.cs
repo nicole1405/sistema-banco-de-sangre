@@ -7,15 +7,18 @@ namespace BBMS
 {
     public partial class Donar : UserControl
     {
+        // 1. Servicio para operaciones de donaciones/inventario.
         private readonly DonarService _service;
+        // 2. Variable para almacenar el stock anterior.
         private int oldstock = 0;
 
+        // 3. Constructor: inicializa componentes y configura controles.
         public Donar()
         {
             InitializeComponent();
             _service = new DonarService();
 
-            // Inicializa UI
+            // 4. Configura los DataGridView para selección y solo lectura.
             DonorsDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             DonorsDGV.MultiSelect = false;
             DonorsDGV.ReadOnly = true;
@@ -24,13 +27,13 @@ namespace BBMS
             BloodStockDGV.MultiSelect = false;
             BloodStockDGV.ReadOnly = true;
 
-            // Carga inicial
+            // 5. Carga inicial de datos.
             populate();
             bloodStock();
             DonorsDGV.SelectionChanged += DonorsDGV_SelectionChanged;
         }
 
-        // Llena la lista de donantes
+        // 6. Llena la lista de donantes en el DataGridView.
         private void populate()
         {
             try
@@ -38,14 +41,14 @@ namespace BBMS
                 var dt = _service.GetDonors();
                 DonorsDGV.DataSource = dt;
 
-                // Depuración: mostrar cuántas filas llegaron
+                // 7. Muestra mensaje si no hay donantes.
                 if (dt == null || dt.Rows.Count == 0)
                 {
                     MessageBox.Show("No se han cargado donantes. Filas: 0. Comprueba la tabla DonorTbl o la conexión.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    // Opcional: ajustar cabeceras
+                    // 8. Ajusta cabeceras de columnas.
                     if (DonorsDGV.Columns["Nombre"] != null)
                         DonorsDGV.Columns["Nombre"].HeaderText = "Nombre";
                     if (DonorsDGV.Columns["Edad"] != null)
@@ -58,33 +61,34 @@ namespace BBMS
             }
         }
 
-        // Llena la grilla de inventario de sangre
+        // 9. Llena la grilla de inventario de sangre.
         private void bloodStock()
         {
             var dt = _service.GetBloodStock();
             BloodStockDGV.DataSource = dt;
         }
 
-        // Obtiene y guarda el stock en memoria
+        // 10. Obtiene y guarda el stock en memoria.
         private void GetStock(string bgroup)
         {
             oldstock = _service.GetStock(bgroup);
         }
 
-        // Maneja click en grilla de donantes (seguro)
+        // 11. Maneja el click en la grilla de donantes.
         private void DonorsDGV_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex < 0) return;
             PopulateFieldsFromRowIndex(e.RowIndex);
         }
 
+        // 12. Maneja el cambio de selección en la grilla de donantes.
         private void DonorsDGV_SelectionChanged(object sender, EventArgs e)
         {
             if (DonorsDGV.CurrentRow == null) return;
             PopulateFieldsFromRowIndex(DonorsDGV.CurrentRow.Index);
         }
 
-        // Asigna nombre y grupo desde la fila seleccionada (usa nombres formales)
+        // 13. Asigna nombre y grupo desde la fila seleccionada.
         private void PopulateFieldsFromRowIndex(int rowIndex)
         {
             try
@@ -92,7 +96,6 @@ namespace BBMS
                 if (rowIndex < 0 || rowIndex >= DonorsDGV.Rows.Count) return;
                 var row = DonorsDGV.Rows[rowIndex];
 
-                // Comprobar existencia de columna en la grilla y leer el valor con seguridad
                 if (DonorsDGV.Columns["Nombre"] != null && row.Cells["Nombre"].Value != null)
                     DNameTb.Text = row.Cells["Nombre"].Value.ToString();
                 else
@@ -103,21 +106,8 @@ namespace BBMS
                 else
                     BGroupTb.Text = "";
 
-                // Actualiza stock en memoria
+                // 14. Actualiza el stock en memoria.
                 GetStock(BGroupTb.Text);
-
-                // Mostrar disponibilidad según stock
-                //if (oldstock > 0)
-                //{
-                //    AvarlableLbl.Text = "Stock Disponible";
-                //    TransferBtn.Visible = true;
-                //}
-                //else
-                //{
-                //    AvarlableLbl.Text = "Stock No Disponible";
-                //    TransferBtn.Visible = false;
-                //}
-                //AvarlableLbl.Visible = true;
             }
             catch (Exception ex)
             {
@@ -125,15 +115,14 @@ namespace BBMS
             }
         }
 
+        // 15. Resetea los campos del formulario.
         private void reset()
         {
             DNameTb.Text = "";
             BGroupTb.Text = "";
-            //AvarlableLbl.Visible = false;
-            //TransferBtn.Visible = false;
         }
 
-        // Donar: incrementa stock para el grupo seleccionado y refresca grilla
+        // 16. Evento click del botón Donar (Guna2Button): incrementa el stock.
         private void guna2Button1_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(DNameTb.Text))
@@ -151,9 +140,7 @@ namespace BBMS
             if (_service.IncrementStock(BGroupTb.Text, 1, out string error))
             {
                 MessageBox.Show("Donación exitosa");
-                // Refrescar la grilla de stock
                 bloodStock();
-                // Actualizar cache
                 GetStock(BGroupTb.Text);
                 reset();
             }
@@ -163,7 +150,7 @@ namespace BBMS
             }
         }
 
-        // El evento Load de UserControl
+        // 17. Eventos de UI vacíos para compatibilidad con el diseñador.
         private void Donar_Load(object sender, EventArgs e) { }
         private void pictureBox1_Click(object sender, EventArgs e) { }
         private void BloodStockDGV_CellContentClick(object sender, DataGridViewCellEventArgs e) { }

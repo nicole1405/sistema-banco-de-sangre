@@ -9,49 +9,46 @@ namespace BBMS
 {
     public partial class Login : Form
     {
-        // 3. REMOVIDA: La variable 'SqlConnection Con'
-
-        // 4. Instanciamos la nueva clase de lógica
+        // 2. Instancia el gestor de autenticación.
         private cAutenticacion gestorAutenticacion = new cAutenticacion();
 
+        // 3. Constructor: inicializa el formulario y los controles Guna.
         public Login()
         {
             InitializeComponent();
         }
 
-        // 5. Botón Iniciar sesión (¡Ahora refactorizado y SEGURO!)
+        // 4. Evento click del botón de login (Guna2Button).
         private void guna2Button1_Click(object sender, EventArgs e)
         {
-            string user = EmpIdTdb.Text?.Trim();
-            string pass = EmpPassTb.Text ?? "";
+            string user = EmpIdTdb.Text?.Trim(); // 5. Obtiene el usuario del textbox Guna.
+            string pass = EmpPassTb.Text ?? "";  // 6. Obtiene la contraseña del textbox Guna.
 
+            // 7. Validación de campos vacíos.
             if (string.IsNullOrWhiteSpace(user) || string.IsNullOrWhiteSpace(pass))
             {
                 MessageBox.Show("Introduce usuario y contraseña.");
                 return;
             }
 
+            // 8. Llama al gestor de autenticación para validar credenciales.
             bool esValido = gestorAutenticacion.ValidarCredenciales(user, pass);
 
             if (esValido)
             {
-                // Login OK
+                // 9. Si es válido, navega al formulario principal.
                 Layout mainForm = new Layout();
                 mainForm.Show();
                 this.Hide();
             }
             else
             {
+                // 10. Si no es válido, muestra mensaje de error.
                 MessageBox.Show("Usuario o contraseña incorrectos.");
             }
         }
 
-        // 7. REMOVIDOS:
-        // El método 'VerifyPassword' ya no está aquí.
-        // El método 'FixedTimeEquals' ya no está aquí.
-
-
-        // --- (Métodos de navegación y eventos vacíos) ---
+        // 11. Métodos de navegación y eventos vacíos.
         #region Navegacion y Eventos
         private void label4_Click(object sender, EventArgs e)
         {

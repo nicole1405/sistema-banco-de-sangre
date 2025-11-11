@@ -125,5 +125,10 @@ namespace BBMS
             // 3. Oculta la ventana actual (el panel principal)
             this.Hide();
         }
+
+        private void sidebarPanel_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
     }
 }

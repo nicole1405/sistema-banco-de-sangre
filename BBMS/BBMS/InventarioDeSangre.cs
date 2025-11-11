@@ -8,20 +8,22 @@ namespace BBMS
 {
     public partial class InventarioDeSangre : UserControl
     {
+        // 1. Servicio para operaciones de inventario de sangre.
         private readonly InventarioService _service;
 
+        // 2. Constructor: inicializa componentes y configura controles.
         public InventarioDeSangre()
         {
             InitializeComponent();
 
             _service = new InventarioService();
 
-            // Asegura estilo grilla
+            // 3. Configura el DataGridView para selección y solo lectura.
             BloodStockDGV.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
             BloodStockDGV.MultiSelect = false;
             BloodStockDGV.ReadOnly = true;
 
-            // Configura ComboBox de filtro (si existe en el diseñador)
+            // 4. Configura el ComboBox de filtro si existe en el diseñador.
             if (this.Controls.Find("BGroupFilterCb", true).FirstOrDefault() is ComboBox cb)
             {
                 cb.DropDownStyle = ComboBoxStyle.DropDownList;
@@ -29,12 +31,12 @@ namespace BBMS
                 cb.SelectedIndexChanged += BGroupFilterCb_SelectedIndexChanged;
             }
 
-            // Carga inicial
+            // 5. Carga inicial de filtros y datos.
             LoadFilterValues();
             LoadBloodStock(null);
         }
 
-        // Carga datos del inventario; si bgroup == null o "Todos" carga todo
+        // 6. Carga datos del inventario; si bgroup == null o "Todos" carga todo.
         private void LoadBloodStock(string bgroup = null)
         {
             try
@@ -46,7 +48,7 @@ namespace BBMS
                 }
                 else
                 {
-                    // Construye una tabla con un solo registro para el grupo filtrado
+                    // 7. Construye una tabla con un solo registro para el grupo filtrado.
                     dt = new DataTable();
                     dt.Columns.Add("Grupo", typeof(string));
                     dt.Columns.Add("Stock", typeof(int));
@@ -59,7 +61,7 @@ namespace BBMS
 
                 BloodStockDGV.DataSource = dt;
 
-                // Ajustes visuales
+                // 8. Ajustes visuales de las columnas.
                 if (BloodStockDGV.Columns.Contains("Grupo"))
                     BloodStockDGV.Columns["Grupo"].HeaderText = "Grupo";
                 if (BloodStockDGV.Columns.Contains("Stock"))
@@ -75,7 +77,7 @@ namespace BBMS
             }
         }
 
-        // Llena ComboBox de grupos (añade "Todos")
+        // 9. Llena ComboBox de grupos (añade "Todos").
         private void LoadFilterValues()
         {
             try
@@ -99,7 +101,7 @@ namespace BBMS
             }
         }
 
-        // Evento: cuando cambia el filtro
+        // 10. Evento: cuando cambia el filtro en el ComboBox.
         private void BGroupFilterCb_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (sender is ComboBox cb)
@@ -112,17 +114,19 @@ namespace BBMS
             }
         }
 
+        // 11. Evento de click en la grilla (opcional, sin lógica).
         private void guna2DataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             // Opcional
         }
 
-        // El evento Load de UserControl
+        // 12. Evento de carga del control (sin lógica).
         private void InventarioDeSangre_Load(object sender, EventArgs e)
         {
 
         }
 
+        // 13. Eventos de pintado y click en labels (sin lógica relevante).
         private void panel3_Paint(object sender, PaintEventArgs e)
         {
 

@@ -5,9 +5,13 @@ using System.Windows.Forms; // Para MessageBox
 
 namespace BBMS.Clases
 {
+    // 3. Clase para autenticación de usuarios.
     internal class cAutenticacion
     {
+        // 4. Instancia la conexión a la base de datos.
         private cConexion conexionDB = new cConexion();
+
+        // 5. Valida las credenciales del usuario usando el hash almacenado.
         public bool ValidarCredenciales(string usuarioId, string contrasenaPlana)
         {
             try
@@ -16,7 +20,7 @@ namespace BBMS.Clases
                 if (string.IsNullOrEmpty(storedHash))
                     return false;
 
-                // Aquí debe ir la comparación de hash
+                // 6. Compara el hash generado con el almacenado.
                 return UserAuthService.VerifyPassword(contrasenaPlana, storedHash);
             }
             catch (Exception ex)
@@ -26,6 +30,7 @@ namespace BBMS.Clases
             }
         }
 
+        // 7. Obtiene el hash de la contraseña almacenada en la base de datos.
         private string ObtenerContrasena(string usuarioId)
         {
             string pass = null;
@@ -42,8 +47,5 @@ namespace BBMS.Clases
             }
             return pass;
         }
-      
-
-
     }
 }

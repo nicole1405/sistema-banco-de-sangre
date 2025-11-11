@@ -28,8 +28,8 @@
             this.BtnTransfucion = new Guna.UI2.WinForms.Guna2Button();
             this.BtnVerDonantes = new Guna.UI2.WinForms.Guna2Button();
             this.sidebarPanel = new Guna.UI2.WinForms.Guna2Panel();
-            this.BtnDonar = new Guna.UI2.WinForms.Guna2Button();
             this.LogoutBtn = new System.Windows.Forms.Button();
+            this.BtnDonar = new Guna.UI2.WinForms.Guna2Button();
             this.sidebarPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -71,7 +71,6 @@
             // btnDonante
             // 
             this.btnDonante.BorderColor = System.Drawing.Color.IndianRed;
-            this.btnDonante.BorderRadius = 3;
             this.btnDonante.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(24)))), ((int)(((byte)(29)))));
             this.btnDonante.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnDonante.ForeColor = System.Drawing.Color.White;
@@ -167,6 +166,17 @@
             this.sidebarPanel.Size = new System.Drawing.Size(203, 663);
             this.sidebarPanel.TabIndex = 1;
             // 
+            // LogoutBtn
+            // 
+            this.LogoutBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LogoutBtn.Location = new System.Drawing.Point(25, 600);
+            this.LogoutBtn.Name = "LogoutBtn";
+            this.LogoutBtn.Size = new System.Drawing.Size(125, 28);
+            this.LogoutBtn.TabIndex = 10;
+            this.LogoutBtn.Text = "Cerrar Sesión";
+            this.LogoutBtn.UseVisualStyleBackColor = true;
+            this.LogoutBtn.Click += new System.EventHandler(this.LogoutBtn_Click);
+            // 
             // BtnDonar
             // 
             this.BtnDonar.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(24)))), ((int)(((byte)(29)))));
@@ -179,17 +189,6 @@
             this.BtnDonar.TabIndex = 9;
             this.BtnDonar.Text = "Donar";
             this.BtnDonar.Click += new System.EventHandler(this.BtnDonar_Click);
-            // 
-            // LogoutBtn
-            // 
-            this.LogoutBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LogoutBtn.Location = new System.Drawing.Point(25, 600);
-            this.LogoutBtn.Name = "LogoutBtn";
-            this.LogoutBtn.Size = new System.Drawing.Size(125, 28);
-            this.LogoutBtn.TabIndex = 10;
-            this.LogoutBtn.Text = "Cerrar Sesión";
-            this.LogoutBtn.UseVisualStyleBackColor = true;
-            this.LogoutBtn.Click += new System.EventHandler(this.LogoutBtn_Click);
             // 
             // Layout
             // 
