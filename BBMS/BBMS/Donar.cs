@@ -164,7 +164,7 @@ namespace BBMS
         }
 
         // El evento Load de UserControl
-        private void Donar_Load(object sender, EventArgs e) { }
+        private void Donar_Load(object sender, EventArgs e) {    }
         private void pictureBox1_Click(object sender, EventArgs e) { }
         private void BloodStockDGV_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
         private void label13_Click(object sender, EventArgs e) { }

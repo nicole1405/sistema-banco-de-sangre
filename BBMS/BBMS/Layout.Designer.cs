@@ -28,8 +28,8 @@
             this.BtnTransfucion = new Guna.UI2.WinForms.Guna2Button();
             this.BtnVerDonantes = new Guna.UI2.WinForms.Guna2Button();
             this.sidebarPanel = new Guna.UI2.WinForms.Guna2Panel();
-            this.BtnDonar = new Guna.UI2.WinForms.Guna2Button();
             this.LogoutBtn = new System.Windows.Forms.Button();
+            this.BtnDonar = new Guna.UI2.WinForms.Guna2Button();
             this.sidebarPanel.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,7 +76,7 @@
             this.btnDonante.Font = new System.Drawing.Font("Segoe UI", 9F);
             this.btnDonante.ForeColor = System.Drawing.Color.White;
             this.btnDonante.Image = ((System.Drawing.Image)(resources.GetObject("btnDonante.Image")));
-            this.btnDonante.Location = new System.Drawing.Point(25, 63);
+            this.btnDonante.Location = new System.Drawing.Point(25, 12);
             this.btnDonante.Name = "btnDonante";
             this.btnDonante.Size = new System.Drawing.Size(87, 45);
             this.btnDonante.TabIndex = 1;
@@ -167,19 +167,6 @@
             this.sidebarPanel.Size = new System.Drawing.Size(203, 663);
             this.sidebarPanel.TabIndex = 1;
             // 
-            // BtnDonar
-            // 
-            this.BtnDonar.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(24)))), ((int)(((byte)(29)))));
-            this.BtnDonar.Font = new System.Drawing.Font("Segoe UI", 9F);
-            this.BtnDonar.ForeColor = System.Drawing.Color.White;
-            this.BtnDonar.Image = ((System.Drawing.Image)(resources.GetObject("BtnDonar.Image")));
-            this.BtnDonar.Location = new System.Drawing.Point(25, 12);
-            this.BtnDonar.Name = "BtnDonar";
-            this.BtnDonar.Size = new System.Drawing.Size(71, 45);
-            this.BtnDonar.TabIndex = 9;
-            this.BtnDonar.Text = "Donar";
-            this.BtnDonar.Click += new System.EventHandler(this.BtnDonar_Click);
-            // 
             // LogoutBtn
             // 
             this.LogoutBtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -190,6 +177,19 @@
             this.LogoutBtn.Text = "Cerrar Sesión";
             this.LogoutBtn.UseVisualStyleBackColor = true;
             this.LogoutBtn.Click += new System.EventHandler(this.LogoutBtn_Click);
+            // 
+            // BtnDonar
+            // 
+            this.BtnDonar.FillColor = System.Drawing.Color.FromArgb(((int)(((byte)(23)))), ((int)(((byte)(24)))), ((int)(((byte)(29)))));
+            this.BtnDonar.Font = new System.Drawing.Font("Segoe UI", 9F);
+            this.BtnDonar.ForeColor = System.Drawing.Color.White;
+            this.BtnDonar.Image = ((System.Drawing.Image)(resources.GetObject("BtnDonar.Image")));
+            this.BtnDonar.Location = new System.Drawing.Point(25, 63);
+            this.BtnDonar.Name = "BtnDonar";
+            this.BtnDonar.Size = new System.Drawing.Size(71, 45);
+            this.BtnDonar.TabIndex = 9;
+            this.BtnDonar.Text = "Donar";
+            this.BtnDonar.Click += new System.EventHandler(this.BtnDonar_Click);
             // 
             // Layout
             // 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.Security.Cryptography; // Necesario para Rfc2898DeriveBytes
-using System.Windows.Forms; // Para MessageBox
+using System.Windows.Forms; 
 
 namespace BBMS.Clases
 {
@@ -16,7 +16,6 @@ namespace BBMS.Clases
                 if (string.IsNullOrEmpty(storedHash))
                     return false;
 
-                // Aquí debe ir la comparación de hash
                 return UserAuthService.VerifyPassword(contrasenaPlana, storedHash);
             }
             catch (Exception ex)
