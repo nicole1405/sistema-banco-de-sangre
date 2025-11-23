@@ -23,7 +23,6 @@ namespace BBMS.Clases
                     e.EmpId AS Id,
                     e.EmpName AS Nombre,
                     CASE WHEN LEN(ISNULL(e.EmpPass,'')) > 0 THEN '********' ELSE '' END AS Contraseña,
-                    -- Subconsulta para obtener un rol (si hay varios, toma el primero)
                     (SELECT TOP(1) r.RoleName 
                      FROM EmployeeRoles er 
                      JOIN Roles r ON er.RoleId = r.RoleId
@@ -98,6 +97,14 @@ namespace BBMS.Clases
                             }
 
                             tran.Commit();
+
+                            // Notificación: usuario creado
+                            try
+                            {
+                                NotificationService.Create("Nuevo Empleado", $"Empleado '{empName}' creado (ID {newEmpId}) y rol '{roleName}' asignado.", "Media");
+                            }
+                            catch { }
+
                             return true;
                         }
                         catch
@@ -125,6 +132,7 @@ namespace BBMS.Clases
                 using (SqlConnection con = _cx.ConexionServer())
                 {
                     con.Open();
+                    bool updated = false;
                     if (!string.IsNullOrWhiteSpace(newPasswordHash))
                     {
                         string sql = "UPDATE EmployeeTbl SET EmpName = @EmpName, EmpPass = @EmpPass WHERE EmpId = @EmpId";
@@ -133,7 +141,7 @@ namespace BBMS.Clases
                             cmd.Parameters.AddWithValue("@EmpName", empName);
                             cmd.Parameters.AddWithValue("@EmpPass", newPasswordHash);
                             cmd.Parameters.AddWithValue("@EmpId", empId);
-                            return cmd.ExecuteNonQuery() > 0;
+                            updated = cmd.ExecuteNonQuery() > 0;
                         }
                     }
                     else
@@ -143,9 +151,21 @@ namespace BBMS.Clases
                         {
                             cmd.Parameters.AddWithValue("@EmpName", empName);
                             cmd.Parameters.AddWithValue("@EmpId", empId);
-                            return cmd.ExecuteNonQuery() > 0;
+                            updated = cmd.ExecuteNonQuery() > 0;
                         }
                     }
+
+                    if (updated)
+                    {
+                        // Notificación: empleado actualizado
+                        try
+                        {
+                            NotificationService.Create("Empleado actualizado", $"Empleado ID {empId} actualizado: {empName}", "Baja");
+                        }
+                        catch { }
+                    }
+
+                    return updated;
                 }
             }
             catch (Exception ex)
@@ -156,7 +176,7 @@ namespace BBMS.Clases
         }
 
         // Elimina empleado por Id (borrado físico).
-        // Ahora se apoya en la FK con ON DELETE CASCADE en la BD para eliminar dependencias en EmployeeRoles.
+        // Confía en ON DELETE CASCADE para limpiar EmployeeRoles
         public bool DeleteEmployee(int empId, out string error)
         {
             error = null;
@@ -174,6 +194,13 @@ namespace BBMS.Clases
                         return false;
                     }
                 }
+
+                // Notificación: empleado eliminado
+                try
+                {
+                    NotificationService.Create("Empleado eliminado", $"Empleado ID {empId} eliminado del sistema.", "Media");
+                }
+                catch { }
 
                 return true;
             }

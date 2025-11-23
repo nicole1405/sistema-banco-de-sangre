@@ -50,7 +50,18 @@ namespace BBMS.Clases
 
                     conn.Open();
                     int affected = cmd.ExecuteNonQuery();
-                    return affected > 0;
+
+                    if (affected > 0)
+                    {
+                        try
+                        {
+                            NotificationService.Create("Nuevo Donante", $"Donante registrado: {donante.Nombre}", "Baja");
+                        }
+                        catch { }
+                        return true;
+                    }
+
+                    return false;
                 }
             }
             catch (Exception ex)

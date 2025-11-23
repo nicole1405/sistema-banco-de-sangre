@@ -36,6 +36,13 @@ namespace BBMS.Clases
                     cmd.ExecuteNonQuery(); // Ejecutamos la inserción
 
                     MessageBox.Show("Paciente guardado con éxito");
+
+                    // Notificación
+                    try
+                    {
+                        NotificationService.Create("Nuevo Paciente", $"Paciente registrado: {nombre}", "Baja");
+                    }
+                    catch { }
                 }
             }
             catch (Exception ex)
