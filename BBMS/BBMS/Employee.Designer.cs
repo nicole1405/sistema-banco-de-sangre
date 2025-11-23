@@ -42,6 +42,8 @@
             this.EmpPassTb = new Guna.UI2.WinForms.Guna2TextBox();
             this.panel2 = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
+            this.labelRole = new System.Windows.Forms.Label();
+            this.RoleCb = new Guna.UI2.WinForms.Guna2ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.EmployeeDGV)).BeginInit();
             this.panel2.SuspendLayout();
             this.SuspendLayout();
@@ -123,7 +125,7 @@
             this.UpdateEmpBtn.FillColor = System.Drawing.Color.Aqua;
             this.UpdateEmpBtn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.UpdateEmpBtn.ForeColor = System.Drawing.Color.Black;
-            this.UpdateEmpBtn.Location = new System.Drawing.Point(423, 531);
+            this.UpdateEmpBtn.Location = new System.Drawing.Point(423, 571);
             this.UpdateEmpBtn.Name = "UpdateEmpBtn";
             this.UpdateEmpBtn.Size = new System.Drawing.Size(209, 37);
             this.UpdateEmpBtn.TabIndex = 50;
@@ -135,7 +137,7 @@
             this.label16.AutoSize = true;
             this.label16.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label16.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label16.Location = new System.Drawing.Point(580, 437);
+            this.label16.Location = new System.Drawing.Point(660, 437);
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(117, 23);
             this.label16.TabIndex = 57;
@@ -146,7 +148,7 @@
             this.label11.AutoSize = true;
             this.label11.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.ForeColor = System.Drawing.Color.MidnightBlue;
-            this.label11.Location = new System.Drawing.Point(255, 437);
+            this.label11.Location = new System.Drawing.Point(180, 437);
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(94, 23);
             this.label11.TabIndex = 55;
@@ -166,7 +168,7 @@
             this.AddEmpBtn.FillColor = System.Drawing.Color.Lime;
             this.AddEmpBtn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.AddEmpBtn.ForeColor = System.Drawing.Color.Black;
-            this.AddEmpBtn.Location = new System.Drawing.Point(184, 531);
+            this.AddEmpBtn.Location = new System.Drawing.Point(184, 571);
             this.AddEmpBtn.Name = "AddEmpBtn";
             this.AddEmpBtn.Size = new System.Drawing.Size(209, 37);
             this.AddEmpBtn.TabIndex = 61;
@@ -187,7 +189,7 @@
             this.DeleteEmpBtn.FillColor = System.Drawing.Color.Red;
             this.DeleteEmpBtn.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.DeleteEmpBtn.ForeColor = System.Drawing.Color.Black;
-            this.DeleteEmpBtn.Location = new System.Drawing.Point(664, 531);
+            this.DeleteEmpBtn.Location = new System.Drawing.Point(664, 571);
             this.DeleteEmpBtn.Name = "DeleteEmpBtn";
             this.DeleteEmpBtn.Size = new System.Drawing.Size(209, 37);
             this.DeleteEmpBtn.TabIndex = 62;
@@ -208,7 +210,7 @@
             this.EmpNameTb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.EmpNameTb.ForeColor = System.Drawing.Color.Black;
             this.EmpNameTb.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.EmpNameTb.Location = new System.Drawing.Point(259, 464);
+            this.EmpNameTb.Location = new System.Drawing.Point(184, 467);
             this.EmpNameTb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.EmpNameTb.Name = "EmpNameTb";
             this.EmpNameTb.PlaceholderText = "";
@@ -231,7 +233,7 @@
             this.EmpPassTb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
             this.EmpPassTb.ForeColor = System.Drawing.Color.Black;
             this.EmpPassTb.HoverState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
-            this.EmpPassTb.Location = new System.Drawing.Point(584, 464);
+            this.EmpPassTb.Location = new System.Drawing.Point(664, 470);
             this.EmpPassTb.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.EmpPassTb.Name = "EmpPassTb";
             this.EmpPassTb.PlaceholderText = "";
@@ -261,11 +263,43 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "Gestión Banco de Sangre";
             // 
+            // labelRole
+            // 
+            this.labelRole.AutoSize = true;
+            this.labelRole.Font = new System.Drawing.Font("Verdana", 14.25F);
+            this.labelRole.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.labelRole.Location = new System.Drawing.Point(419, 437);
+            this.labelRole.Name = "labelRole";
+            this.labelRole.Size = new System.Drawing.Size(50, 23);
+            this.labelRole.TabIndex = 66;
+            this.labelRole.Text = "Rol:";
+            // 
+            // RoleCb
+            // 
+            this.RoleCb.BackColor = System.Drawing.Color.Transparent;
+            this.RoleCb.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawFixed;
+            this.RoleCb.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.RoleCb.FocusedColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.RoleCb.FocusedState.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(94)))), ((int)(((byte)(148)))), ((int)(((byte)(255)))));
+            this.RoleCb.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Bold);
+            this.RoleCb.ForeColor = System.Drawing.Color.Black;
+            this.RoleCb.ItemHeight = 30;
+            this.RoleCb.Items.AddRange(new object[] {
+            "Administrador",
+            "Doctor",
+            "Enfermera"});
+            this.RoleCb.Location = new System.Drawing.Point(423, 467);
+            this.RoleCb.Name = "RoleCb";
+            this.RoleCb.Size = new System.Drawing.Size(160, 36);
+            this.RoleCb.TabIndex = 67;
+            // 
             // Employee
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
+            this.Controls.Add(this.RoleCb);
+            this.Controls.Add(this.labelRole);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.EmpPassTb);
             this.Controls.Add(this.EmpNameTb);
@@ -277,7 +311,7 @@
             this.Controls.Add(this.label16);
             this.Controls.Add(this.label11);
             this.Name = "Employee";
-            this.Size = new System.Drawing.Size(1073, 612);
+            this.Size = new System.Drawing.Size(1073, 630);
             this.Load += new System.EventHandler(this.Employee_Load);
             ((System.ComponentModel.ISupportInitialize)(this.EmployeeDGV)).EndInit();
             this.panel2.ResumeLayout(false);
@@ -299,5 +333,7 @@
         private Guna.UI2.WinForms.Guna2TextBox EmpPassTb;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label labelRole;
+        private Guna.UI2.WinForms.Guna2ComboBox RoleCb;
     }
 }

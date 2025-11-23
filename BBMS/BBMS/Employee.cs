@@ -1,7 +1,8 @@
-﻿using System;
+﻿using BBMS.Clases;
+using System;
 using System.Data;
+using System.Web.Security;
 using System.Windows.Forms;
-using BBMS.Clases;
 
 namespace BBMS
 {
@@ -32,7 +33,6 @@ namespace BBMS
             EmployeeDGV.DataBindingComplete += EmployeeDGV_DataBindingComplete;
 
             populate();
-            // Puedes llamar aquí a la lógica que estaba en Employee_Shown si lo necesitas
         }
 
         private void Reset()
@@ -43,6 +43,10 @@ namespace BBMS
             label16.Text = "Contraseña";
             EmployeeDGV.ClearSelection();
             EmployeeDGV.CurrentCell = null;
+
+            // Reset role selection
+            if (RoleCb != null && RoleCb.Items.Count > 0)
+                RoleCb.SelectedIndex = -1;
         }
 
         private void AddEmpBtn_Click(object sender, EventArgs e)
@@ -52,10 +56,19 @@ namespace BBMS
                 MessageBox.Show("El nombre y la contraseña no pueden estar vacíos.");
                 return;
             }
-            var hash = UserAuthService.HashPassword(EmpPassTb.Text);
-            if (_service.AddEmployee(EmpNameTb.Text.Trim(), hash, out string error))
+
+            // Obtener rol seleccionado
+            string selectedRole = RoleCb?.SelectedItem?.ToString() ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(selectedRole))
             {
-                MessageBox.Show("Empleado guardado.");
+                MessageBox.Show("Selecciona un rol para el empleado.");
+                return;
+            }
+
+            var hash = UserAuthService.HashPassword(EmpPassTb.Text);
+            if (_service.AddEmployee(EmpNameTb.Text.Trim(), hash, selectedRole, out int newEmpId, out string error))
+            {
+                MessageBox.Show("Empleado guardado y rol asignado.");
                 populate();
                 Reset();
             }
@@ -121,7 +134,7 @@ namespace BBMS
             }
         }
 
-        // Pobla la grilla con columnas formales (Id, Nombre, Contraseña)
+        // Pobla la grilla con columnas formales (Id, Nombre, Contraseña, Rol)
         private void populate()
         {
             isInitializing = true;
@@ -139,6 +152,8 @@ namespace BBMS
                     EmployeeDGV.Columns["Nombre"].HeaderText = "Nombre";
                 if (EmployeeDGV.Columns.Contains("Contraseña"))
                     EmployeeDGV.Columns["Contraseña"].HeaderText = "Contraseña";
+                if (EmployeeDGV.Columns.Contains("Rol"))
+                    EmployeeDGV.Columns["Rol"].HeaderText = "Rol";
 
                 EmployeeDGV.ClearSelection();
                 EmployeeDGV.CurrentCell = null;
@@ -183,6 +198,30 @@ namespace BBMS
                 else
                     key = 0;
 
+                // Mostrar rol en el ComboBox si existe
+                string roleValue = EmployeeDGV.Columns["Rol"] != null && row.Cells["Rol"].Value != null
+                    ? row.Cells["Rol"].Value.ToString()
+                    : string.Empty;
+
+                if (!string.IsNullOrEmpty(roleValue) && RoleCb != null)
+                {
+                    // Intenta seleccionar por texto exacto (no sensible a mayúsculas)
+                    int idx = -1;
+                    for (int i = 0; i < RoleCb.Items.Count; i++)
+                    {
+                        if (string.Equals(RoleCb.Items[i].ToString(), roleValue, StringComparison.OrdinalIgnoreCase))
+                        {
+                            idx = i;
+                            break;
+                        }
+                    }
+                    RoleCb.SelectedIndex = idx;
+                }
+                else if (RoleCb != null)
+                {
+                    RoleCb.SelectedIndex = -1;
+                }
+
                 EmpPassTb.Text = PassPlaceholder;
                 label16.Text = "Contraseña (dejar para no cambiar)";
             }
@@ -194,7 +233,6 @@ namespace BBMS
 
         // Métodos vacíos para compatibilidad con diseñador
         private void DonorsDGV_CellContentClick(object sender, DataGridViewCellEventArgs e) { }
-        // Adapta el método Employee_Shown a Employee_Load:
         private void Employee_Load(object sender, EventArgs e)
         {
             EmployeeDGV.ClearSelection();
@@ -204,7 +242,5 @@ namespace BBMS
         private void EmpNameTb_TextChanged(object sender, EventArgs e) { }
         private void EmpNameTb_TextChanged_1(object sender, EventArgs e) { }
         private void EmpPassTb_TextChanged(object sender, EventArgs e) { }
-
-       
     }
 }
