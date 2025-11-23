@@ -155,50 +155,27 @@ namespace BBMS.Clases
             }
         }
 
-        // Elimina empleado por Id (borrado físico) — ahora elimina primero roles dependientes dentro de una transacción
+        // Elimina empleado por Id (borrado físico).
+        // Ahora se apoya en la FK con ON DELETE CASCADE en la BD para eliminar dependencias en EmployeeRoles.
         public bool DeleteEmployee(int empId, out string error)
         {
             error = null;
             try
             {
                 using (SqlConnection con = _cx.ConexionServer())
+                using (var cmdDelEmp = new SqlCommand("DELETE FROM EmployeeTbl WHERE EmpId = @EmpId", con))
                 {
+                    cmdDelEmp.Parameters.AddWithValue("@EmpId", empId);
                     con.Open();
-                    using (var tran = con.BeginTransaction())
+                    int affected = cmdDelEmp.ExecuteNonQuery();
+                    if (affected == 0)
                     {
-                        try
-                        {
-                            // 1) Borrar relaciones en EmployeeRoles
-                            using (var cmdDelRoles = new SqlCommand("DELETE FROM EmployeeRoles WHERE EmpId = @EmpId", con, tran))
-                            {
-                                cmdDelRoles.Parameters.AddWithValue("@EmpId", empId);
-                                cmdDelRoles.ExecuteNonQuery();
-                            }
-
-                            // 2) Borrar empleado
-                            using (var cmdDelEmp = new SqlCommand("DELETE FROM EmployeeTbl WHERE EmpId = @EmpId", con, tran))
-                            {
-                                cmdDelEmp.Parameters.AddWithValue("@EmpId", empId);
-                                int affected = cmdDelEmp.ExecuteNonQuery();
-                                if (affected == 0)
-                                {
-                                    tran.Rollback();
-                                    error = "Empleado no encontrado.";
-                                    return false;
-                                }
-                            }
-
-                            tran.Commit();
-                            return true;
-                        }
-                        catch (Exception ex)
-                        {
-                            tran.Rollback();
-                            error = ex.Message;
-                            return false;
-                        }
+                        error = "Empleado no encontrado.";
+                        return false;
                     }
                 }
+
+                return true;
             }
             catch (Exception ex)
             {

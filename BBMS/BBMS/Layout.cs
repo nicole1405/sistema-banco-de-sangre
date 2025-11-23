@@ -12,6 +12,10 @@ namespace BBMS
 
             // Aplicar permisos en cuanto se construye el formulario
             ApplyRolePermissions();
+
+            // Reordenar si cambia tamaño del sidebar (mantener sin huecos)
+            if (sidebarPanel != null)
+                sidebarPanel.SizeChanged += (s, e) => ReorderSidebarButtons();
         }
 
         /// <summary>
@@ -38,16 +42,16 @@ namespace BBMS
             SetControlState("BtnEmployee", isAdmin);
 
             // Inventario -> Administrador y Doctor
-            SetControlState("BtnInventario", isAdmin || isDoctor);
+            SetControlState("btnInventario", isAdmin || isDoctor);
 
             // Registrar donación -> Admin, Doctor, Enfermera
             SetControlState("BtnDonar", isAdmin || isDoctor || isNurse);
 
             // Gestión de donantes -> Admin, Doctor, Enfermera
-            SetControlState("BtnDonante", isAdmin || isDoctor || isNurse);
+            SetControlState("btnDonante", isAdmin || isDoctor || isNurse);
 
             // Pacientes -> Admin, Doctor, Enfermera
-            SetControlState("BtnPaciente", isAdmin || isDoctor || isNurse);
+            SetControlState("btnPaciente", isAdmin || isDoctor || isNurse);
 
             // Lista de pacientes -> Admin, Doctor, Enfermera
             SetControlState("BtnListaPaciente", isAdmin || isDoctor || isNurse);
@@ -69,15 +73,19 @@ namespace BBMS
             {
                 // Opcional: dejar Logout visible para permitir volver a login
                 SetControlState("BtnEmployee", false);
-                SetControlState("BtnInventario", false);
+                SetControlState("btnInventario", false);
                 SetControlState("BtnDonar", false);
-                SetControlState("BtnDonante", false);
-                SetControlState("BtnPaciente", false);
+                SetControlState("btnDonante", false);
+                SetControlState("btnPaciente", false);
                 SetControlState("BtnListaPaciente", false);
                 SetControlState("BtnTransfucion", false);
                 SetControlState("BtnVerDonantes", false);
                 SetControlState("BtnMainPanel", false);
+                SetControlState("LogoutBtn", true);
             }
+
+            // Reordenar los controles visibles para evitar huecos
+            ReorderSidebarButtons();
         }
 
         /// <summary>
@@ -108,6 +116,66 @@ namespace BBMS
                 if (found != null) return found;
             }
             return null;
+        }
+
+        /// <summary>
+        /// Reordena los botones del sidebar eliminando huecos dejados por controles ocultos.
+        /// Mantiene LogoutBtn en la parte inferior del panel.
+        /// </summary>
+        private void ReorderSidebarButtons()
+        {
+            try
+            {
+                if (sidebarPanel == null) return;
+
+                // Orden deseado (ajusta nombres si en el diseñador cambian)
+                string[] order = new[]
+                {
+                    "BtnDonar",     // botón Donar
+                    "btnDonante",   // botón Donante (nombre en diseñador)
+                    "btnInventario",
+                    "btnPaciente",
+                    "BtnEmployee",
+                    "BtnListaPaciente",
+                    "BtnMainPanel",
+                    "BtnTransfucion",
+                    "BtnVerDonantes"
+                };
+
+                int topMargin = 12;
+                int spacing = 10;
+                int xDefault = 25;
+                int y = topMargin;
+
+                // Mover controles visibles en el orden indicado
+                foreach (var name in order)
+                {
+                    var matches = sidebarPanel.Controls.Find(name, true);
+                    if (matches.Length == 0) continue;
+                    var c = matches[0];
+                    if (!c.Visible) continue;
+
+                    // Mantener X si ya está alineado, sino aplicar xDefault
+                    int x = c.Location.X > 0 ? c.Location.X : xDefault;
+                    c.Location = new System.Drawing.Point(x, y);
+                    y += c.Height + spacing;
+                }
+
+                // Posicionar LogoutBtn en la parte inferior con margen
+                var logoutMatches = sidebarPanel.Controls.Find("LogoutBtn", true);
+                if (logoutMatches.Length > 0)
+                {
+                    var logout = logoutMatches[0];
+                    int bottomMargin = 20;
+                    int logoutX = logout.Location.X > 0 ? logout.Location.X : xDefault;
+                    int logoutY = Math.Max(y + 10, sidebarPanel.Height - logout.Height - bottomMargin);
+                    logout.Location = new System.Drawing.Point(logoutX, logoutY);
+                }
+            }
+            catch
+            {
+                // No lanzar excepciones por UI; si necesitas logging, añade aquí.
+            }
         }
 
         /// <summary>
@@ -296,6 +364,11 @@ namespace BBMS
 
             // 3. Oculta la ventana actual (el panel principal)
             this.Hide();
+        }
+
+        private void sidebarPanel_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
