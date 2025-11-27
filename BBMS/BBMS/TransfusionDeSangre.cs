@@ -9,18 +9,16 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using BBMS.Clases; // <-- 2. AÑADIDO
+using System.Text.RegularExpressions;
 
 namespace BBMS
 {
     public partial class TransfusionDeSangre : UserControl
     {
-        // 3. Instanciar la nueva clase de lógica
         private cTransfusionDatos gestorTransfusion = new cTransfusionDatos();
-
-        // 4. 'connStr' REMOVIDA
-
-        // Mantenemos 'stock' como variable de estado de la UI
+        private cPacienteDatos gestorPacientes = new cPacienteDatos(); // para obtener todos los campos
         int stock = 0;
+        private DataTable patientsTable = null;
 
         public TransfusionDeSangre()
         {
@@ -31,8 +29,10 @@ namespace BBMS
         {
             try
             {
-                fillPatientCb();
-                // Asegurarse de que el estado inicial esté limpio
+                SearchTb?.BringToFront();
+                SearchTb?.Focus();
+
+                fillPatientsGrid();
                 Reset();
             }
             catch (Exception ex)
@@ -41,49 +41,95 @@ namespace BBMS
             }
         }
 
-        private void fillPatientCb()
+        private void fillPatientsGrid()
         {
             try
             {
-                // 5. Lógica de BD movida al gestor
-                PatientIdCb.ValueMember = "PNum";
-                PatientIdCb.DisplayMember = "PNum";
-                PatientIdCb.DataSource = gestorTransfusion.ObtenerIdsPacientes();
-                PatientIdCb.SelectedIndex = -1; // Empezar sin selección
+                // Obtenemos la tabla completa de pacientes para permitir filtrar por todas las columnas
+                DataTable dt = gestorPacientes.ObtenerPacientes();
+
+                if (dt == null)
+                {
+                    patientsTable = new DataTable();
+                    patientsTable.Columns.Add("PNum", typeof(int));
+                    patientsTable.Columns.Add("PName", typeof(string));
+                    patientsTable.Columns.Add("PBGroup", typeof(string));
+                }
+                else
+                {
+                    // Trabajamos sobre una copia para poder ajustar CaseSensitive sin afectar al origen
+                    patientsTable = dt.Copy();
+                }
+
+                patientsTable.CaseSensitive = false;
+                PatientsGrid.DataSource = patientsTable.DefaultView;
+
+                // Si existen columnas esperadas, renombramos encabezados (opcional)
+                if (PatientsGrid.Columns.Contains("PNum")) PatientsGrid.Columns["PNum"].HeaderText = "ID";
+                if (PatientsGrid.Columns.Contains("PName")) PatientsGrid.Columns["PName"].HeaderText = "Nombre";
+                if (PatientsGrid.Columns.Contains("PBGroup")) PatientsGrid.Columns["PBGroup"].HeaderText = "Grupo";
+                PatientsGrid.ClearSelection();
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al cargar pacientes: " + ex.Message);
+                MessageBox.Show("Error al cargar la lista de pacientes: " + ex.Message);
             }
         }
 
-        private void GetData()
+        private void FilterPatients(string query)
         {
-            if (PatientIdCb.SelectedValue == null) return;
+            if (patientsTable == null) return;
 
             try
             {
-                // 6. Lógica de BD movida al gestor
-                int pacienteId = Convert.ToInt32(PatientIdCb.SelectedValue);
-                PacienteTransfusionInfo info = gestorTransfusion.ObtenerDetallesPaciente(pacienteId);
+                string safe = query.Replace("'", "''").Trim();
+                if (string.IsNullOrWhiteSpace(safe))
+                {
+                    patientsTable.DefaultView.RowFilter = "";
+                    PatientsGrid.DataSource = patientsTable.DefaultView;
+                    return;
+                }
 
-                PatNameTb.Text = info.Nombre;
-                BloodGroup.Text = info.GrupoSanguineo;
+                // Construimos un filtro OR sobre todas las columnas disponibles
+                var parts = new List<string>();
+                foreach (DataColumn col in patientsTable.Columns)
+                {
+                    // Evitamos columnas binarias o complejas si las hubiera
+                    if (col.DataType == typeof(byte[]) || col.DataType == typeof(Guid)) continue;
+
+                    string colNameEscaped = "[" + col.ColumnName + "]";
+
+                    // Convertir a string para tipos no textuales para que la búsqueda funcione
+                    if (col.DataType == typeof(string))
+                    {
+                        parts.Add(string.Format("{0} LIKE '%{1}%'", colNameEscaped, safe));
+                    }
+                    else
+                    {
+                        parts.Add(string.Format("Convert({0}, 'System.String') LIKE '%{1}%'", colNameEscaped, safe));
+                    }
+                }
+
+                string rowFilter = string.Join(" OR ", parts);
+                patientsTable.DefaultView.RowFilter = rowFilter;
+                PatientsGrid.DataSource = patientsTable.DefaultView;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al obtener datos del paciente: " + ex.Message);
+                // Restauramos la vista completa si algo falla
+                try { patientsTable.DefaultView.RowFilter = ""; } catch { }
+                PatientsGrid.DataSource = patientsTable.DefaultView;
+                Console.WriteLine("FilterPatients error: " + ex.Message);
             }
         }
 
         private void GetStock(string Bgroup)
         {
-            stock = 0; // Reiniciar
+            stock = 0;
             if (string.IsNullOrWhiteSpace(Bgroup)) return;
 
             try
             {
-                // 7. Lógica de BD movida al gestor
                 stock = gestorTransfusion.ObtenerStock(Bgroup);
             }
             catch (Exception ex)
@@ -92,29 +138,71 @@ namespace BBMS
             }
         }
 
-        private void PatientIdCb_SelectedValueChanged(object sender, EventArgs e)
+        private void PatientsGrid_SelectionChanged(object sender, EventArgs e)
         {
-            if (PatientIdCb.SelectedValue == null)
+            try
             {
-                Reset(); // Limpiar si no hay nada seleccionado
-                return;
-            }
+                if (PatientsGrid.SelectedRows == null || PatientsGrid.SelectedRows.Count == 0)
+                {
+                    PatNameTb.Text = "";
+                    BloodGroup.Text = "";
+                    AvarlableLbl.Visible = false;
+                    TransferBtn.Visible = false;
+                    return;
+                }
 
-            GetData(); // Obtiene nombre y grupo
-            GetStock(BloodGroup.Text); // Obtiene stock para ese grupo
+                DataGridViewRow row = PatientsGrid.SelectedRows[0];
 
-            // Lógica de UI (esto se queda en el formulario)
-            if (stock > 0)
-            {
-                TransferBtn.Visible = true;
-                AvarlableLbl.Text = "Stock Disponible (" + stock + " unidades)"; // Más informativo
-                AvarlableLbl.Visible = true;
+                // Sacamos valores directamente de las columnas si existen
+                string nombre = "";
+                string grupo = "";
+                int pacienteId = 0;
+
+                if (PatientsGrid.Columns.Contains("PName") && row.Cells["PName"].Value != null)
+                    nombre = row.Cells["PName"].Value.ToString();
+
+                if (PatientsGrid.Columns.Contains("PBGroup") && row.Cells["PBGroup"].Value != null)
+                    grupo = row.Cells["PBGroup"].Value.ToString();
+                else if (PatientsGrid.Columns.Contains("PGroup") && row.Cells["PGroup"].Value != null)
+                    grupo = row.Cells["PGroup"].Value.ToString(); // por si la columna se llama diferente
+
+                if (PatientsGrid.Columns.Contains("PNum") && row.Cells["PNum"].Value != null)
+                    int.TryParse(row.Cells["PNum"].Value.ToString(), out pacienteId);
+
+                PatNameTb.Text = nombre;
+                BloodGroup.Text = grupo;
+
+                GetStock(BloodGroup.Text);
+
+                if (stock > 0)
+                {
+                    TransferBtn.Visible = true;
+                    AvarlableLbl.Text = "Stock Disponible (" + stock + " unidades)";
+                    AvarlableLbl.Visible = true;
+                }
+                else
+                {
+                    TransferBtn.Visible = false;
+                    AvarlableLbl.Text = "Stock No Disponible";
+                    AvarlableLbl.Visible = true;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                TransferBtn.Visible = false;
-                AvarlableLbl.Text = "Stock No Disponible";
-                AvarlableLbl.Visible = true;
+                MessageBox.Show("Error procesando selección: " + ex.Message);
+            }
+        }
+
+        private void SearchTb_TextChanged(object sender, EventArgs e)
+        {
+            FilterPatients(SearchTb.Text);
+        }
+
+        private void PatientsGrid_DoubleClick(object sender, EventArgs e)
+        {
+            if (TransferBtn.Visible)
+            {
+                TransferBtn_Click(TransferBtn, EventArgs.Empty);
             }
         }
 
@@ -124,12 +212,9 @@ namespace BBMS
             BloodGroup.Text = "";
             AvarlableLbl.Visible = false;
             TransferBtn.Visible = false;
-            // Opcional: deseleccionar el ComboBox
-            // PatientIdCb.SelectedIndex = -1; 
+            if (PatientsGrid != null) PatientsGrid.ClearSelection();
+            // No borramos SearchTb.Text para no perder la búsqueda del usuario
         }
-
-        // 8. El método 'updateStock' se ELIMINA.
-        // Su lógica ahora está dentro de 'RealizarTransfusion'
 
         private void TransferBtn_Click(object sender, EventArgs e)
         {
@@ -141,27 +226,19 @@ namespace BBMS
 
             try
             {
-                // 9. Lógica de Transacción movida al gestor
-                // Esta única llamada hace la verificación, inserción y actualización
-                // de forma segura.
                 bool exito = gestorTransfusion.RealizarTransfusion(PatNameTb.Text, BloodGroup.Text);
 
                 if (exito)
                 {
                     MessageBox.Show("Transfusión Exitosa");
                     Reset();
-                    // Limpiamos la selección para forzar al usuario a elegir de nuevo
-                    PatientIdCb.SelectedIndex = -1;
+                    fillPatientsGrid();
                 }
-                // Si exito == false, el gestor ya mostró el error (ej. "Stock agotado")
             }
             catch (Exception Ex)
             {
                 MessageBox.Show("Error al procesar la transferencia: " + Ex.Message);
             }
         }
-
-      
-       
     }
 }

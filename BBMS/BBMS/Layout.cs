@@ -3,6 +3,8 @@ using System.Data;
 using System.Drawing;
 using System.Windows.Forms;
 using BBMS.Clases;
+using Guna.UI2.WinForms;
+using System.Linq;
 
 namespace BBMS
 {
@@ -12,7 +14,7 @@ namespace BBMS
         private Panel notifPanel;
         private ListBox notifListBox;
         private Timer notifTimer;
-
+        private FlowLayoutPanel notifListPanel;
         public Layout()
         {
             InitializeComponent();
@@ -29,54 +31,141 @@ namespace BBMS
 
         private void InitializeNotificationsUI()
         {
-            // Botón de notificaciones (esquina superior derecha)
+            // Botón campana
             notifButton = new Button
             {
                 Text = "🔔",
                 AutoSize = false,
-                Size = new Size(40, 30),
+                Size = new Size(40, 35),
                 Anchor = AnchorStyles.Top | AnchorStyles.Right,
                 Location = new Point(this.ClientSize.Width - 50, 8),
-                BackColor = Color.LightSteelBlue,
+                BackColor = Color.Transparent,
                 FlatStyle = FlatStyle.Flat
             };
+            notifButton.FlatAppearance.BorderSize = 0;
             notifButton.Click += NotifButton_Click;
             this.Controls.Add(notifButton);
             notifButton.BringToFront();
-            this.Resize += (s, e) => notifButton.Location = new Point(this.ClientSize.Width - 50, 8);
 
-            // Panel desplegable para listar notificaciones
+            // Panel Guna moderno
             notifPanel = new Panel
             {
-                Size = new Size(320, 200),
-                Visible = false,
-                BorderStyle = BorderStyle.FixedSingle,
+                Width = 350,
+                Height = 280,
                 BackColor = Color.White,
-                Anchor = AnchorStyles.Top | AnchorStyles.Right
+                Visible = false
             };
-            notifPanel.Location = new Point(this.ClientSize.Width - notifPanel.Width - 10, notifButton.Bottom + 4);
-            this.Controls.Add(notifPanel);
-            notifPanel.BringToFront();
-            this.Resize += (s, e) => notifPanel.Location = new Point(this.ClientSize.Width - notifPanel.Width - 10, notifButton.Bottom + 4);
 
-            // ListBox para mostrar mensajes
-            notifListBox = new ListBox
+            notifPanel.Location = new Point(
+                this.ClientSize.Width - notifPanel.Width - 20,
+                notifButton.Bottom + 5
+            );
+
+            notifPanel.BorderStyle = BorderStyle.FixedSingle;
+            notifPanel.Padding = new Padding(10);
+
+            // Botón cerrar
+            var closeBtn = new Button
             {
-                Dock = DockStyle.Fill
+                Text = "X",
+                Size = new Size(25, 25),
+                BackColor = Color.Transparent,
+                FlatStyle = FlatStyle.Flat,
+                ForeColor = Color.DarkGray,
+                Location = new Point(notifPanel.Width - 35, 5)
             };
-            notifPanel.Controls.Add(notifListBox);
+            closeBtn.FlatAppearance.BorderSize = 0;
+            closeBtn.Click += (s, e) => notifPanel.Visible = false;
+            notifPanel.Controls.Add(closeBtn);
 
-            // Cerrar panel al hacer click fuera (simple)
+            // FlowLayoutPanel para tarjetas
+            notifListPanel = new FlowLayoutPanel()
+            {
+                Dock = DockStyle.Fill,
+                FlowDirection = FlowDirection.TopDown,
+                AutoScroll = true,
+                WrapContents = false,
+                Padding = new Padding(5, 35, 5, 5)
+            };
+
+            notifPanel.Controls.Add(notifListPanel);
+
+            this.Controls.Add(notifPanel);
+
+            // Cerrar si se hace clic fuera 
             this.Click += (s, e) =>
             {
-                if (notifPanel.Visible && !notifPanel.Bounds.Contains(PointToClient(Cursor.Position)) && !notifButton.Bounds.Contains(PointToClient(Cursor.Position)))
+                if (notifPanel.Visible &&
+                    !notifPanel.Bounds.Contains(PointToClient(Cursor.Position)) &&
+                    !notifButton.Bounds.Contains(PointToClient(Cursor.Position)))
                 {
                     notifPanel.Visible = false;
                 }
             };
 
-            // Inicial actualizar contador
             UpdateNotificationBadge();
+        }
+        private Panel CreateNotificationCard(string tipo, string mensaje, string fecha, string prioridad)
+        {
+            Color borderColor;
+
+            switch (prioridad)
+            {
+                case "Alta":
+                    borderColor = Color.Red;
+                    break;
+
+                case "Media":
+                    borderColor = Color.Orange;
+                    break;
+
+                default:
+                    borderColor = Color.Silver;
+                    break;
+            }
+
+            Panel card = new Panel
+            {
+                Height = 90,
+                Width = notifListPanel.Width - 30,
+                BackColor = Color.White,
+                Padding = new Padding(10),
+                Margin = new Padding(3),
+                BorderStyle = BorderStyle.FixedSingle
+            };
+
+            card.MouseEnter += (s, e) => card.BackColor = Color.FromArgb(245, 245, 245);
+            card.MouseLeave += (s, e) => card.BackColor = Color.White;
+
+            Label lblTipo = new Label()
+            {
+                Text = tipo,
+                Font = new Font("Segoe UI", 10, FontStyle.Bold),
+                ForeColor = borderColor,
+                Dock = DockStyle.Top
+            };
+
+            Label lblMensaje = new Label()
+            {
+                Text = mensaje,
+                Font = new Font("Segoe UI", 9),
+                AutoSize = true,
+                Dock = DockStyle.Top
+            };
+
+            Label lblFecha = new Label()
+            {
+                Text = fecha,
+                Font = new Font("Segoe UI", 8),
+                ForeColor = Color.Gray,
+                Dock = DockStyle.Bottom
+            };
+
+            card.Controls.Add(lblFecha);
+            card.Controls.Add(lblMensaje);
+            card.Controls.Add(lblTipo);
+
+            return card;
         }
 
         private void StartNotificationTimer()
@@ -89,48 +178,31 @@ namespace BBMS
 
         private void NotifButton_Click(object sender, EventArgs e)
         {
-            var session = GetCurrentUserId();
-            if (session == null)
+            int? user = GetCurrentUserId();
+            if (user == null)
             {
                 MessageBox.Show("Inicia sesión para ver notificaciones.");
                 return;
             }
 
-            var dt = NotificationService.GetUnreadForUser(session.Value);
-
-            notifListBox.Items.Clear();
-
-            // detectar columnas posibles
-            string idCol = null;
-            string tipoCol = null;
-            string msgCol = null;
-            string createdCol = null;
-            foreach (DataColumn c in dt.Columns)
-            {
-                var name = c.ColumnName.ToLowerInvariant();
-                if (idCol == null && (name.Contains("notificationid") || name.Contains("notificacionid") || name == "id")) idCol = c.ColumnName;
-                if (tipoCol == null && (name.Contains("tiponotificacion") || name.Contains("tipo") || name.Contains("type"))) tipoCol = c.ColumnName;
-                if (msgCol == null && (name.Contains("mensaje") || name.Contains("message") || name.Contains("descripcion"))) msgCol = c.ColumnName;
-                if (createdCol == null && (name.Contains("created") || name.Contains("fecha") || name.Contains("createdat") || name.Contains("creado"))) createdCol = c.ColumnName;
-            }
+            var dt = NotificationService.GetUnreadForUser(user.Value);
+            notifListPanel.Controls.Clear();
 
             foreach (DataRow row in dt.Rows)
             {
-                int nid = 0;
-                if (idCol != null && row[idCol] != DBNull.Value) int.TryParse(Convert.ToString(row[idCol]), out nid);
-                var tipo = tipoCol != null && row[tipoCol] != DBNull.Value ? row[tipoCol].ToString() : "Notificación";
-                var msg = msgCol != null && row[msgCol] != DBNull.Value ? row[msgCol].ToString() : "";
-                var created = createdCol != null && row[createdCol] != DBNull.Value ? Convert.ToDateTime(row[createdCol]).ToString("g") : "";
+                string tipo = row["TipoNotificacion"]?.ToString() ?? "Notificación";
+                string mensaje = row["Mensaje"]?.ToString() ?? "--";
+                string prioridad = row["Prioridad"]?.ToString() ?? "Baja";
+                string fecha = Convert.ToDateTime(row["CreatedAt"]).ToString("g");
 
-                var display = string.IsNullOrEmpty(created) ? $"{tipo}: {msg}" : $"[{created}] {tipo}: {msg}";
-                var item = new ListItem { Id = nid, Text = display };
-                notifListBox.Items.Add(item);
+                notifListPanel.Controls.Add(
+                    CreateNotificationCard(tipo, mensaje, fecha, prioridad)
+                );
             }
 
             notifPanel.Visible = true;
 
-            // Marcar todas como leídas (ya hecho en servicio)
-            try { NotificationService.MarkAllAsReadForUser(session.Value); } catch { }
+            NotificationService.MarkAllAsReadForUser(user.Value);
             UpdateNotificationBadge();
         }
         private int? GetCurrentUserId()
